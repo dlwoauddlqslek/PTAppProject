@@ -1,4 +1,4 @@
 package model.dto;
 
-public class ExerciseDto {
+public class ExerciseDto {//ddd
 }
