@@ -1,6 +1,22 @@
 package view;
 
 public class MemberView {
+    private static MemberView mView = new MemberView();
+    private MemberView() {}
+    public static MemberView getInstance() {
+
+        return mView;
+    }
+
+    public void index() {
+
+    }
+
+
+
+
+
+
     // 로그인
     // 로그인 후
 
