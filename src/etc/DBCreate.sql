@@ -20,7 +20,7 @@ create table member(				# 회원정보
 drop table if exists food;
 create table food(						# 음식
 	foodCode int auto_increment,			# 음식코드(pk)
-    foodName varchar(20) not null,			# 음식이름
+    foodName varchar(20) not null unique,	# 음식이름
     foodKcal smallint not null,				# 음식칼로리(대부분 100g당)
     primary key (foodCode)
 );
@@ -28,7 +28,7 @@ create table food(						# 음식
 drop table if exists exercise;
 create table exercise (					# 운동
 	exCode int auto_increment,				# 운동코드(pk)
-    exName varchar(20) not null,			# 운동이름
+    exName varchar(20) not null unique,		# 운동이름
 	exKcal smallint not null,				# 운동소모칼로리(10분당)
     exIntensity tinyint not null,			# 운동강도(1~3)
     primary key (exCode)
