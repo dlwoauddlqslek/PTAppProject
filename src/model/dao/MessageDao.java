@@ -2,27 +2,83 @@ package model.dao;
 
 import model.dto.MessageDto;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 public class MessageDao {
-
+    // 싱글톤 패턴
     private static MessageDao msgDao = new MessageDao();
     private MessageDao(){};
+
+    // JDBC 인터페이스들
+    static Connection conn; //.prepareStatement(string)
+    PreparedStatement ps; // .executeQuery() .executeUpdate()
+    ResultSet rs;
+
+    //.getInstance()
     public static MessageDao getInstance(){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/ptappproject", "root", "1234"
+            );
+        }catch (Exception e){
+            System.out.println(">>MessageDAO.getInstance() 오류 : " +e);
+        }
         return msgDao;
+    };
+
+    // 쪽지 메뉴 & 쪽지 내역 출력
+    public ArrayList<MessageDto> msgView(int msgCurrentPage, int loginMCode){
+        ArrayList<MessageDto> msgList = new ArrayList<>();
+        // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x-1
+        // limit 0, 10 -> 11, 20 ...
+        try {
+            String sql = "select * from message where sentMCode = ? or receivedMCode = ? LIMIT ?, ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, loginMCode); ps.setInt(2, loginMCode);
+            ps.setInt(3, (msgCurrentPage-1)*10); ps.setInt(4, msgCurrentPage*10-1);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                // 쪽지 메뉴 번호 \ msgTitle \ msgView \ msgDate \ replyContent 여부 확인?
+                // 1 \ 제목1 \ 0 \ 2024-07-03 \ 답장이 아직 없습니다
+                MessageDto msgDto = new MessageDto();
+                msgDto.setMessageCode(rs.getInt(1));
+                msgDto.setSentMCode(rs.getInt(2));
+                msgDto.setReceivedMCode(rs.getInt(3));
+                msgDto.setMsgTitle(rs.getString(4));
+                msgDto.setMsgContent(rs.getString(5));
+                msgDto.setMsgView(rs.getInt(6)); 
+                msgDto.setMsgDate(rs.getString(7)); 
+                msgDto.setReplyContent(rs.getString(8));
+                msgDto.setReplyDate(rs.getString(9));
+                msgList.add(msgDto);
+            }
+            return msgList;
+        } catch (Exception e){
+            System.out.println(">>쪽지 출력 DAO 오류 : " +e);
+        }
+        return msgList;
     }
-    // 쪽지 메뉴
-    public void msgPrint(){
-        // 로그인된 회원의 accCode 확인
+
+    public void msgPrint(int accCode, int loginMCode, int msgCurrentPage){
+        String sql = "";
+        if (accCode == 1){ //일반회원 보낸 쪽지들
+            sql = "select * from message where ";
+        }
+        else if (accCode == 2){ // PT강사회원 받은 쪽지들
+
+        }
         // 2 = 일반회원 : 1 쪽지 보내기, 2 답장 확인하기, 3 쪽지 내역 보기
         // 3 = 강사회원 : 1 받은 쪽지 확인하기, 2 답장 보내기, 3 쪽지 보낸 회원의 키, 몸무게, 음식기록, 운동기록 확인하기, 4 쪽지 내역 보기
     }
-    // 일반) 쪽지 메뉴 1 - 쪽지 보내기
-    public void msgSendMessage(){
-        // 쪽지 제목
-        // 쪽지 내용
-        // 받을 PT 강사회원
-        // 재확인
+    // 쪽지 보내기
+    public boolean msgSendMessage(MessageDto msgDto){
+
+        return false;
     }
     // 일반) 쪽지 메뉴 2 - 답장 확인하기
     public ArrayList<MessageDto> msgCheckReply(){
