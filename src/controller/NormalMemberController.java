@@ -6,7 +6,12 @@ import model.dto.MessageDto;
 import java.util.ArrayList;
 
 public class NormalMemberController {
-
+    //싱글톤 패턴
+    private static NormalMemberController normalController = new NormalMemberController();
+    private NormalMemberController(){};
+    public static NormalMemberController getInstance(){
+        return normalController;
+    }
     // 일반) 쪽지 메뉴 1 - 쪽지 보내기
     public boolean msgSendMessage(){
         // 쪽지 제목
@@ -37,5 +42,9 @@ public class NormalMemberController {
         // 현재 memberCode를 보내 쪽지 기록이 있는 회원 코드와 이름을 불러오기
         // 1. 아무개 ... <- 번호를 고르면 키와 몸무게가 뜨고 1.음식기록 2.운동기록 3.뒤로가기
         // 1/2를 고르면 오늘 날짜 기준으로 기록을 가져온다. 1.전날 2.다음날 3.돌아가기
+    }
+
+    public ArrayList<MessageDto> msgPrint(int currentPage) {
+        return null;
     }
 }
