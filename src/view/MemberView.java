@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class MemberView {
     Scanner scan = new Scanner(System.in);
-
+//
     public static MemberView mView = new MemberView();
     // 첫번째 회원 종류 선택창
     public void index(){
