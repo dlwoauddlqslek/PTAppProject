@@ -15,8 +15,9 @@ public class MemberController {
         return result;
     }
 
-
-    int loginNo = 0; //로그인 상태
+    // member 관련 static 전역변수들
+    public static int loginNo = 0; //로그인 상태
+    public static int currentKcal = 12000; //당일 칼로리 계산
 
     public boolean login(MemberDto memberDto){
         loginNo = MemberDao.getInstance().login(memberDto);

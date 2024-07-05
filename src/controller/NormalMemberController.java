@@ -44,16 +44,7 @@ public class NormalMemberController {
     // 쪽지 보내기
     public boolean msgSendMessage(MessageDto msgDto){
         // 받을 PT 강사회원 쪽지 제목 쪽지 내용
-        MessageDao.getInstance().msgSendMessage(msgDto);
-        return false;
-    }
-    // 일반) 쪽지 메뉴 2 - 답장 확인하기
-    public ArrayList<MessageDto> msgCheckReply(){
-        return MessageDao.getInstance().msgCheckReply();
-    }
-    // 일반 & 강사) 쪽지 메뉴 3 & 4 - 쪽지 송신 내역 보기
-    public void msgCheckHistory(){
-        // accCode와 memberCode를 받아 쪽지 데이터 가져오기
+        return MessageDao.getInstance().msgSendMessage(msgDto);
     }
     // 강사) 쪽지 메뉴 - 받은 쪽지 확인하기
     public void msgCheckMessage(){

@@ -120,6 +120,7 @@ public class MemberDao {
             rs = ps.executeQuery();
             while (rs.next()) {
                 MemberDto memberDto = new MemberDto();
+                // 회원코드, 회원명
                 memberDto.setMemberCode(rs.getInt(1)); memberDto.setMemberName(rs.getString(4));
                 ptMemberList.add(memberDto);
             }
