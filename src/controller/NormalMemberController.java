@@ -11,11 +11,11 @@ import model.dao.AteFoodRecordDao;
 import model.dto.AteFoodRecordDto;
 
 public class NormalMemberController {
-    private static NormalMemberController normalMemberController=new NormalMemberController();
-
+    //싱글톤 패턴
+    private static NormalMemberController normalMemberController = new NormalMemberController();
     private NormalMemberController(){}
-
-    public static NormalMemberController getInstance(){return normalMemberController;}
+    public static NormalMemberController getInstance(){ return normalMemberController; }
+    // /싱글톤 패턴
 
     public int foodcal(String foodName){
         //1.음식 칼로리,코드
@@ -28,15 +28,14 @@ public class NormalMemberController {
         int result2 = AteFoodRecordDao.getInstance().aaaaa( loginMno );
         return result2;
     }
-    //싱글톤 패턴
-    private static NormalMemberController normalController = new NormalMemberController();
-    private NormalMemberController(){};
-    public static NormalMemberController getInstance(){
-        return normalController;
-    }
+
+
     // 현재 로그인중인 회원 코드
     public static int loginMCode = 2;
-
+    // 쪽지 메뉴 현재 페이지 번호
+    public static int msgCurrentPage = 1;
+    // 쪽지 메뉴 PT 강사 목록 페이지 번호
+    public static int msgPtMemberListPage = 1;
 
     // 쪽지 내역 출력
     public ArrayList<MessageDto> msgView(int msgCurrentPage){

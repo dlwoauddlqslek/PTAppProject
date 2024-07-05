@@ -11,15 +11,7 @@ import java.util.ArrayList;
 public class MessageDao {
     // 싱글톤 패턴
     private static MessageDao msgDao = new MessageDao();
-    private MessageDao(){};
-
-    // JDBC 인터페이스들
-    static Connection conn; //.prepareStatement(string)
-    PreparedStatement ps; // .executeQuery() .executeUpdate()
-    ResultSet rs;
-
-    //.getInstance()
-    public static MessageDao getInstance(){
+    private MessageDao(){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(
@@ -28,8 +20,15 @@ public class MessageDao {
         }catch (Exception e){
             System.out.println(">>MessageDAO.getInstance() 오류 : " +e);
         }
-        return msgDao;
     };
+
+    // JDBC 인터페이스들
+    static Connection conn; //.prepareStatement(string)
+    PreparedStatement ps; // .executeQuery() .executeUpdate()
+    ResultSet rs;
+
+    //.getInstance()
+    public static MessageDao getInstance(){return msgDao;};
 
     // 쪽지 메뉴 & 쪽지 내역 출력
     public ArrayList<MessageDto> msgView(int msgCurrentPage, int loginMCode){

@@ -10,9 +10,13 @@ import java.util.ArrayList;
 
 public class MemberDao {
 
-    private static MemberDao Mdao = new MemberDao();
+    static Connection conn;
+    PreparedStatement ps;
+    ResultSet rs;
+
+    private static MemberDao mDao = new MemberDao();
     //생성자 만들고 안에다가 DB연동
-    public MemberDao(){
+    private MemberDao(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(
@@ -21,9 +25,9 @@ public class MemberDao {
             System.out.println("연동실패"+e);
         }
     }
-    public static MemberDao getInstance(){return Mdao;}
+    public static MemberDao getInstance(){return mDao;}
 
-    Connection conn; PreparedStatement ps; ResultSet rs;
+
 
     // 회원가입 함수
     public boolean signup (MemberDto memberDto){
@@ -106,29 +110,7 @@ public class MemberDao {
         } return null;
     }
 
-
-    //싱글톤 패턴
-    private static MemberDao memberDao = new MemberDao();
-    private MemberDao(){};
-
-    // JDBC 인터페이스들
-    static Connection conn; //.prepareStatement(string)
-    PreparedStatement ps; // .executeQuery() .executeUpdate()
-    ResultSet rs;
-
-    //.getInstance()
-    public static MemberDao getInstance(){
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/ptappproject", "root", "1234"
-            );
-        }catch (Exception e){
-            System.out.println(">>MessageDAO.getInstance() 오류 : " +e);
-        }
-        return memberDao;
-    };
-
+    // 강사 회원 목록 조회 함수
     public ArrayList<MemberDto> msgShowPtMemberList(int msgPtMemberListPage) {
         ArrayList<MemberDto> ptMemberList = new ArrayList<>();
         try {
@@ -138,20 +120,8 @@ public class MemberDao {
             rs = ps.executeQuery();
             while (rs.next()) {
                 MemberDto memberDto = new MemberDto();
-
-                //private int memberCode;            //회원코드
-                //    private String ID;                 //회원ID
-                //    private String PW;                 //회원비밀번호
-                //    private String memberName;         //회원명
-                //    private int height;                //회원 키
-                //    private int exHabit;               //회원 운동습관 (저조-> 우수 1,2,3)
-                //    private char gender;               //성별 (M,F)
-                //    private String birthDate;          //생년월일
-                //    private String contact;            //연락처
-                //    private int accCategory;
-                memberDto.setMemberCode(); memberDto.setID(); memberDto.setPW(); memberDto.setMemberName();
-                memberDto.setHeight(); memberDto.setExHabit(); memberDto.setGender(); memberDto.setBirthDate();
-                memberDto.setContact(); memberDto.setAccCategory();
+                memberDto.setMemberCode(rs.getInt(1)); memberDto.setMemberName(rs.getString(4));
+                ptMemberList.add(memberDto);
             }
         } catch (Exception e){
             System.out.println(">>MemberDao 오류 : " +e);

@@ -8,10 +8,31 @@ public class MemberDto {
     private String memberName;         //회원명
     private int height;                //회원 키
     private int exHabit;               //회원 운동습관 (저조-> 우수 1,2,3)
-    private char gender;               //성별 (M,F)
+    private String gender;               //성별 (M,F)
     private String birthDate;          //생년월일
     private String contact;            //연락처
     private int accCategory;           //회원분류코드 (관리자 = 1, 일반회원 = 2, PT강사회원 = 3)
+
+    // 2. 생성자
+    public MemberDto() {}
+
+
+    // 3. 메서드
+    @Override
+    public String toString() {
+        return "MemberDto{" +
+                "memberCode=" + memberCode +
+                ", ID='" + ID + '\'' +
+                ", PW='" + PW + '\'' +
+                ", memberName='" + memberName + '\'' +
+                ", height=" + height +
+                ", exHabit=" + exHabit +
+                ", gender=" + gender +
+                ", birthDate='" + birthDate + '\'' +
+                ", contact='" + contact + '\'' +
+                ", accCategory=" + accCategory +
+                '}';
+    }
 
     public int getMemberCode() {
         return memberCode;
@@ -61,11 +82,11 @@ public class MemberDto {
         this.exHabit = exHabit;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
