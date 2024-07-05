@@ -2,6 +2,7 @@ package controller;
 
 import model.dao.MemberDao;
 import model.dao.MessageDao;
+import model.dao.WorkOutRecordDao;
 import model.dto.MemberDto;
 import model.dto.MessageDto;
 
@@ -17,17 +18,39 @@ public class NormalMemberController {
     public static NormalMemberController getInstance(){ return normalMemberController; }
     // /싱글톤 패턴
 
-    public int foodcal(String foodName){
-        //1.음식 칼로리,코드
-        AteFoodRecordDto result1= AteFoodRecordDao.getInstance().foodCal(foodName);
-        if (result1==null){return -1;}
-        System.out.println("result1 = " + result1);
+    public int foodKcalTotal(){
         //2. 로그인된회원번호 (샘플 )
         int loginMno=2;
         // 3. 로그인한 회원이 먹은 음식코드의 칼로리 합계
-        int result2 = AteFoodRecordDao.getInstance().aaaaa( loginMno );
-        return result2;
+        return AteFoodRecordDao.getInstance().kcalTotal( loginMno );
     }
+
+    public boolean foodCheck(String foodName){
+        return AteFoodRecordDao.getInstance().foodCheck(foodName);
+    }
+
+    public boolean foodRecord(String foodName){
+        int loginMno=2;
+        return AteFoodRecordDao.getInstance().foodRecord(foodName,loginMno);
+    }
+
+    public int exKcalTotal(){
+        //2. 로그인된회원번호 (샘플 )
+        int loginMno=2;
+        // 3. 로그인한 회원이 먹은 음식코드의 칼로리 합계
+        return WorkOutRecordDao.getInstance().exKcalTotal(loginMno);
+    }
+
+    public boolean exCheck(String exName){
+        return WorkOutRecordDao.getInstance().exCheck(exName);
+    }
+
+    public boolean exRecord(String exName){
+        int loginMno=2;
+        return WorkOutRecordDao.getInstance().exRecord(exName,loginMno);
+    }
+
+
 
 
     // 현재 로그인중인 회원 코드

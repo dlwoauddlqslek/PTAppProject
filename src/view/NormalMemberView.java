@@ -25,11 +25,11 @@ public class NormalMemberView {
     public void index(){
         while(true) {
             try {
-                System.out.println("1.음식칼로리계산");
+                System.out.println("1.음식칼로리계산 2.운동칼로리계산");
                 int ch = scan.nextInt();
-                if (ch == 1) {
-                    foodCal();
-                } else {
+                if (ch == 1) {foodCal();}
+                else if(ch==2){exCal();}
+                else {
                     System.out.println("없는 기능입니다.");
                 }
 
@@ -41,16 +41,40 @@ public class NormalMemberView {
             }
         }
         }
+        // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
     public  void foodCal(){
         scan.nextLine();
         System.out.print("먹은 음식을 입력해주세요: ");
         String foodName=scan.nextLine();
-        int result= NormalMemberController.getInstance().foodcal(foodName);
-        if(result>=0){
-            System.out.println("현재 남은 칼로리: " + (kcal - result) );
+        boolean result1= NormalMemberController.getInstance().foodCheck(foodName);
+        boolean result2= NormalMemberController.getInstance().foodRecord(foodName);
+        int result3=NormalMemberController.getInstance().foodKcalTotal();
+        int result4=NormalMemberController.getInstance().exKcalTotal();
+        if(result1) {
+            if (result2) {
+                if (kcal-result3+result4>=0) {
+                    System.out.println("현재 남은 칼로리: " + (kcal - result3+result4));
+                }else{System.out.println("현재 초과 칼로리: "+(Math.abs(kcal-result3+result4)));}
+            }
         }
         else{System.out.println("다시 입력해주세요");}
+    }
 
+    public void exCal(){
+        scan.nextLine();
+        System.out.print("수행한 운동을 입력해주세요: ");
+        String exName=scan.nextLine();
+        boolean result1=NormalMemberController.getInstance().exCheck(exName);
+        boolean result2=NormalMemberController.getInstance().exRecord(exName);
+        int result3=NormalMemberController.getInstance().exKcalTotal();
+        int result4=NormalMemberController.getInstance().foodKcalTotal();
+        if(result1){
+            if (result2){
+                if(kcal+result3-result4>=0){
+                    System.out.println("현재 남은 칼로리: "+(kcal+result3-result4));
+                }else{System.out.println("현재 초과 칼로리: "+(Math.abs(kcal+result3-result4)));}
+            }
+        }else{System.out.println("다시 입력해주세요");}
     }
 
 
