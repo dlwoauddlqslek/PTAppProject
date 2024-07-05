@@ -50,7 +50,7 @@ public class MessageDao {
                 msgDto.setReceivedMCode(rs.getInt(3));
                 msgDto.setMsgTitle(rs.getString(4));
                 msgDto.setMsgContent(rs.getString(5));
-                msgDto.setMsgView(rs.getInt(6)); 
+                msgDto.setHasReply(rs.getInt(6));
                 msgDto.setMsgDate(rs.getString(7)); 
                 msgDto.setReplyContent(rs.getString(8));
                 msgDto.setReplyDate(rs.getString(9));
@@ -76,7 +76,16 @@ public class MessageDao {
     }
     // 쪽지 보내기
     public boolean msgSendMessage(MessageDto msgDto){
-
+        try{
+            String sql = "insert into message(sentMCode, receivedMCode, msgTitle, msgContent) values (?,?,?,?)";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, msgDto.getSentMCode()); ps.setInt(2, msgDto.getReceivedMCode());
+            ps.setString(3, msgDto.getMsgTitle()); ps.setString(4, msgDto.getMsgContent());
+            int result = ps.executeUpdate();
+            return result==1;
+        }catch (Exception e) {
+            System.out.println(">>메시지 전송 실패 : " + e);
+        }
         return false;
     }
     // 일반) 쪽지 메뉴 2 - 답장 확인하기

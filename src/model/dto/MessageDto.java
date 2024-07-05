@@ -7,7 +7,7 @@ public class MessageDto {
     private int receivedMCode;      // 받은회원코드
     private String msgTitle;        // 쪽지제목
     private String msgContent;      // 쪽지내용
-    private int msgView;            // 쪽지조회수
+    private int hasReply;        // 쪽지조회수
     private String msgDate;         // 쪽지보낸날짜
     private String replyContent;    // 답장내용
     private String replyDate;       // 답장날짜
@@ -23,7 +23,7 @@ public class MessageDto {
                 ", receivedMCode=" + receivedMCode +
                 ", msgTitle='" + msgTitle + '\'' +
                 ", msgContent='" + msgContent + '\'' +
-                ", msgView=" + msgView +
+                ", hasReply" + hasReply +
                 ", msgDate='" + msgDate + '\'' +
                 ", replyContent='" + replyContent + '\'' +
                 ", replyDate='" + replyDate + '\'' +
@@ -70,12 +70,12 @@ public class MessageDto {
         this.msgContent = msgContent;
     }
 
-    public int getMsgView() {
-        return msgView;
+    public int getHasReply() {
+        return hasReply;
     }
 
-    public void setMsgView(int msgView) {
-        this.msgView = msgView;
+    public void setHasReply(int hasReply) {
+        this.hasReply = hasReply;
     }
 
     public String getMsgDate() {
