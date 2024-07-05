@@ -1,5 +1,6 @@
 package model.dao;
 
+import model.dto.ExerciseDto;
 import model.dto.FoodDto;
 
 import java.sql.Connection;
@@ -67,7 +68,27 @@ public class FoodDao {
 
 
     // 음식 기능3. 음식 수정 함수
-    public void foodUpdate() {
+    public boolean foodUpdate(String oldFoodName, String newFoodName) {
+        boolean result = foodCheck(oldFoodName);     // 수정할 음식이 DB에 존재하는지 확인
+
+        if (!result) {
+            try {
+                String sql ="update food set foodName = ? where foodName = ?;";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, newFoodName);
+                ps.setString(2, oldFoodName);
+                int count = ps.executeUpdate();
+
+                if (count == 1) {
+                    return true;
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            System.out.println(">> DB에 존재하지 않는 음식입니다.");
+        }
+        return false;
 
     }
 

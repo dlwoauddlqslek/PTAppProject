@@ -2,9 +2,9 @@ package model.dto;
 
 public class FoodDto {
     // 1. 멤버변수
-    private int foodCode;
-    private String foodName;
-    private int foodKcal;
+    private int foodCode;       // 음식 코드
+    private String foodName;    // 음식 이름
+    private int foodKcal;       //음식 칼로리
 
     // 2. 생성자
     public FoodDto() {}
@@ -17,7 +17,7 @@ public class FoodDto {
     public FoodDto(String foodName, int foodKcal) {
         this.foodName = foodName;
         this.foodKcal = foodKcal;
-    }       // 회원가입용 생성자 end
+    }
 
     // 3. 메소드
         // 1. getter and setter

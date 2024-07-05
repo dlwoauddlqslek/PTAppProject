@@ -1,6 +1,8 @@
 package controller;
 
+import model.dao.ExerciseDao;
 import model.dao.FoodDao;
+import model.dto.ExerciseDto;
 import model.dto.FoodDto;
 import view.AdminView;
 
@@ -28,13 +30,39 @@ public class AdminController {
 
 
     // 음식 기능3. 음식 수정 함수
-    public void foodUpdate() {
-
+    public boolean foodUpdate(String oldFoodName, String newFoodName) {
+        return FoodDao.getInstance().foodUpdate(oldFoodName, newFoodName);
     }
 
 
     // 음식 기능4. 음식 삭제 함수
     public boolean foodDelete(String foodName) {
         return FoodDao.getInstance().foodDelete(foodName);
+    }
+
+
+
+
+
+
+    // 운동 기능1. 운동 추가 함수
+    public boolean exerAdd(ExerciseDto exerDto) {
+        return ExerciseDao.getInstance().exerAdd(exerDto);
+    }
+
+
+    // 운동 기능2. 운동 목록 조회 함수
+    public void exerListView() {
+
+    }
+
+    // 운동 기능3. 운동 수정 함수
+    public void exerUpdate() {
+
+    }
+
+    // 운동 기능4. 운동 삭제 함수
+    public boolean exerDelete(String exName) {
+        return ExerciseDao.getInstance().exerDelete(exName);
     }
 }
