@@ -77,6 +77,7 @@ public class MemberView {
         if (result) {
             System.out.println("로그인성공 ");
             // 로그인 성공시 이동 메뉴 만들기 ------->>>>>>
+
             // loginCate(memberDto);
         } else {
             System.out.println("로그인실패");
@@ -120,13 +121,6 @@ public class MemberView {
         if( result != null ){  System.out.println(" 회원님의 비밀번호는 ["+result+"] 입니다.");}
         else{  System.out.println("동일한 회원정보가 없습니다."); }
     }
-
-
-
-
-
-
-
 
 
 }

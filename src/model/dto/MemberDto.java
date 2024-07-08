@@ -7,14 +7,16 @@ public class MemberDto {
     private String PW;                 //회원비밀번호
     private String memberName;         //회원명
     private int height;                //회원 키
+    private int weight;
     private int exHabit;               //회원 운동습관 (저조-> 우수 1,2,3)
-    private String gender;               //성별 (M,F)
+    private String gender;             //성별 (M,F)
     private String birthDate;          //생년월일
     private String contact;            //연락처
     private int accCategory;           //회원분류코드 (관리자 = 1, 일반회원 = 2, PT강사회원 = 3)
 
     // 2. 생성자
     public MemberDto() {}
+
 
 
     // 3. 메서드
@@ -26,6 +28,7 @@ public class MemberDto {
                 ", PW='" + PW + '\'' +
                 ", memberName='" + memberName + '\'' +
                 ", height=" + height +
+                ", weight=" + weight +
                 ", exHabit=" + exHabit +
                 ", gender=" + gender +
                 ", birthDate='" + birthDate + '\'' +
@@ -33,6 +36,7 @@ public class MemberDto {
                 ", accCategory=" + accCategory +
                 '}';
     }
+
 
     public int getMemberCode() {
         return memberCode;
@@ -73,6 +77,10 @@ public class MemberDto {
     public void setHeight(int height) {
         this.height = height;
     }
+
+    public int getWeight() {return weight;}
+
+    public void setWeight(int weight) {this.weight = weight; }
 
     public int getExHabit() {
         return exHabit;

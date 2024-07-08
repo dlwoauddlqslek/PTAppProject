@@ -69,19 +69,19 @@ public class MemberDao {
         return 0;
     }
 
-    public int loginCate(MemberDto memberDto){
-        try {
-            String sql = "select * from member where ID = ? and PW = ? ; ";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1,memberDto.getID());
-            ps.setString(2,memberDto.getPW());
-            rs=ps.executeQuery();
-            if (rs.next()){ int loginCate = rs.getInt("accCategory"); return loginCate;  }
-        }catch (Exception e){
-            System.out.println(e);
-        }
-        return 0;
-    }
+//    public int loginCate(MemberDto memberDto){
+//        try {
+//            String sql = "select * from member where ID = ? and PW = ? ; ";
+//            ps = conn.prepareStatement(sql);
+//            ps.setString(1,memberDto.getID());
+//            ps.setString(2,memberDto.getPW());
+//            rs=ps.executeQuery();
+//            if (rs.next()){ int loginCate = rs.getInt("accCategory"); return loginCate;  }
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
+//        return 0;
+//    }
 
     //아이디 찾기 함수
     public String findId(MemberDto memberDto){
@@ -151,4 +151,24 @@ public class MemberDao {
         }
         return memberList;
     }
+
+    public boolean mUpdate(MemberDto memberDto){
+        try {
+            System.out.println(memberDto+"dao");
+            String sql = "update member set height = ? , exHabit = ?, contact=? where memberCode = ?;\n";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,memberDto.getHeight());
+            ps.setInt(2,memberDto.getExHabit());
+            ps.setString(3,memberDto.getContact());
+            ps.setInt(4,memberDto.getMemberCode());
+            int count = ps.executeUpdate();
+            if (count == 1 ){return true;}
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
+
+
+
 }

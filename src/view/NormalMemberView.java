@@ -3,6 +3,7 @@ package view;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import controller.MemberController;
 import model.dto.MessageDto;
 import model.dto.MemberDto;
 import controller.NormalMemberController;
@@ -30,6 +31,7 @@ public class NormalMemberView {
     // 2. 운동 관리 : 운동 기록 메뉴 띄우기 & 추가/수정/삭제
     // 3. PT 강사에게 쪽지 : 최근 보낸 쪽지 목록 띄우기 & 보내기/수정/삭제
     // 4. 본인 정보 수정 : 비밀번호 확인 후 변경할 정보 선택 & 새로운 정보 입력 (키, 운동습관, 연락처)
+    // + 5. 로그아웃 번호 : 현재 로그인된 회원 로그아웃하기
     int kcal=2400;
     public void index(){
         while(true) {
@@ -38,6 +40,8 @@ public class NormalMemberView {
                 int ch = scan.nextInt();
                 if (ch == 1) {foodCal();}
                 else if(ch==2){exCal();}
+                else if(ch==4){mUpdate();}
+                else if(ch==5){logOut();}
                 else {
                     System.out.println("없는 기능입니다.");
                 }
@@ -102,9 +106,29 @@ public class NormalMemberView {
         // 출력 : 처음은 이전메뉴와 같게
         // p.이전 n.다음 P.전날 N.다음날 d.날짜 입력 (0000-00-00)
 
+    }
+
+    //=======================================================회원수정 함수=======================================================
+    public void mUpdate(){
+        System.out.println("변경할 키 : "); int height = scan.nextInt();
+        System.out.println("변경할 운동습관(1 ~ 3) : "); int habit = scan.nextInt();
+        System.out.println("변경할 연락처 : "); String mphone = scan.next();
+        MemberDto memberDto = new MemberDto();
+        memberDto.setHeight(height);
+        memberDto.setExHabit(habit);
+        memberDto.setContact(mphone);
+        boolean result = MemberController.getInstance().mUpdate(memberDto);
+        System.out.println(result);
+        if (result){System.out.println("수정성공"); }
+        else {System.out.println("수정실패. 다시입력해주세요");}
 
     }
 
+    //=======================================================회원 로그아웃 함수=======================================================
+    public void logOut(){
+        MemberController.getInstance().logOut();
+        System.out.println("로그아웃 성공");
+    }
 
 
 
