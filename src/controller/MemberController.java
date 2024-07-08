@@ -30,10 +30,14 @@ public class MemberController {
     public boolean login(MemberDto memberDto){
         MemberDto memberDto1 = MemberDao.getInstance().login(memberDto);
         if (memberDto1.getID() == null){return false;}
+        loginNo = memberDto1.getMemberCode();
+        NormalMemberController.getInstance().gender = memberDto1.getGender();
+        NormalMemberController.getInstance().height = memberDto1.getHeight();
+        NormalMemberController.getInstance().birthDate = memberDto1.getBirthDate();
+        NormalMemberController.getInstance().exHabit = memberDto1.getExHabit();
 
         return true;
     }
-
 
     // 아이디 찾기 함수
     public String findId(MemberDto memberDto){

@@ -34,6 +34,7 @@ public class NormalMemberController {
     public int weight;
     public int height;
     public int age;
+    public String birthDate;
     public int exHabit;
     // 로그인시 회원 정보 불러오기
 
