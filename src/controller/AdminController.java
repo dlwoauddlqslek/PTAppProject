@@ -5,6 +5,8 @@ import model.dao.FoodDao;
 import model.dto.ExerciseDto;
 import model.dto.FoodDto;
 
+import java.util.ArrayList;
+
 public class AdminController {
     // 싱글톤
     private static AdminController admControl = new AdminController();
@@ -13,6 +15,9 @@ public class AdminController {
 
         return admControl;
     }
+
+    // 음식 메뉴 현재 페이지 번호
+    public static int foodCurrentPage = 1;
 
 
 
@@ -25,8 +30,8 @@ public class AdminController {
 
 
     // 음식 기능2. 음식 조회 함수
-    public void foodListView() {
-
+    public ArrayList<FoodDto> foodListView(int foodCurrentPage) {
+        return FoodDao.getInstance().foodListView(foodCurrentPage);
     }
 
 
