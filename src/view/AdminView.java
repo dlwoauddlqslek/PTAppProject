@@ -101,10 +101,10 @@ public class AdminView {
             for (int i = 0; i < foodList.size(); i++) {
                 String foodName = foodList.get(i).getFoodName();
                 int foodKcal = foodList.get(i).getFoodKcal();
-
+                
                 if (foodName.length() < 15) {
-                    for (int j = 0; j < 15 - foodName.length(); i++) {
-                        foodName += "ㅤ";
+                    for (int j = 0; j < 15 - foodName.length(); j++) {
+                        foodName += "";
                     }
                 }
 
