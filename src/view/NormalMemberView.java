@@ -7,13 +7,13 @@ import model.dto.MessageDto;
 import model.dto.MemberDto;
 import controller.NormalMemberController;
 
-import static controller.NormalMemberController.loginMCode;
+import static controller.MemberController.loginAccCode;
+import static controller.MemberController.loginMCode;
+import static controller.NormalMemberController.msgMemberListPage;
 import static controller.NormalMemberController.msgPtMemberListPage;
 
 
 public class NormalMemberView {
-    //쪽지 메뉴 현재 페이지 번호
-
     // 싱글톤 패턴
     private static NormalMemberView normalMemberView = new NormalMemberView();
     private NormalMemberView(){}
@@ -23,6 +23,13 @@ public class NormalMemberView {
     // 스캐너 객체 생성
     Scanner scan = new Scanner(System.in);
 
+    // 일반 회원 메뉴
+    // 현재 남은 칼로리 보여주기 & (하루기준)최근 먹은 음식, 최근 한 운동기록?
+    // 1. 몸무게 관리 : 몸무게 측정 내역 띄우기 & 추가/수정/삭제
+    // 1. 식단 관리 : 먹은 음식 기록 메뉴 띄우기 & 추가/수정/삭제
+    // 2. 운동 관리 : 운동 기록 메뉴 띄우기 & 추가/수정/삭제
+    // 3. PT 강사에게 쪽지 : 최근 보낸 쪽지 목록 띄우기 & 보내기/수정/삭제
+    // 4. 본인 정보 수정 : 비밀번호 확인 후 변경할 정보 선택 & 새로운 정보 입력 (키, 운동습관, 연락처)
     int kcal=2400;
     public void index(){
         while(true) {
@@ -216,30 +223,40 @@ public class NormalMemberView {
     // 일반) 쪽지 메뉴 1 - 쪽지 보내기
     public void msgSendMessage(){
         while(true) {
-            // 받을 PT 강사회원
+            // 일반회원 : msgPtMemberListPage, ptMemberList
+            // 강사회원 : msgMemberListPage, memberList
+            int msgListPage = 1;
+            ArrayList<MemberDto> memList = null;
+            // 로그인된 회원 분류 코드에 따라 내용 변경
+            if (loginAccCode == 2){ //일반회원
+                msgListPage = msgPtMemberListPage;
+                memList = msgShowPtMemberList(msgPtMemberListPage);
+            } else if (loginAccCode == 3){ // PT강사회원
+                msgListPage = msgMemberListPage;
+                memList = msgShowMemberList(msgMemberListPage);
+            }
+            // 받을 PT 강사회원/ 일반회원
             System.out.println("====================== 쪽지 보내기 ======================");
-            System.out.println("                       페이지 "+msgPtMemberListPage);
+            System.out.println("                       페이지 "+msgListPage);
             System.out.println("번호          이름        번호           이름");
             System.out.println("--------------------------------------------------------");
-            ArrayList<MemberDto> ptMemberList = msgShowPtMemberList(msgPtMemberListPage);
-            // 번호 1~5 강사명 | 번호 6~10 강사명
+
+            // 번호 1~5 회원명 | 번호 6~10 회원명
             ArrayList<MemberDto> leftList = new ArrayList<>();
             ArrayList<MemberDto> rightList = new ArrayList<>();
             // 왼쪽 오른쪽 출력할 목록 구분
             for ( int i = 0; i < 10; i++){
-                if (i < 5 && i < ptMemberList.size()) {
-                    leftList.add(ptMemberList.get(i));
+                if (i < 5 && i < memList.size()) {
+                    leftList.add(memList.get(i));
                 }
-                else if (i >= 5 && i < ptMemberList.size()){
-                    rightList.add(ptMemberList.get(i));
+                else if (i >= 5 && i < memList.size()){
+                    rightList.add(memList.get(i));
                 }
             }
             // printf 한줄로 양쪽에서 한 객체씩 뽑아서 출력
             for (int i = 0; i < 5; i++) {
                 if (i < rightList.size()) {
-                    System.out.printf("%2d | %-15s | %2d | %-10s\n",
-                            i+1, leftList.get(i).getMemberName(), i+6, rightList.get(i).getMemberName()
-                    );
+                    System.out.printf("%2d | %-15s | %2d | %-10s\n", i+1, leftList.get(i).getMemberName(), i+6, rightList.get(i).getMemberName());
                 }
                 else if (i < leftList.size()){
                     System.out.printf("%2d | %-15s |    |\n", i+1, leftList.get(i).getMemberName());
@@ -249,8 +266,13 @@ public class NormalMemberView {
                 }
             }
             System.out.println("--------------------------------------------------------");
+            if (loginAccCode == 2){ //일반회원
+                System.out.println("쪽지를 받을 강사회원의 목록을 표시합니다.");
+            } else if (loginAccCode == 3){ // PT강사회원
+                System.out.println("답장을 보낼 수 있는 회원의 목록을 표시합니다.");
+            }
             System.out.println("p = 이전 페이지, n = 다음 페이지, b = 돌아가기");
-            System.out.print("1 ~ 10 = 해당 강사에게 쪽지 보내기 : ");
+            System.out.print("1 ~ 10 = 해당 회원에게 쪽지 보내기 : ");
             int ch;
             try { //알파벳 입력과 숫자 1~10 입력을 같이 받기
                 ch = scan.nextInt();
@@ -260,7 +282,7 @@ public class NormalMemberView {
                 scan.nextLine();
             }
             if (ch >= 1 && ch <= 10){ // 강사 번호를 선택
-                if (ch <= ptMemberList.size()) { // 강사 화면 번호와 입력 값의 유효성 검사
+                if (ch <= memList.size()) { // 강사 화면 번호와 입력 값의 유효성 검사
                     // 쪽지 제목
                     System.out.print(">>쪽지 제목을 입력해 주세요 : "); String title = scan.nextLine();
                     // 쪽지 내용
@@ -268,7 +290,7 @@ public class NormalMemberView {
                     // MessageDTO 포장
                     MessageDto msgDto = new MessageDto();
                     msgDto.setSentMCode(loginMCode);
-                    msgDto.setReceivedMCode(ptMemberList.get(ch-1).getMemberCode());
+                    msgDto.setReceivedMCode(memList.get(ch-1).getMemberCode());
                     msgDto.setMsgTitle(title);
                     msgDto.setMsgContent(content);
 
@@ -280,29 +302,38 @@ public class NormalMemberView {
                     }
 
                 } else { // 표시되지 않은 번호를 입력
-                    System.out.println(">>PT강사 번호를 다시 확인해주세요.");
+                    System.out.println(">>해당 회원의 번호를 다시 확인해주세요.");
                     System.out.println();
                 }
             }
-            else if (ch == 'P' || ch == 'p'){ // PT회원 내역 이전 10개 출력
-                if (msgPtMemberListPage == 1) { // 첫번째 페이지일 때
+            else if (ch == 'P' || ch == 'p'){ // 회원 내역 이전 10개 출력
+                if (msgListPage == 1) { // 첫번째 페이지일 때
                     System.out.println(">>이미 첫 번째 페이지입니다!");
                     System.out.println();
                 }
                 else { // 현재 페이지 -1 하고 출력
                     System.out.println();
-                    msgPtMemberListPage--;
+                    if (loginAccCode == 2){ //일반회원
+                        msgPtMemberListPage--;
+                    } else if (loginAccCode == 3){ // PT강사회원
+                        msgMemberListPage--;
+                    }
+
                 }
             }
-            else if (ch == 'N' || ch == 'n'){ // PT회원 내역 다음 10개
+            else if (ch == 'N' || ch == 'n'){ // 회원 내역 다음 10개
                 // 불러올 쪽지 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
-                if (NormalMemberController.getInstance().msgShowPtMemberList(msgPtMemberListPage+1).isEmpty()){
+                if (NormalMemberController.getInstance().msgShowPtMemberList(msgListPage+1).isEmpty()){
                     System.out.println(">>마지막 페이지입니다!");
                     System.out.println();
                 }
                 else { // 현재 페이지 +1 및 출력
                     System.out.println();
-                    msgPtMemberListPage++;
+                    if (loginAccCode == 2){ //일반회원
+                        msgPtMemberListPage++;
+                    } else if (loginAccCode == 3){ // PT강사회원
+                        msgMemberListPage++;
+                    }
                 }
             }
             else if (ch == 'B' || ch == 'b'){
@@ -310,6 +341,11 @@ public class NormalMemberView {
             }
         }
     }
+
+    private ArrayList<MemberDto> msgShowMemberList(int msgMemberListPage) {
+        return NormalMemberController.getInstance().msgShowMemberList(msgMemberListPage);
+    }
+
     // PT 강사 회원 목록 불러오기
     private ArrayList<MemberDto> msgShowPtMemberList(int msgPtMemberListPage) {
         return NormalMemberController.getInstance().msgShowPtMemberList(msgPtMemberListPage);

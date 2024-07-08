@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import static controller.MemberController.loginMCode;
+
 public class MemberDao {
 
     static Connection conn;
@@ -128,5 +130,25 @@ public class MemberDao {
             System.out.println(">>MemberDao 오류 : " +e);
         }
         return ptMemberList;
+    }
+
+    public ArrayList<MemberDto> msgShowMemberList(int msgMemberListPage) {
+        ArrayList<MemberDto> memberList = new ArrayList<>();
+        try {
+            String sql = "select * from member where accCategory = 2 and receivedMCode = ? LIMIT ?, ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, loginMCode);
+            ps.setInt(2, (msgMemberListPage-1)*10); ps.setInt(3, msgMemberListPage*10-1);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                MemberDto memberDto = new MemberDto();
+                // 회원코드, 회원명
+                memberDto.setMemberCode(rs.getInt(1)); memberDto.setMemberName(rs.getString(4));
+                memberList.add(memberDto);
+            }
+        } catch (Exception e){
+            System.out.println(">>MemberDao 오류 : " +e);
+        }
+        return memberList;
     }
 }

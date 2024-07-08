@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import model.dao.AteFoodRecordDao;
 import model.dto.AteFoodRecordDto;
 
+import static controller.MemberController.loginMCode;
+
 public class NormalMemberController {
     //싱글톤 패턴
     private static NormalMemberController normalMemberController = new NormalMemberController();
@@ -18,6 +20,8 @@ public class NormalMemberController {
     public static NormalMemberController getInstance(){ return normalMemberController; }
     // /싱글톤 패턴
 
+    //
+    //
     public int foodKcalTotal(){
         //2. 로그인된회원번호 (샘플 )
         int loginMno=2;
@@ -53,12 +57,13 @@ public class NormalMemberController {
 
 
 
-    // 현재 로그인중인 회원 코드
-    public static int loginMCode = 2;
+
     // 쪽지 메뉴 현재 페이지 번호
     public static int msgCurrentPage = 1;
     // 쪽지 메뉴 PT 강사 목록 페이지 번호
     public static int msgPtMemberListPage = 1;
+    // 쪽지 메뉴 답장 회원 목록 페이지 번호
+    public static int msgMemberListPage = 1;
 
     // 쪽지 내역 출력
     public ArrayList<MessageDto> msgView(int msgCurrentPage){
@@ -91,5 +96,9 @@ public class NormalMemberController {
     // 쪽지 보내기 메뉴 - PT 강사 목록 불러오기
     public ArrayList<MemberDto> msgShowPtMemberList(int msgPtMemberListPage) {
         return MemberDao.getInstance().msgShowPtMemberList(msgPtMemberListPage);
+    }
+
+    public ArrayList<MemberDto> msgShowMemberList(int msgMemberListPage) {
+        return MemberDao.getInstance().msgShowMemberList(msgMemberListPage);
     }
 }
