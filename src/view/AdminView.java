@@ -29,20 +29,21 @@ public class AdminView {
                 } else if (ch == 2) {
                     exerciseMenu();
                 } else if (ch == 3) {
-
+                    memberMenu();
                 } else if (ch == 4) {
                     return;
                 } else {
                     System.out.println(">> 기능이 없는 번호입니다.");
                 }
             } catch (Exception e) {
-                System.out.println("잘못된 입력입니다." + e);
+                System.out.println(">> 잘못된 입력입니다." + e);
                 scan = new Scanner(System.in);
             }   // catch end
         }   // while end
     }   // indexAdm() end
 
-    // =============================== 음식 부분 =============================== //
+
+    // =============================== 음식 부분 CRUD =============================== //
 
     // 화면2. 음식 DB 관리 화면 함수
     public void foodMenu() {
@@ -86,37 +87,37 @@ public class AdminView {
 
     }   // foodAdd() end
 
-
     // 음식 기능2. 음식 목록 조회 함수
     public void foodListView() {
 
 
     }
 
-
-    // 음식 기능3. 음식 수정 함수 -> AdminController에 전달 : 수정하려고 하는 기존 음식 이름 String, 수정해줄 새 음식 String
+    // 음식 기능3. 음식 수정 함수 -> AdminController에 전달 : 수정하려고 하는 기존 음식 이름 String, FoodDto(새 음식 이름 String, 새 칼로리 int)
     //                                      / AdminController로부터 받을 반환값 : 음식 수정 성공 여부 boolean
     public void foodUpdate() {
         // 1. 수정하려고 하는 기존 음식 이름 입력
         scan.nextLine();
-        System.out.print("수정하려고 하는 기존 음식 이름 : ");
+        System.out.print(">> 수정하려고 하는 기존 음식 이름 : ");
         String oldFoodName = scan.nextLine();
 
-        // 2. 수정해줄 새 음식 이름 입력
-        System.out.print("수정해줄 새 음식 이름 : ");
+        // 2. 수정할 새 음식 이름과 칼로리 입력
+        System.out.print(">> 수정할 새 음식 이름 : ");
         String newFoodName = scan.nextLine();
+        System.out.print(">> 수정할 칼로리 값 : ");
+        int newFoodKcal = scan.nextInt();
 
-        // 수정 성공 여부 받기
-        boolean result = AdminController.getInstance().foodUpdate(oldFoodName, newFoodName);
+        FoodDto foodDto = new FoodDto(newFoodName, newFoodKcal);
+
+        boolean result = AdminController.getInstance().foodUpdate(oldFoodName, foodDto);
 
         if (result) {
-            System.out.println(">> 음식 이름 수정 성공");
+            System.out.println(">> 음식 수정 성공");
         } else {
-            System.out.println(">> 음식 이름 수정 실패");
+            System.out.println(">> 음식 수정 실패");
         }
 
     }   // foodUpdate() end
-
 
     // 음식 기능4. 음식 삭제 함수 -> AdminController에 전달 : 삭제할 음식 이름 String / AdminController로부터 받을 반환값 : 음식 삭제 성공 여부 boolean
     public void foodDelete() {
@@ -135,7 +136,8 @@ public class AdminView {
 
     }
 
-    // =============================== 운동 부분 =============================== //
+
+    // =============================== 운동 부분 CRUD =============================== //
 
     // 화면3. 운동 DB 관리 화면 함수
     public void exerciseMenu() {
@@ -180,15 +182,36 @@ public class AdminView {
 
     }
 
-
     // 운동 기능2. 운동 목록 조회 함수
     public void exerListView() {
 
     }
 
-    // 운동 기능3. 운동 수정 함수
+    // 운동 기능3. 운동 수정 함수 -> AdminController에 전달 : 수정할 기존 운동 이름 String, ExerciseDto(새 운동 이름 String, 새 칼로리 int, 새 운동 강도 int)
+    //                                  / AdminController로부터 받을 반환값 : 운동 삭제 성공 여부 boolean
     public void exerUpdate() {
+        // 수정하려고 하는 기존 운동 이름 입력 받기
+        scan.nextLine();
+        System.out.print(">> 수정하려고 하는 기존 운동 이름 : ");
+        String oldExName = scan.nextLine();
 
+        // 수정할 새 운동 이름, 새 칼로리, 새 운동 강도 입력 받기
+        System.out.print(">> 수정할 새 운동 이름 : ");
+        String newExName = scan.nextLine();
+        System.out.print(">> 수정할 칼로리 값 : ");
+        int newExKcal = scan.nextInt();
+        System.out.print(">> 수정할 운동 강도 : ");
+        int newExIntensity = scan.nextInt();
+
+        ExerciseDto exerDto = new ExerciseDto(newExName, newExKcal, newExIntensity);
+
+        boolean result = AdminController.getInstance().exerUpdate(oldExName, exerDto);
+
+        if (result) {
+            System.out.println(">> 운동 수정 성공");
+        } else {
+            System.out.println(">> 운동 수정 실패");
+        }
     }
 
     // 운동 기능4. 운동 삭제 함수 -> AdminController에 전달 : 삭제할 운동 이름 String / AdminController로부터 받을 반환값 : 운동 삭제 성공 여부 boolean
@@ -206,5 +229,39 @@ public class AdminView {
             System.out.println(">> 운동 삭제 실패");
         }
     }
+
+
+    // =============================== 회원 부분 RD =============================== //
+
+    // 화면4. 회원 DB 관리 화면 함수
+    public void memberMenu() {
+        System.out.print(">> 1.회원조회 2.회원탈퇴 3.뒤로가기 : ");
+        int ch = scan.nextInt();
+
+        if (ch == 1) {          // 회원 목록 조회 함수 호출
+            memberListView();
+        } else if (ch == 2) {   // 회원 탈퇴 함수 호출
+            memberDelete();
+        } else if (ch == 3) {   // 뒤로가기 - 관리자 전용 초기화면으로 돌아가기
+            return;
+        } else {
+            System.out.println(">> 잘못된 입력입니다.");
+        }
+    }
+
+    // 회원 기능1. 회원 목록 조회 함수
+    public void memberListView() {
+
+    }
+
+    // 회원 기능2. 회원 탈퇴 함수 -> AdminController에 전달 : 삭제할 회원 이름 String / AdminController로부터 받을 반환값 : 회원 삭제 성공 여부 boolean
+    public void memberDelete() {
+        // 탈퇴시킬 회원 이름 입력 받기
+        System.out.print(">> 탈퇴시킬 회원 이름 : ");
+        String memberName = scan.nextLine();
+
+
+    }
+
 
 }   // class end

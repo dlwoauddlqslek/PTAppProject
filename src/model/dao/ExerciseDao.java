@@ -61,14 +61,37 @@ public class ExerciseDao {
     }
 
 
+
     // 운동 기능2. 운동 목록 조회 함수
     public void exerListView() {
 
     }
 
     // 운동 기능3. 운동 수정 함수
-    public void exerUpdate() {
+    public boolean exerUpdate(String oldExName, ExerciseDto exerDto) {
+        boolean result = exerciseCheck(oldExName);
 
+        if (!result) {
+            try {
+                String sql = "update exercise set exName = ?, exKcal = ?, exIntensity = ? where exName = ?;";
+                ps = conn.prepareStatement(sql);
+
+                ps.setString(1, exerDto.getExName());
+                ps.setInt(2, exerDto.getExKcal());
+                ps.setInt(3, exerDto.getExIntensity());
+                ps.setString(4, oldExName);
+
+                int count = ps.executeUpdate();
+                if (count == 1) {
+                    return true;
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            System.out.println(">> DB에 존재하지 않는 운동입니다.");
+        }
+        return false;
     }
 
     // 운동 기능4. 운동 삭제 함수

@@ -68,15 +68,16 @@ public class FoodDao {
 
 
     // 음식 기능3. 음식 수정 함수
-    public boolean foodUpdate(String oldFoodName, String newFoodName) {
+    public boolean foodUpdate(String oldFoodName, FoodDto foodDto) {
         boolean result = foodCheck(oldFoodName);     // 수정할 음식이 DB에 존재하는지 확인
 
         if (!result) {
             try {
-                String sql ="update food set foodName = ? where foodName = ?;";
+                String sql ="update food set foodName = ?, foodKcal = ? where foodName = ?;";
                 ps = conn.prepareStatement(sql);
-                ps.setString(1, newFoodName);
-                ps.setString(2, oldFoodName);
+                ps.setString(1, foodDto.getFoodName());
+                ps.setInt(2, foodDto.getFoodKcal());
+                ps.setString(3, oldFoodName);
                 int count = ps.executeUpdate();
 
                 if (count == 1) {
