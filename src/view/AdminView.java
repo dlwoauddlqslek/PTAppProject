@@ -103,7 +103,7 @@ public class AdminView {
                 int foodKcal = foodList.get(i).getFoodKcal();
 
                 if (foodName.length() < 15) {
-                    for (int j = 0; j < 15 - foodName.length(); i++) {
+                    for (int j = 0; j < 15 - foodName.length(); j++) {
                         foodName += "ㅤ";
                     }
                 }
