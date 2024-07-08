@@ -55,18 +55,27 @@ public class MemberDao {
     }
 
     //로그인 함수
-    public int login(MemberDto memberDto){
+    public MemberDto login(MemberDto memberDto){
+
+        MemberDto memberDto1 = new MemberDto();
         try {
             String sql = "select * from member where ID = ? and PW = ? ; ";
             ps = conn.prepareStatement(sql);
             ps.setString(1,memberDto.getID());
             ps.setString(2,memberDto.getPW());
             rs=ps.executeQuery();
-            if (rs.next()){return rs.getInt("memberCode");}
+
+            if (rs.next()){
+            memberDto1.setMemberCode(rs.getInt("memberCode"));
+            memberDto1.setHeight(rs.getInt("height"));
+            memberDto1.setGender(rs.getString("gender"));
+            memberDto1.setExHabit(rs.getInt("exHabit"));
+            memberDto1.setBirthDate(rs.getString("birthDate"));
+            }
         }catch (Exception e){
             System.out.println(e);
         }
-        return 0;
+        return memberDto1;
     }
 
 //    public int loginCate(MemberDto memberDto){
