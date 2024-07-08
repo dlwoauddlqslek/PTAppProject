@@ -1,9 +1,11 @@
 package view;
 
 import controller.AdminController;
+import controller.NormalMemberController;
 import model.dto.ExerciseDto;
 import model.dto.FoodDto;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AdminView {
@@ -89,8 +91,54 @@ public class AdminView {
 
     // 음식 기능2. 음식 목록 조회 함수
     public void foodListView() {
+        while (true) {
+            System.out.println("========== 음식 목록 " + AdminController.foodCurrentPage + " 페이지 ==========");
+            System.out.println("번호   음식                칼로리");
+            System.out.println("============================================");
+            // DB에서 현재 페이지 번호에 해당되는 음식 목록 가져와 출력
+            ArrayList<FoodDto> foodList = AdminController.getInstance().foodListView(AdminController.foodCurrentPage);
 
+            for (int i = 0; i < foodList.size(); i++) {
+                String foodName = foodList.get(i).getFoodName();
+                int foodKcal = foodList.get(i).getFoodKcal();
 
+                System.out.printf(" %-5d %-9s %3d \n", i + 1, foodName, foodKcal);
+            }
+
+            System.out.println("============================================");
+            System.out.print("p = 이전 페이지, n = 다음 페이지, b = 돌아가기 : ");
+            char ch = scan.next().charAt(0);
+
+            if (ch == 'P' || ch == 'p'){ // 음식 메뉴 이전 10개 출력
+                if (AdminController.foodCurrentPage == 1) { // 첫 번째 페이지일 때
+                    System.out.println(">> 이미 첫 번째 페이지입니다!");
+                    System.out.println();
+                }
+                else { // 현재 페이지 -1 하고 출력
+                    System.out.println();
+                    AdminController.foodCurrentPage--;
+                }
+            }
+            else if (ch == 'N' || ch == 'n'){ // 음식 메뉴 다음 10개
+                // 불러올 음식 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
+                if (AdminController.getInstance().foodListView(AdminController.foodCurrentPage+1).isEmpty()){
+                    System.out.println(">>마지막 페이지입니다!");
+                    System.out.println();
+                }
+                else { // 현재 페이지 +1 및 출력
+                    System.out.println();
+                    AdminController.foodCurrentPage++;
+                }
+            } else if (ch == 'B' || ch == 'b'){     // 관리자 초기 화면으로 돌아가기
+                System.out.println(">> 이전 메뉴로 돌아갑니다.");
+                break;
+            } else { // 메뉴 입력값이 이상하다
+                System.out.println(">> 입력이 잘못되었습니다.");
+                System.out.println();
+                scan = new Scanner(System.in); // 새 scanner 객체 부여
+            }
+
+        }
     }
 
     // 음식 기능3. 음식 수정 함수 -> AdminController에 전달 : 수정하려고 하는 기존 음식 이름 String, FoodDto(새 음식 이름 String, 새 칼로리 int)

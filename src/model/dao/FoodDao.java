@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class FoodDao {
     // 싱글톤
@@ -62,7 +63,29 @@ public class FoodDao {
 
 
     // 음식 기능2. 음식 조회 함수
-    public void foodListView() {
+    public ArrayList<FoodDto> foodListView(int foodCurrentPage) {
+        ArrayList<FoodDto> foodList = new ArrayList<>();
+
+        // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x-1
+        // limit 0, 10 -> 10, 20
+        try {
+            String sql = "select * from food limit ?, 10;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, (foodCurrentPage-1)*10);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                FoodDto foodDto = new FoodDto();
+                foodDto.setFoodCode(rs.getInt("foodCode"));
+                foodDto.setFoodName(rs.getString("foodName"));
+                foodDto.setFoodKcal(rs.getInt("foodKcal"));
+                foodList.add(foodDto);
+            }
+            return foodList;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return foodList;
 
     }
 

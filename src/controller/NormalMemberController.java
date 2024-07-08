@@ -9,7 +9,6 @@ import model.dto.MessageDto;
 import java.util.ArrayList;
 
 import model.dao.AteFoodRecordDao;
-import model.dto.AteFoodRecordDto;
 
 import static controller.MemberController.loginMCode;
 
@@ -20,7 +19,57 @@ public class NormalMemberController {
     public static NormalMemberController getInstance(){ return normalMemberController; }
     // /싱글톤 패턴
 
-    //
+    // 하루 칼로리 계산
+    // 기초 대사량 : Mifflin-St Jeor Equation 공식으로
+    // 기초 대사량(BMR) : 10*몸무게(kg) + 6.25*키(cm) - 5*나이 + (남성 : +5, 여성 : -161)
+    // 운동습관 :
+    // 1. 운동 안함 : *1.2
+    // 2. 적당히 운동 : *1.4 (일주일에 3~4번)
+    // 3. 운동 많이 : *1.7 (일주일에 7번 운동 ~ 격한 운동 3-4일)
+    // 일일칼로리 : 기초대사량 * 운동습관, 현재 몸무게를 유지하려면 +- 0, 매일 마이너스로 끝나면 체중 감량
+    // 예시) 25세 남성, 180cm/65kg, 운동습관 1 (안함) : 1986 Kcal/day
+    // BMR = 650 + 1125 - 125 + 5 = 1655, 1655*1.2 = 1986
+    // 칼로리 계산용 회원 정보
+    public String gender = "";
+    public int weight;
+    public int height;
+    public int age;
+    public int exHabit;
+    // 로그인시 회원 정보 불러오기
+
+    // 칼로리 계산
+    public double baseKcal = getBaseKcalKCal();
+    public double getBaseKcalKCal(){
+        double baseKCal = 0;
+        if (gender.equals('M')){
+            baseKCal = 10*weight + 6.25*height - 5*age + 5;
+        } else if (gender.equals('F')){
+            baseKCal = 10*weight + 6.25*height - 5*age - 161;
+        }
+        switch (exHabit){
+            case 1 :
+                baseKCal *= 1.2;
+                break;
+            case 2 :
+                baseKCal *= 1.4;
+                break;
+            case 3 :
+                baseKCal *= 1.7;
+                break;
+        }
+        return baseKCal;
+    }
+    public double dailyKcal = baseKcal + dailyKcalCalc();
+
+    public double dailyKcalCalc(){
+        // 오늘 기준 먹은 음식량 (+)
+
+        // 오늘 기준 운동량 (-)
+        return 0;
+    }
+
+
+
     //
     public int foodKcalTotal(){
         //2. 로그인된회원번호 (샘플 )
@@ -53,9 +102,6 @@ public class NormalMemberController {
         int loginMno=2;
         return WorkOutRecordDao.getInstance().exRecord(exName,loginMno);
     }
-
-
-
 
 
     // 쪽지 메뉴 현재 페이지 번호

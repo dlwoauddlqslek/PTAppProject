@@ -127,7 +127,7 @@ public class MemberDao {
         try {
             String sql = "select * from member where accCategory = 3 LIMIT ?, ?";
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, (msgPtMemberListPage-1)*10); ps.setInt(2, msgPtMemberListPage*10-1);
+            ps.setInt(1, (msgPtMemberListPage-1)*10); ps.setInt(2, msgPtMemberListPage*10);
             rs = ps.executeQuery();
             while (rs.next()) {
                 MemberDto memberDto = new MemberDto();
@@ -147,7 +147,7 @@ public class MemberDao {
             String sql = "select * from member where accCategory = 2 and receivedMCode = ? LIMIT ?, ?";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginMCode);
-            ps.setInt(2, (msgMemberListPage-1)*10); ps.setInt(3, msgMemberListPage*10-1);
+            ps.setInt(2, (msgMemberListPage-1)*10); ps.setInt(3, msgMemberListPage*10);
             rs = ps.executeQuery();
             while (rs.next()) {
                 MemberDto memberDto = new MemberDto();

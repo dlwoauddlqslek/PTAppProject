@@ -16,8 +16,8 @@ public class MemberController {
         return result;
     }
 
-    // 하루 칼로리 계산
-    // 기초 대사량 : Mifflin-St Jeor Equation
+
+
     // member 관련 static 전역변수들
     public static int loginNo = 0; //로그인됐을때 회원코드
     public static int currentKcal = 12000; //당일 칼로리 계산
