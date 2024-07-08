@@ -39,7 +39,7 @@ public class MessageDao {
             String sql = "select * from message where sentMCode = ? or receivedMCode = ? LIMIT ?, ?";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginMCode); ps.setInt(2, loginMCode);
-            ps.setInt(3, (msgCurrentPage-1)*10); ps.setInt(4, msgCurrentPage*10-1);
+            ps.setInt(3, (msgCurrentPage-1)*10); ps.setInt(4, 10);
             rs = ps.executeQuery();
             while (rs.next()){
                 // 쪽지 메뉴 번호 \ msgTitle \ msgView \ msgDate \ replyContent 여부 확인?
