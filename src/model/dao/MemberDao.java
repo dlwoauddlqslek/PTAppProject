@@ -180,4 +180,92 @@ public class MemberDao {
 
 
 
+
+    // =============================== 관리자 회원 관리 부분 =============================== //
+
+    // 회원 관리 기능1. 회원 목록 조회 함수
+    public ArrayList<MemberDto> memberListView(int memberCurrentPage) {
+        ArrayList<MemberDto> memberList = new ArrayList<>();
+
+        // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x
+        // limit 0, 10 -> 10, 10
+        try {
+            String sql = "select * from member limit ?, 10;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, (memberCurrentPage - 1) * 10);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                MemberDto memberDto = new MemberDto();
+                memberDto.setMemberCode(rs.getInt("memberCode"));
+                memberDto.setID(rs.getString("ID"));
+                memberDto.setPW(rs.getString("PW"));
+                memberDto.setMemberName(rs.getString("memberName"));
+                memberDto.setHeight(rs.getInt("height"));
+                memberDto.setExHabit(rs.getInt("exHabit"));
+                memberDto.setGender(rs.getString("gender"));
+                memberDto.setBirthDate(rs.getString("birthDate"));
+                memberDto.setContact(rs.getString("contact"));
+                memberDto.setAccCategory(rs.getInt("accCategory"));
+                memberList.add(memberDto);
+            }
+            return memberList;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return memberList;
+
+    }
+
+    // 회원 관리 기능2. 회원 탈퇴 함수
+    public boolean memberWithdraw(String ID) {
+        boolean result = memberCheck(ID);     // 삭제할 운동이 DB에 존재하는지 확인
+
+        if (!result) {
+            try {
+                String sql = "delete from member where ID = ?;";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, ID);
+                int count = ps.executeUpdate();
+                if (count == 1) {
+                    return true;
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            System.out.println(">> 존재하지 않는 회원입니다.");
+        }
+        return false;
+
+    }
+
+    // 회원 관리 기능3. 회원 DB 존재 여부 확인 함수
+    public boolean memberCheck(String ID) {
+        try {   // 0. 예외 처리
+            String sql = "Select * from member where ID = ?;";  // 1. SQL 작성
+            ps = conn.prepareStatement(sql);            // 2. sql 기재
+            ps.setString(1, ID);      // 3. 기재된 sql의 매개변수 값 대입
+
+            rs = ps.executeQuery();
+
+            int count = 0;
+            while (rs.next()) {
+                count++;    // 이미 등록되어 있다면 count 1 증가
+            }
+
+            //System.out.println(count);
+            if (count > 0) {    // count가 0보다 크다면 false 반환
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return true;
+
+    }
+
+    // ============================================================================ //
+
+
 }

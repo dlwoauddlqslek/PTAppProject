@@ -2,8 +2,10 @@ package controller;
 
 import model.dao.ExerciseDao;
 import model.dao.FoodDao;
+import model.dao.MemberDao;
 import model.dto.ExerciseDto;
 import model.dto.FoodDto;
+import model.dto.MemberDto;
 
 import java.util.ArrayList;
 
@@ -18,6 +20,10 @@ public class AdminController {
 
     // 음식 메뉴 현재 페이지 번호
     public static int foodCurrentPage = 1;
+    // 운동 메뉴 현재 페이지 번호
+    public static int exerCurrentPage = 1;
+    // 회원 메뉴 현재 페이지 번호
+    public static int memberCurrentPage = 1;
 
 
 
@@ -28,25 +34,20 @@ public class AdminController {
         return FoodDao.getInstance().foodAdd(foodDto);
     }
 
-
     // 음식 기능2. 음식 조회 함수
     public ArrayList<FoodDto> foodListView(int foodCurrentPage) {
         return FoodDao.getInstance().foodListView(foodCurrentPage);
     }
-
 
     // 음식 기능3. 음식 수정 함수
     public boolean foodUpdate(String oldFoodName, FoodDto foodDto) {
         return FoodDao.getInstance().foodUpdate(oldFoodName, foodDto);
     }
 
-
     // 음식 기능4. 음식 삭제 함수
     public boolean foodDelete(String foodName) {
         return FoodDao.getInstance().foodDelete(foodName);
     }
-
-
 
 
     // =============================== 운동 부분 =============================== //
@@ -56,10 +57,9 @@ public class AdminController {
         return ExerciseDao.getInstance().exerAdd(exerDto);
     }
 
-
     // 운동 기능2. 운동 목록 조회 함수
-    public void exerListView() {
-
+    public ArrayList<ExerciseDto> exerListView(int exerCurrentPage) {
+        return ExerciseDao.getInstance().exerListView(exerCurrentPage);
     }
 
     // 운동 기능3. 운동 수정 함수
@@ -72,16 +72,15 @@ public class AdminController {
         return ExerciseDao.getInstance().exerDelete(exName);
     }
 
-
     // =============================== 회원 부분 =============================== //
 
     // 회원 기능1. 회원 목록 조회 함수
-    public void memberListView() {
-
+    public ArrayList<MemberDto> memberListView(int memberCurrentPage) {
+        return MemberDao.getInstance().memberListView(memberCurrentPage);
     }
 
     // 회원 기능2. 회원 탈퇴 함수
-    public void memberDelete() {
-
+    public boolean memberWithdraw(String ID) {
+        return MemberDao.getInstance().memberWithdraw(ID);
     }
 }

@@ -66,12 +66,12 @@ public class FoodDao {
     public ArrayList<FoodDto> foodListView(int foodCurrentPage) {
         ArrayList<FoodDto> foodList = new ArrayList<>();
 
-        // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x-1
-        // limit 0, 10 -> 10, 20
+        // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x
+        // limit 0, 10 -> 10, 10
         try {
             String sql = "select * from food limit ?, 10;";
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, (foodCurrentPage-1)*10);
+            ps.setInt(1, (foodCurrentPage - 1) * 10);
             rs = ps.executeQuery();
 
             while (rs.next()) {

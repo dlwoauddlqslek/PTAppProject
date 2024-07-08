@@ -4,6 +4,7 @@ import controller.AdminController;
 import controller.NormalMemberController;
 import model.dto.ExerciseDto;
 import model.dto.FoodDto;
+import model.dto.MemberDto;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -104,7 +105,7 @@ public class AdminView {
                 
                 if (foodName.length() < 15) {
                     for (int j = 0; j < 15 - foodName.length(); j++) {
-                        foodName += "";
+                        foodName += "ㅤ";
                     }
                 }
 
@@ -144,8 +145,8 @@ public class AdminView {
                 scan = new Scanner(System.in); // 새 scanner 객체 부여
             }
 
-        }
-    }
+        }   // while end
+    }   // foodListView() end
 
     // 음식 기능3. 음식 수정 함수 -> AdminController에 전달 : 수정하려고 하는 기존 음식 이름 String, FoodDto(새 음식 이름 String, 새 칼로리 int)
     //                                      / AdminController로부터 받을 반환값 : 음식 수정 성공 여부 boolean
@@ -238,6 +239,60 @@ public class AdminView {
 
     // 운동 기능2. 운동 목록 조회 함수
     public void exerListView() {
+        while (true) {
+            System.out.println("========== 운동 목록 " + AdminController.exerCurrentPage + " 페이지 ==========");
+            System.out.println("번호   운동             칼로리    운동강도");
+            System.out.println("============================================");
+            // DB에서 현재 페이지 번호에 해당되는 운동 목록 가져와 출력
+            ArrayList<ExerciseDto> exerList = AdminController.getInstance().exerListView(AdminController.exerCurrentPage);
+
+            for (int i = 0; i < exerList.size(); i++) {
+                String exName = exerList.get(i).getExName();
+                int exKcal = exerList.get(i).getExKcal();
+                int exIntensity = exerList.get(i).getExIntensity();
+
+                if (exName.length() < 10) {
+                    for (int j = 0; j < 10 - exName.length(); j++) {
+                        exName += "ㅤ";
+                    }
+                }
+
+                System.out.printf(" %-3d %-10s %-5d %-3d \n", i + 1, exName, exKcal, exIntensity);
+            }
+
+            System.out.println("============================================");
+            System.out.print("p = 이전 페이지, n = 다음 페이지, b = 돌아가기 : ");
+            char ch = scan.next().charAt(0);
+
+            if (ch == 'P' || ch == 'p'){ // 음식 메뉴 이전 10개 출력
+                if (AdminController.exerCurrentPage == 1) { // 첫 번째 페이지일 때
+                    System.out.println(">> 이미 첫 번째 페이지입니다!");
+                    System.out.println();
+                }
+                else { // 현재 페이지 -1 하고 출력
+                    System.out.println();
+                    AdminController.exerCurrentPage--;
+                }
+            }
+            else if (ch == 'N' || ch == 'n'){ // 음식 메뉴 다음 10개
+                // 불러올 음식 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
+                if (AdminController.getInstance().exerListView(AdminController.exerCurrentPage+1).isEmpty()){
+                    System.out.println(">>마지막 페이지입니다!");
+                    System.out.println();
+                }
+                else { // 현재 페이지 +1 및 출력
+                    System.out.println();
+                    AdminController.exerCurrentPage++;
+                }
+            } else if (ch == 'B' || ch == 'b'){     // 관리자 초기 화면으로 돌아가기
+                System.out.println(">> 이전 메뉴로 돌아갑니다.");
+                break;
+            } else { // 메뉴 입력값이 이상하다
+                System.out.println(">> 입력이 잘못되었습니다.");
+                System.out.println();
+                scan = new Scanner(System.in); // 새 scanner 객체 부여
+            }
+        }   // while end
 
     }
 
@@ -295,7 +350,7 @@ public class AdminView {
         if (ch == 1) {          // 회원 목록 조회 함수 호출
             memberListView();
         } else if (ch == 2) {   // 회원 탈퇴 함수 호출
-            memberDelete();
+            memberWithdraw();
         } else if (ch == 3) {   // 뒤로가기 - 관리자 전용 초기화면으로 돌아가기
             return;
         } else {
@@ -305,15 +360,77 @@ public class AdminView {
 
     // 회원 기능1. 회원 목록 조회 함수
     public void memberListView() {
+        while (true) {
+            System.out.println("========== 회원 목록 " + AdminController.memberCurrentPage + " 페이지 ==========");
+            System.out.println("번호   아이디   비밀번호    이름    키    운동습관    성별    생년월일일   연락처  회원분류코드");
+            System.out.println("=======================================================================");
+            // DB에서 현재 페이지 번호에 해당되는 회원 목록 가져와 출력
+            ArrayList<MemberDto> memberList = AdminController.getInstance().memberListView(AdminController.memberCurrentPage);
+
+            for (int i = 0; i < memberList.size(); i++) {
+                String ID = memberList.get(i).getID();
+                String PW = memberList.get(i).getPW();
+                String memberName = memberList.get(i).getMemberName();
+                int height = memberList.get(i).getHeight();
+                int exHabit = memberList.get(i).getExHabit();
+                String gender = memberList.get(i).getGender();
+                String birthDate = memberList.get(i).getBirthDate();
+                String contact = memberList.get(i).getContact();
+                int accCategory = memberList.get(i).getAccCategory();
+
+                System.out.printf(" %-3d %s %s %s %d %d %s %s %s %d \n",
+                        i + 1, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory);
+            }
+
+            System.out.println("=======================================================================");
+            System.out.print("p = 이전 페이지, n = 다음 페이지, b = 돌아가기 : ");
+            char ch = scan.next().charAt(0);
+
+            if (ch == 'P' || ch == 'p'){ // 음식 메뉴 이전 10개 출력
+                if (AdminController.memberCurrentPage == 1) { // 첫 번째 페이지일 때
+                    System.out.println(">> 이미 첫 번째 페이지입니다!");
+                    System.out.println();
+                }
+                else { // 현재 페이지 -1 하고 출력
+                    System.out.println();
+                    AdminController.memberCurrentPage--;
+                }
+            }
+            else if (ch == 'N' || ch == 'n'){ // 음식 메뉴 다음 10개
+                // 불러올 음식 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
+                if (AdminController.getInstance().memberListView(AdminController.memberCurrentPage+1).isEmpty()){
+                    System.out.println(">>마지막 페이지입니다!");
+                    System.out.println();
+                }
+                else { // 현재 페이지 +1 및 출력
+                    System.out.println();
+                    AdminController.memberCurrentPage++;
+                }
+            } else if (ch == 'B' || ch == 'b'){     // 관리자 초기 화면으로 돌아가기
+                System.out.println(">> 이전 메뉴로 돌아갑니다.");
+                break;
+            } else { // 메뉴 입력값이 이상하다
+                System.out.println(">> 입력이 잘못되었습니다.");
+                System.out.println();
+                scan = new Scanner(System.in); // 새 scanner 객체 부여
+            }
+        }   // while end
 
     }
 
-    // 회원 기능2. 회원 탈퇴 함수 -> AdminController에 전달 : 삭제할 회원 이름 String / AdminController로부터 받을 반환값 : 회원 삭제 성공 여부 boolean
-    public void memberDelete() {
+    // 회원 기능2. 회원 탈퇴 함수 -> AdminController에 전달 : 탈퇴시킬 회원 이름 String / AdminController로부터 받을 반환값 : 회원 탈퇴 성공 여부 boolean
+    public void memberWithdraw() {
         // 탈퇴시킬 회원 이름 입력 받기
-        System.out.print(">> 탈퇴시킬 회원 이름 : ");
-        String memberName = scan.nextLine();
+        System.out.print(">> 탈퇴시킬 회원 아이디 : ");
+        String ID = scan.next();
 
+        boolean result = AdminController.getInstance().memberWithdraw(ID);
+
+        if (result) {
+            System.out.println(">> 회원 탈퇴 성공");
+        } else {
+            System.out.println(">> 회원 탈퇴 실패");
+        }
 
     }
 
