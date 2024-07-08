@@ -102,7 +102,13 @@ public class AdminView {
                 String foodName = foodList.get(i).getFoodName();
                 int foodKcal = foodList.get(i).getFoodKcal();
 
-                System.out.printf(" %-5d %-9s %3d \n", i + 1, foodName, foodKcal);
+                if (foodName.length() < 15) {
+                    for (int j = 0; j < 15 - foodName.length(); i++) {
+                        foodName += "ㅤ";
+                    }
+                }
+
+                System.out.printf(" %-5d %-15s %-5d \n", i + 1, foodName, foodKcal);
             }
 
             System.out.println("============================================");
