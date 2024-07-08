@@ -9,8 +9,7 @@ import controller.NormalMemberController;
 
 import static controller.MemberController.loginAccCode;
 import static controller.MemberController.loginMCode;
-import static controller.NormalMemberController.msgMemberListPage;
-import static controller.NormalMemberController.msgPtMemberListPage;
+import static controller.NormalMemberController.*;
 
 
 public class NormalMemberView {
@@ -26,12 +25,44 @@ public class NormalMemberView {
     // 일반 회원 메뉴
     // 현재 남은 칼로리 보여주기 & (하루기준)최근 먹은 음식, 최근 한 운동기록?
     // 1. 몸무게 관리 : 몸무게 측정 내역 띄우기 & 추가/수정/삭제
-    // 1. 식단 관리 : 먹은 음식 기록 메뉴 띄우기 & 추가/수정/삭제
-    // 2. 운동 관리 : 운동 기록 메뉴 띄우기 & 추가/수정/삭제
-    // 3. PT 강사에게 쪽지 : 최근 보낸 쪽지 목록 띄우기 & 보내기/수정/삭제
-    // 4. 본인 정보 수정 : 비밀번호 확인 후 변경할 정보 선택 & 새로운 정보 입력 (키, 운동습관, 연락처)
+    // 2. 식단 관리 : 먹은 음식 기록 메뉴 띄우기 & 추가/수정/삭제
+    // 3. 운동 관리 : 운동 기록 메뉴 띄우기 & 추가/수정/삭제
+    // 4. PT 강사에게 쪽지 : 최근 보낸 쪽지 목록 띄우기 & 보내기/수정/삭제
+    // 5. 본인 정보 수정 : 비밀번호 확인 후 변경할 정보 선택 & 새로운 정보 입력 (키, 운동습관, 연락처)
     int kcal=2400;
     public void index(){
+        // 현재 남은 칼로리, 오늘 먹은 음식 5개, 운동 기록 5개
+        // 받을 PT 강사회원/ 일반회원
+        System.out.println("====================== 회원 메뉴 ======================");
+        System.out.print("오늘의 남은 칼로리 : "); System.out.println();
+        System.out.println("번호          이름        번호           이름");
+        System.out.println("--------------------------------------------------------");
+
+        // 번호 1~5 회원명 | 번호 6~10 회원명
+        ArrayList<MemberDto> leftList = new ArrayList<>();
+        ArrayList<MemberDto> rightList = new ArrayList<>();
+        // 왼쪽 오른쪽 출력할 목록 구분
+//        for ( int i = 0; i < 10; i++){
+//            if (i < 5 && i < memList.size()) {
+//                leftList.add(memList.get(i));
+//            }
+//            else if (i >= 5 && i < memList.size()){
+//                rightList.add(memList.get(i));
+//            }
+//        }
+        // printf 한줄로 양쪽에서 한 객체씩 뽑아서 출력
+        for (int i = 0; i < 5; i++) {
+            if (i < rightList.size()) {
+                System.out.printf("%2d | %-15s | %2d | %-10s\n", i+1, leftList.get(i).getMemberName(), i+6, rightList.get(i).getMemberName());
+            }
+            else if (i < leftList.size()){
+                System.out.printf("%2d | %-15s |    |\n", i+1, leftList.get(i).getMemberName());
+            }
+            else {
+                System.out.println("   |                    |    |");
+            }
+        }
+        System.out.println("--------------------------------------------------------");
         while(true) {
             try {
                 System.out.println("1.음식칼로리계산 2.운동칼로리계산");
@@ -121,13 +152,13 @@ public class NormalMemberView {
         // 1~10 = 해당 쪽지 보기
         // p = 이전 10개, n = 다음 10개, s = 쪽지 보내기, b = 돌아가기
         // 3 = 강사회원 : 1 받은 쪽지 확인하기, 2 답장 보내기, 3 쪽지 보낸 회원의 키, 몸무게, 음식기록, 운동기록 확인하기, 4 쪽지 내역 보기
+        msgCurrentPage = 1; // 메뉴 진입시 현재 페이지 초기화
         while (true) {
-            //msgPrint(currentPage);
-            System.out.println("=================== 쪽지 메뉴 "+ NormalMemberController.msgCurrentPage + " 페이지 ===================");
+            System.out.println("=================== 쪽지 메뉴 "+ msgCurrentPage + " 페이지 ===================");
             System.out.println("번호         제목          보낸 날짜   답장 날짜");
             System.out.println("--------------------------------------------------------");
             //DB에서 현재 페이지 번호에 해당되는 쪽지 목록 가져와 출력
-            ArrayList<MessageDto> msgList = NormalMemberController.getInstance().msgView(NormalMemberController.msgCurrentPage);
+            ArrayList<MessageDto> msgList = NormalMemberController.getInstance().msgView(msgCurrentPage);
             //쪽지 출력 for문
             for (int i = 0; i < msgList.size(); i++){
                 String title = msgList.get(i).getMsgTitle();
@@ -161,30 +192,30 @@ public class NormalMemberView {
                 }
             }
             else if (ch == 'P' || ch == 'p'){ // 쪽지 내역 이전 10개 출력
-                if (NormalMemberController.msgCurrentPage == 1) { // 첫번째 페이지일 때
+                if (msgCurrentPage == 1) { // 첫번째 페이지일 때
                     System.out.println(">>이미 첫 번째 페이지입니다!");
                     System.out.println();
                 }
                 else { // 현재 페이지 -1 하고 출력
                     System.out.println();
-                    NormalMemberController.msgCurrentPage--;
+                    msgCurrentPage--;
                 }
             }
             else if (ch == 'N' || ch == 'n'){ // 쪽지 내역 다음 10개
                 // 불러올 쪽지 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
-                if (NormalMemberController.getInstance().msgView(NormalMemberController.msgCurrentPage+1).isEmpty()){
+                if (NormalMemberController.getInstance().msgView(msgCurrentPage+1).isEmpty()){
                     System.out.println(">>마지막 페이지입니다!");
                     System.out.println();
                 }
                 else { // 현재 페이지 +1 및 출력
                     System.out.println();
-                    NormalMemberController.msgCurrentPage++;
+                    msgCurrentPage++;
                 }
             }
             else if (ch == 'S' || ch == 's'){ // 쪽지 보내기
-                msgSendMessage();// 쪽지 보내기 함수, 기본 페이지번호 1
+                msgSendMessage();
             }
-            else if (ch == 'B' || ch == 'b'){ // 메뉴 돌아가기(NormalMemberView)
+            else if (ch == 'B' || ch == 'b'){ // 메뉴 돌아가기 -> index()
                 System.out.println(">>이전 메뉴로 돌아갑니다.");
                 break;
             }
