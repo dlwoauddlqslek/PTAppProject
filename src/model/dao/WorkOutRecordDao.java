@@ -1,9 +1,13 @@
 package model.dao;
 
+import model.dto.AteFoodRecordDto;
+import model.dto.WorkOutRecordDto;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class WorkOutRecordDao {
     private static WorkOutRecordDao workOutRecordDao=new WorkOutRecordDao();
@@ -72,7 +76,6 @@ public class WorkOutRecordDao {
             rs=ps.executeQuery();
             if(rs.next()){
                 int exCode=rs.getInt("exCode");
-
                 String sql2="insert into workoutrecord(exCode,memberCode) values(?,?);";
                 ps=conn.prepareStatement(sql2);
                 ps.setInt(1,exCode);
@@ -82,8 +85,26 @@ public class WorkOutRecordDao {
                     return true;
                 }
             }
-
         }catch (Exception e){System.out.println(e);}
         return false;
+    }
+
+    public ArrayList<WorkOutRecordDto> getDailyWorkoutList(int loginMCode, String date){
+        ArrayList<WorkOutRecordDto> workoutList = new ArrayList<>();
+        try{
+            String sql="select * from workoutrecord inner join exercise on workoutrecord.exCode = exercise.exCode where memberCode = ? and workOutTime > ? and workOutTime < (select DATE_ADD(?, interval 1 day));";
+            ps=conn.prepareStatement(sql);
+            ps.setInt(1, loginMCode); ps.setString(2, date); ps.setString(3, date);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                WorkOutRecordDto workoutDto = new WorkOutRecordDto();
+                workoutDto.setExName(rs.getString("exName"));
+                workoutDto.setExCode(rs.getInt("exCode"));
+                workoutDto.setWorkOutTime(rs.getString("workOutTime"));
+                workoutDto.setExKcal(rs.getInt("exKcal"));
+                workoutList.add(workoutDto);
+            }
+        } catch (Exception e){System.out.println(e);}
+        return workoutList;
     }
 }

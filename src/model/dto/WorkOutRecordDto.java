@@ -5,6 +5,8 @@ public class WorkOutRecordDto {
     private int exCode;
     private String workOutTime;
     private int memberCode;
+    private String exName;
+    private int exKcal;
 
     public WorkOutRecordDto(){}
 
@@ -13,6 +15,22 @@ public class WorkOutRecordDto {
         this.exCode = exCode;
         this.workOutTime = workOutTime;
         this.memberCode = memberCode;
+    }
+
+    public int getExKcal() {
+        return exKcal;
+    }
+
+    public void setExKcal(int exKcal) {
+        this.exKcal = exKcal;
+    }
+
+    public String getExName() {
+        return exName;
+    }
+
+    public void setExName(String exName) {
+        this.exName = exName;
     }
 
     public int getWorkOutCode() {

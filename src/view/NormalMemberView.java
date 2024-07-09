@@ -11,8 +11,7 @@ import controller.NormalMemberController;
 
 import static controller.MemberController.loginAccCode;
 import static controller.MemberController.loginMCode;
-import static controller.NormalMemberController.msgMemberListPage;
-import static controller.NormalMemberController.msgPtMemberListPage;
+import static controller.NormalMemberController.*;
 
 
 public class NormalMemberView {
@@ -35,13 +34,15 @@ public class NormalMemberView {
     // + 5. 로그아웃 번호 : 현재 로그인된 회원 로그아웃하기
     int kcal=2400;
     public void index(){
+        // 메뉴 처음 진입시 페이지 초기화
+        msgCurrentPage = 1;
 
         while(true) {
             // 현재 회원 MemberDto 가져오기
-            double dailyKcal = 0;
+            double dailyKcal = NormalMemberController.getInstance().calcDailyKcal();
             ArrayList<MemberDto> memList = null;
             MemberDto currentDto = NormalMemberController.getInstance().getCurrentDto();
-            System.out.println("====================== 안녕하세요, {회원이름}님 ======================");
+            System.out.println("====================== 안녕하세요, " + currentDto.getMemberName() +"님 ======================");
             System.out.println(" 오늘의 남은 칼로리 : " + dailyKcal + " Kcal");
             System.out.println("오늘 먹은 음식                오늘 한 운동");
             System.out.println("번호          이름        번호           이름");
