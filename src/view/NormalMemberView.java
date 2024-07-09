@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import controller.MemberController;
+import model.dto.ExerciseDto;
 import model.dto.MessageDto;
 import model.dto.MemberDto;
 import controller.NormalMemberController;
@@ -103,7 +104,6 @@ public class NormalMemberView {
         }
 
     private void weightRecord() { // 몸무게 등록 메뉴
-
     }
 
     // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
@@ -124,6 +124,47 @@ public class NormalMemberView {
         }
         else{System.out.println("다시 입력해주세요");}
     }
+
+    public void exCal2(){
+        System.out.println("============================운동선택메뉴=========================");
+        System.out.println("1.초급운동(Level)      2.중급운동(Level)      3.고급운동(Level)");
+        int choNum = scan.nextInt();
+        if (choNum == 1 ) {
+            ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
+            System.out.println("===강도===============운동내용===============칼로리===========");
+            result.forEach(dto -> {
+                System.out.println(dto.getExIntensity() + "     " + dto.getExName() + "    " + dto.getExKcal());
+            });
+            int ch = scan.nextInt();
+            System.out.println(result);
+            result.get(ch-1).getExKcal();
+            System.out.println(result.get(ch-1).getExKcal());
+        }
+        else if (choNum == 2){
+            ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
+            System.out.println("===강도===============운동내용===============칼로리===========");
+            result.forEach(dto -> {
+                System.out.println(dto.getExIntensity() + "     " + dto.getExName() + "    " + dto.getExKcal());
+            });
+            int ch = scan.nextInt();
+            System.out.println(result);
+            result.get(ch-1).getExKcal();
+            System.out.println(result.get(ch-1).getExKcal());
+        }
+        else if (choNum == 3){
+            ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
+            System.out.println("===강도===============운동내용===============칼로리===========");
+            result.forEach(dto -> {
+                System.out.println(dto.getExIntensity() + "     " + dto.getExName() + "    " + dto.getExKcal());
+            });
+            int ch = scan.nextInt();
+            System.out.println(result);
+            int selKcal = result.get(ch-1).getExCode();
+            System.out.println(selKcal);
+        }
+
+    }// 운동 고르기 함수 종료
+
 
     public void exCal(){
         scan.nextLine();

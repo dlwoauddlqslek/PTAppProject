@@ -1,15 +1,12 @@
 package controller;
 
-import model.dao.MemberDao;
-import model.dao.MessageDao;
-import model.dao.WorkOutRecordDao;
+import model.dao.*;
 import model.dto.AteFoodRecordDto;
+import model.dto.ExerciseDto;
 import model.dto.MemberDto;
 import model.dto.MessageDto;
 
 import java.util.ArrayList;
-
-import model.dao.AteFoodRecordDao;
 
 import static controller.MemberController.loginMCode;
 import static controller.MemberController.loginNo;
@@ -40,6 +37,18 @@ public class NormalMemberController {
     public int exHabit;
     // 로그인시 회원 정보 불러오기
 
+
+
+    //===========================================운동선택 함수
+    public ArrayList<ExerciseDto> exView( int choNum ){
+        return ExerciseDao.getInstance().exView( choNum );
+    }
+
+
+
+
+
+
     // 칼로리 계산
     public double calcDailyKcal(){
         double baseKCal = 0;
@@ -60,14 +69,14 @@ public class NormalMemberController {
                 break;
         }
         // 오늘 기준 먹은 음식량 (+)
-        ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodRecord();
+        //ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodRecord();
         // 오늘 기준 운동량 (-)
         return baseKCal;
     }
 
-    private ArrayList<AteFoodRecordDto> getDailyFoodRecord() {
-        return AteFoodRecordDao.getInstance().getDailyFoodRecord();
-    }
+//    private ArrayList<AteFoodRecordDto> getDailyFoodRecord() {
+//        return AteFoodRecordDao.getInstance().getDailyFoodRecord();
+//    }
 
     //
     public int foodKcalTotal(){

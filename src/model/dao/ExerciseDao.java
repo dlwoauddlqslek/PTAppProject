@@ -2,6 +2,7 @@ package model.dao;
 
 import model.dto.ExerciseDto;
 import model.dto.FoodDto;
+import model.dto.MessageDto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,6 +33,34 @@ public class ExerciseDao {
     Connection conn;
     PreparedStatement ps;
     ResultSet rs;
+
+
+    //==============================================운동 선택 함수
+    public ArrayList<ExerciseDto> exView( int choNum ){
+        ArrayList<ExerciseDto> exList = new ArrayList<>();
+        // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x-1
+        // limit 0, 10 -> 11, 20 ...
+        try {
+            String sql = "select * from exercise where exIntensity = ? ";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, choNum);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                ExerciseDto exDto = new ExerciseDto();
+                exDto.setExCode(rs.getInt(1));
+                exDto.setExName(rs.getString(2));
+                exDto.setExKcal(rs.getInt(3));
+                exDto.setExIntensity(rs.getInt(4));
+                exList.add(exDto);
+            }
+            return exList;
+        } catch (Exception e){
+            System.out.println(">>쪽지 출력 DAO 오류 : " +e);
+        }
+        return exList;
+    }
+
+
 
 
     // 운동 기능1. 운동 추가 함수
