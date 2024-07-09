@@ -34,10 +34,57 @@ public class NormalMemberView {
     // + 5. 로그아웃 번호 : 현재 로그인된 회원 로그아웃하기
     int kcal=2400;
     public void index(){
+
         while(true) {
+            // 현재 회원 MemberDto 가져오기
+            double dailyKcal = 0;
+            ArrayList<MemberDto> memList = null;
+            MemberDto currentDto = NormalMemberController.getInstance().getCurrentDto();
+            System.out.println("====================== 안녕하세요, {회원이름}님 ======================");
+            System.out.println(" 오늘의 남은 칼로리 : " + dailyKcal + " Kcal");
+            System.out.println("오늘 먹은 음식                오늘 한 운동");
+            System.out.println("번호          이름        번호           이름");
+            System.out.println("--------------------------------------------------------");
+            // 날짜 기준 최근 운동 5개, 먹은 음식 5개
+            // 번호 1~5 회원명 | 번호 6~10 회원명
+            ArrayList<MemberDto> leftList = new ArrayList<>();
+            ArrayList<MemberDto> rightList = new ArrayList<>();
+            // 왼쪽 오른쪽 출력할 목록 구분
+            for ( int i = 0; i < 10; i++){
+                if (i < 5 && i < memList.size()) {
+                    leftList.add(memList.get(i));
+                }
+                else if (i >= 5 && i < memList.size()){
+                    rightList.add(memList.get(i));
+                }
+            }
+            // printf 한줄로 양쪽에서 한 객체씩 뽑아서 출력
+            for (int i = 0; i < 5; i++) {
+                if (i < rightList.size()) {
+                    System.out.printf("%2d | %-15s | %2d | %-10s\n", i+1, leftList.get(i).getMemberName(), i+6, rightList.get(i).getMemberName());
+                }
+                else if (i < leftList.size()){
+                    System.out.printf("%2d | %-15s |    |\n", i+1, leftList.get(i).getMemberName());
+                }
+                else {
+                    System.out.println("   |                    |    |");
+                }
+            }
+            System.out.println(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃");
+
             try {
                 System.out.println("1.음식칼로리계산 2.운동칼로리계산");
                 int ch = scan.nextInt();
+                switch (ch){
+                    case 1 :
+                        weightRecord();
+                        break;
+                    case 2 :
+                        foodCal();
+                        break;
+                    case 3 :
+
+                }
                 if (ch == 1) {foodCal();}
                 else if(ch==2){exCal();}
                 else if(ch==4){mUpdate();}
@@ -54,7 +101,12 @@ public class NormalMemberView {
             }
         }
         }
-        // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
+
+    private void weightRecord() { // 몸무게 등록 메뉴
+
+    }
+
+    // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
     public  void foodCal(){
         scan.nextLine();
         System.out.print("먹은 음식을 입력해주세요: ");
@@ -213,7 +265,7 @@ public class NormalMemberView {
             else if (ch == 'S' || ch == 's'){ // 쪽지 보내기
                 msgSendMessage();// 쪽지 보내기 함수, 기본 페이지번호 1
             }
-            else if (ch == 'B' || ch == 'b'){ // 메뉴 돌아가기(NormalMemberView)
+            else if (ch == 'B' || ch == 'b'){ // 메뉴 돌아가기 index()
                 System.out.println(">>이전 메뉴로 돌아갑니다.");
                 break;
             }

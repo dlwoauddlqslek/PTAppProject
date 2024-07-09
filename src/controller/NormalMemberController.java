@@ -3,6 +3,7 @@ package controller;
 import model.dao.MemberDao;
 import model.dao.MessageDao;
 import model.dao.WorkOutRecordDao;
+import model.dto.AteFoodRecordDto;
 import model.dto.MemberDto;
 import model.dto.MessageDto;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import model.dao.AteFoodRecordDao;
 
 import static controller.MemberController.loginMCode;
+import static controller.MemberController.loginNo;
 
 public class NormalMemberController {
     //싱글톤 패턴
@@ -39,12 +41,11 @@ public class NormalMemberController {
     // 로그인시 회원 정보 불러오기
 
     // 칼로리 계산
-    public double baseKcal = getBaseKcalKCal();
-    public double getBaseKcalKCal(){
+    public double calcDailyKcal(){
         double baseKCal = 0;
-        if (gender.equals('M')){
+        if (gender.equals("M")){
             baseKCal = 10*weight + 6.25*height - 5*age + 5;
-        } else if (gender.equals('F')){
+        } else if (gender.equals("F")){
             baseKCal = 10*weight + 6.25*height - 5*age - 161;
         }
         switch (exHabit){
@@ -58,18 +59,15 @@ public class NormalMemberController {
                 baseKCal *= 1.7;
                 break;
         }
+        // 오늘 기준 먹은 음식량 (+)
+        ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodRecord();
+        // 오늘 기준 운동량 (-)
         return baseKCal;
     }
-    public double dailyKcal = baseKcal + dailyKcalCalc();
 
-    public double dailyKcalCalc(){
-        // 오늘 기준 먹은 음식량 (+)
-
-        // 오늘 기준 운동량 (-)
-        return 0;
+    private ArrayList<AteFoodRecordDto> getDailyFoodRecord() {
+        return AteFoodRecordDao.getInstance().getDailyFoodRecord();
     }
-
-
 
     //
     public int foodKcalTotal(){
@@ -147,5 +145,9 @@ public class NormalMemberController {
 
     public ArrayList<MemberDto> msgShowMemberList(int msgMemberListPage) {
         return MemberDao.getInstance().msgShowMemberList(msgMemberListPage);
+    }
+
+    public MemberDto getCurrentDto() { // 회원 메뉴) 회원 메뉴에 띄울 정보를 가진 DTO 가져오기
+        return MemberDao.getInstance().getCurrentDto(loginNo);
     }
 }

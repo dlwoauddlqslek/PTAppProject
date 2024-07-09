@@ -76,7 +76,7 @@ create table message (					# 쪽지
 	msgView	mediumint,						# 쪽지조회수
 	msgDate datetime default now(),			# 쪽지전송시간
     replyContent text,						# 답장내용
-    replyDate datetime default now(),		# 답장시간
+    replyDate datetime,		                # 답장시간
     primary key (messageCode),
     foreign key (sentMCode) references member(memberCode) on delete set null,
     foreign key (receivedMCode) references member(memberCode) on delete set null
