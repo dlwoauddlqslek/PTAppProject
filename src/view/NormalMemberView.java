@@ -35,12 +35,16 @@ public class NormalMemberView {
     public void index(){
 
         while(true) {
-
-            System.out.println("====================== 쪽지 보내기 ======================");
-            System.out.println("                       페이지 "+msgListPage);
+            // 현재 회원 MemberDto 가져오기
+            double dailyKcal = 0;
+            ArrayList<MemberDto> memList = null;
+            MemberDto currentDto = NormalMemberController.getInstance().getCurrentDto();
+            System.out.println("====================== 안녕하세요, {회원이름}님 ======================");
+            System.out.println(" 오늘의 남은 칼로리 : " + dailyKcal + " Kcal");
+            System.out.println("오늘 먹은 음식                오늘 한 운동");
             System.out.println("번호          이름        번호           이름");
             System.out.println("--------------------------------------------------------");
-
+            // 날짜 기준 최근 운동 5개, 먹은 음식 5개
             // 번호 1~5 회원명 | 번호 6~10 회원명
             ArrayList<MemberDto> leftList = new ArrayList<>();
             ArrayList<MemberDto> rightList = new ArrayList<>();
@@ -65,9 +69,21 @@ public class NormalMemberView {
                     System.out.println("   |                    |    |");
                 }
             }
+            System.out.println(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃");
+
             try {
                 System.out.println("1.음식칼로리계산 2.운동칼로리계산");
                 int ch = scan.nextInt();
+                switch (ch){
+                    case 1 :
+                        weightRecord();
+                        break;
+                    case 2 :
+                        foodCal();
+                        break;
+                    case 3 :
+
+                }
                 if (ch == 1) {foodCal();}
                 else if(ch==2){exCal();}
                 else {
@@ -82,7 +98,12 @@ public class NormalMemberView {
             }
         }
         }
-        // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
+
+    private void weightRecord() { // 몸무게 등록 메뉴
+
+    }
+
+    // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
     public  void foodCal(){
         scan.nextLine();
         System.out.print("먹은 음식을 입력해주세요: ");

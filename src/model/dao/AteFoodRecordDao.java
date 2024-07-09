@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class AteFoodRecordDao {
     private static AteFoodRecordDao ateFoodRecordDao=new AteFoodRecordDao();
@@ -89,7 +90,10 @@ public class AteFoodRecordDao {
         }catch (Exception e){System.out.println(e);}
         return false;
     }
-
+    // 오늘 먹은 음식 기록 불러오기
+    public ArrayList<AteFoodRecordDto> getDailyFoodRecord() {
+        return null;
+    }
 }
 
 
