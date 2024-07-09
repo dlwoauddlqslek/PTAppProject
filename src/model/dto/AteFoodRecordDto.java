@@ -5,6 +5,7 @@ public class AteFoodRecordDto {
     private int foodCode;
     private String ateTime;
     private int memberCode;
+    private String foodName;
 
     private int foodkcal;
 
@@ -23,6 +24,14 @@ public class AteFoodRecordDto {
         this.foodCode = foodCode;
         this.ateTime = ateTime;
         this.memberCode = memberCode;
+    }
+
+    public String getFoodName() {
+        return foodName;
+    }
+
+    public void setFoodName(String foodName) {
+        this.foodName = foodName;
     }
 
     public int getAteFoodCode() {
