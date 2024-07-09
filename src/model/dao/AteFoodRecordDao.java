@@ -74,7 +74,8 @@ public class AteFoodRecordDao {
 
                 if (ateDate.compareTo(now)==0) {
 
-                    String sql2 = "select foodKcal from food where foodCode = ? ";
+
+                    String sql2 = "select foodKcal from food where foodCode = ?; ";
                     ps = conn.prepareStatement(sql2);
                     ps.setInt(1, foodCode);
                     ResultSet rs2 = ps.executeQuery();

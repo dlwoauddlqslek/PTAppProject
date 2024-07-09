@@ -60,14 +60,14 @@ public class NormalMemberController {
                 break;
         }
         // 오늘 기준 먹은 음식량 (+)
-        ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodRecord();
+        //ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodRecord();
         // 오늘 기준 운동량 (-)
         return baseKCal;
     }
 
-    private ArrayList<AteFoodRecordDto> getDailyFoodRecord() {
-        return AteFoodRecordDao.getInstance().getDailyFoodRecord();
-    }
+//    private ArrayList<AteFoodRecordDto> getDailyFoodRecord() {
+//        //return AteFoodRecordDao.getInstance().getDailyFoodRecord();
+//    }
 
     //
     public int foodKcalTotal(){
