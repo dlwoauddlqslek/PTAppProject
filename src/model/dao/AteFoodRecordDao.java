@@ -60,7 +60,7 @@ public class AteFoodRecordDao {
                 String ateTime = rs.getString( "ateTime" ); System.out.println( ateTime );
 
 
-                System.out.println(  );
+
 
                 LocalDate now = LocalDate.now();
                 LocalDate ateDate = LocalDate.of(
