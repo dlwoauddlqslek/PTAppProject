@@ -4,6 +4,8 @@ package view;
 import controller.MemberController;
 import controller.PtMemberController;
 import static controller.PtMemberController.msgCurrentPage;
+
+import model.dto.MemberDto;
 import model.dto.MessageDto;
 
 import java.util.ArrayList;
@@ -80,8 +82,23 @@ public class PtMemberView {
                 }
             } else if (ch == 'S' || ch == 's') { // 답장 보내기
                 ptWriteReply();
-            } else if (ch == 'O' || ch == 'o'){
-                //MemberController.getInstance().logout();
+            }
+            else if (ch == 'E' || ch == 'e'){ //회원 수정 함수
+                System.out.println("변경할 키 : "); int height = scan.nextInt();
+                System.out.println("변경할 운동습관(1 ~ 3) : "); int habit = scan.nextInt();
+                System.out.println("변경할 연락처 : "); String mphone = scan.next();
+                MemberDto memberDto = new MemberDto();
+                memberDto.setHeight(height);
+                memberDto.setExHabit(habit);
+                memberDto.setContact(mphone);
+                boolean result = PtMemberController.getInstance().mUpdate(memberDto);
+                System.out.println(result);
+                if (result){System.out.println("수정성공"); }
+                else {System.out.println("수정실패. 다시입력해주세요");}
+            }
+            else if (ch == 'O' || ch == 'o'){ // 회원 로그아웃 함수
+                PtMemberController.getInstance().logOut();
+                System.out.println("로그아웃 성공");
             }
             else { // 메뉴 입력값이 이상하다
                 System.out.println(">>입력이 잘못되었습니다.");

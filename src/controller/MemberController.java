@@ -35,9 +35,10 @@ public class MemberController {
         NormalMemberController.getInstance().height = memberDto1.getHeight();
         NormalMemberController.getInstance().birthDate = memberDto1.getBirthDate();
         NormalMemberController.getInstance().exHabit = memberDto1.getExHabit();
-
         return true;
     }
+
+
 
     // 아이디 찾기 함수
     public String findId(MemberDto memberDto){
