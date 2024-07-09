@@ -1,10 +1,8 @@
-import view.MemberView;
 import view.NormalMemberView;
 
 public class AppStart {
     public static void main(String[] args) {
 
-        NormalMemberView.getInstance().msgView();
-
+        NormalMemberView.getInstance().index();
     }
 }

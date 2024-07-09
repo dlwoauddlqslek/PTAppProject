@@ -130,3 +130,7 @@ INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent
 INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('3', '4', '3', '안녕하세요', '내용3', '1', '2024-07-02 08:45:42', '답장3', '2024-07-02 17:20:11');
 INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('4', '4', '5', '안녕하세요', '내용4', '1', '2024-07-02 17:50:11', '답장4', '2024-07-02 17:50:21');
 INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('5', '4', '5', '안녕하세요', '내용5', '0', '2024-07-02 08:40:12', null, null);
+
+select foodCode from member inner join atefoodrecord on member.memberCode = atefoodrecord.memberCode where member.memberCode = '1';
+select * from atefoodrecord where membercode=2;
+select * from workoutrecord where membercode=2;
