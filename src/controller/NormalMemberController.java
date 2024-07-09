@@ -75,9 +75,14 @@ public class NormalMemberController {
     //
     public int foodKcalTotal(){
         //2. 로그인된회원번호 (샘플 )
-        int loginMno=2;
+        int loginMCode=2;
+        int total=0;
+        ArrayList<AteFoodRecordDto> ateFoodList= getDailyFoodList(0);
         // 3. 로그인한 회원이 먹은 음식코드의 칼로리 합계
-        return AteFoodRecordDao.getInstance().kcalTotal( loginMno );
+        for (int i=0; i<ateFoodList.size(); i++){
+            total+=ateFoodList.get(i).getFoodkcal();
+        }
+        return total;
     }
 
     public boolean foodCheck(String foodName){
