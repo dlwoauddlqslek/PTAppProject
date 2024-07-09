@@ -7,6 +7,7 @@ import model.dto.AteFoodRecordDto;
 import model.dto.MemberDto;
 import model.dto.MessageDto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import model.dao.AteFoodRecordDao;
@@ -60,14 +61,16 @@ public class NormalMemberController {
                 break;
         }
         // 오늘 기준 먹은 음식량 (+)
-        //ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodRecord();
+        ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodList(0);
         // 오늘 기준 운동량 (-)
         return baseKCal;
     }
 
-//    private ArrayList<AteFoodRecordDto> getDailyFoodRecord() {
-//        //return AteFoodRecordDao.getInstance().getDailyFoodRecord();
-//    }
+    //오늘 + 날짜 매개변수로 ArrayList 반환
+    private ArrayList<AteFoodRecordDto> getDailyFoodList(int dayModifier) {
+        String today = LocalDate.now().plusDays(dayModifier).toString();
+        return AteFoodRecordDao.getInstance().getDailyFoodRecord(loginMCode, today);
+    }
 
     //
     public int foodKcalTotal(){
@@ -148,6 +151,6 @@ public class NormalMemberController {
     }
 
     public MemberDto getCurrentDto() { // 회원 메뉴) 회원 메뉴에 띄울 정보를 가진 DTO 가져오기
-        return MemberDao.getInstance().getCurrentDto(loginNo);
+        return MemberDao.getInstance().getCurrentDto(loginMCode);
     }
 }
