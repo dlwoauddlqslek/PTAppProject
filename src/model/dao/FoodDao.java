@@ -59,7 +59,7 @@ public class FoodDao {
         }
         return false;
 
-    }
+    }   // foodAdd 함수 end
 
 
     // 음식 기능2. 음식 조회 함수
@@ -68,11 +68,11 @@ public class FoodDao {
 
         // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x
         // limit 0, 10 -> 10, 10
-        try {
-            String sql = "select * from food limit ?, 10;";
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, (foodCurrentPage - 1) * 10);
-            rs = ps.executeQuery();
+        try {   // 0. 예외 처리
+            String sql = "select * from food limit ?, 10;";             // 1. SQL 작성
+            ps = conn.prepareStatement(sql);                            // 2. sql 기재
+            ps.setInt(1, (foodCurrentPage - 1) * 10);    // 3. 기재된 sql의 매개변수 값 대입
+            rs = ps.executeQuery();                                     // 4. 기재된 sql 실행 하고 결과 반환
 
             while (rs.next()) {
                 FoodDto foodDto = new FoodDto();
@@ -87,21 +87,21 @@ public class FoodDao {
         }
         return foodList;
 
-    }
+    }   // foodListView 함수 end
 
 
     // 음식 기능3. 음식 수정 함수
     public boolean foodUpdate(String oldFoodName, FoodDto foodDto) {
         boolean result = foodCheck(oldFoodName);     // 수정할 음식이 DB에 존재하는지 확인
 
-        if (!result) {
-            try {
-                String sql ="update food set foodName = ?, foodKcal = ? where foodName = ?;";
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, foodDto.getFoodName());
+        if (!result) {      // 존재하면 false를 반환받기 때문에 result 앞에 !를 써줌
+            try {   // 0. 예외 처리
+                String sql ="update food set foodName = ?, foodKcal = ? where foodName = ?;";   // 1. SQL 작성
+                ps = conn.prepareStatement(sql);                        // 2. sql 기재
+                ps.setString(1, foodDto.getFoodName());    // 3. 기재된 sql의 매개변수 값 대입
                 ps.setInt(2, foodDto.getFoodKcal());
                 ps.setString(3, oldFoodName);
-                int count = ps.executeUpdate();
+                int count = ps.executeUpdate();                         // 4. sql 실행 후 결과받기
 
                 if (count == 1) {
                     return true;
@@ -114,14 +114,14 @@ public class FoodDao {
         }
         return false;
 
-    }
+    }   // foodUpdate 함수 end
 
 
     // 음식 기능4. 음식 삭제 함수
     public boolean foodDelete(String foodName) {
         boolean result = foodCheck(foodName);     // 삭제할 음식이 DB에 존재하는지 확인
 
-        if (!result) {
+        if (!result) {      // 존재하면 false를 반환받기 때문에 result 앞에 !를 써줌
             try {   // 0. 예외 처리
                 String sql = "delete from food where foodName = ?;";    // 1. SQL 작성
                 ps = conn.prepareStatement(sql);             // 2. sql 기재
@@ -140,16 +140,16 @@ public class FoodDao {
         }
         return false;
 
-    }
+    }   // foodDelete 함수 end
 
     // 음식 기능5. 음식 DB 존재 여부 확인 함수
     public boolean foodCheck(String foodName) {
-        try {   // 0. 예외 처리
+        try {       // 0. 예외 처리
             String sql = "SELECT * FROM food where foodName = ?;";  // 1. SQL 작성
-            ps = conn.prepareStatement(sql);    // 2. sql 기재
+            ps = conn.prepareStatement(sql);             // 2. sql 기재
             ps.setString(1, foodName);      // 3. 기재된 sql의 매개변수 값 대입
 
-            rs = ps.executeQuery();
+            rs = ps.executeQuery();         // 4. 기재된 sql 실행 하고 결과 반환
 
             int count = 0;
             while (rs.next()) {
@@ -165,6 +165,6 @@ public class FoodDao {
         }
         return true;
 
-    }
+    }   // foodCheck 함수 end
 
-}
+}   // class end

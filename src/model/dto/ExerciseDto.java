@@ -23,6 +23,7 @@ public class ExerciseDto {
     }
 
     // 3. 메소드
+        // 1. getter and setter
     public int getExCode() {
         return exCode;
     }
@@ -55,6 +56,7 @@ public class ExerciseDto {
         this.exIntensity = exIntensity;
     }
 
+        // 2. toString()
     @Override
     public String toString() {
         return "ExerciseDto{" +

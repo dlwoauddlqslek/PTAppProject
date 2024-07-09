@@ -188,4 +188,20 @@ public class NormalMemberController {
     }
 
 
+
+
+
+    // 몸무게 기록 메뉴 현재 페이지 번호
+    public static int weightRecordCurrentPage = 1;
+
+    // 몸무게 기록 출력
+    public ArrayList<WeightRecordDto> weightRecordPrint(int weightRecordCurrentPage) {
+        return WeightRecordDao.getInstance().weightRecordPrint(weightRecordCurrentPage, loginMCode);
+    }   // weightRecord 함수 end
+
+    // 몸무게 기록하는 함수
+    public boolean weightRecordAdd(int weight) {
+        return WeightRecordDao.getInstance().weightRecordAdd(weight, loginMCode);
+    }   // weightRecordAdd 함수 end
+
 }

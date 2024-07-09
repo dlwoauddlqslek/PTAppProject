@@ -40,11 +40,11 @@ public class ExerciseDao {
         ArrayList<ExerciseDto> exList = new ArrayList<>();
         // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x-1
         // limit 0, 10 -> 11, 20 ...
-        try {
-            String sql = "select * from exercise where exIntensity = ? ";
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, choNum);
-            rs = ps.executeQuery();
+        try {       // 0. 예외 처리
+            String sql = "select * from exercise where exIntensity = ? ";       // 1. SQL 작성
+            ps = conn.prepareStatement(sql);            // 2. sql 기재
+            ps.setInt(1, choNum);          // 3. 기재된 sql의 매개변수 값 대입
+            rs = ps.executeQuery();                     // 4. 기재된 sql 실행 하고 결과 반환
             while (rs.next()){
                 ExerciseDto exDto = new ExerciseDto();
                 exDto.setExCode(rs.getInt(1));
@@ -62,6 +62,7 @@ public class ExerciseDao {
 
 
 
+    // =============================== 관리자 운동 관리 부분 =============================== //
 
     // 운동 기능1. 운동 추가 함수
     public boolean exerAdd(ExerciseDto exerDto) {
@@ -71,7 +72,7 @@ public class ExerciseDao {
         if (result) {
             try {   // 0. 예외 처리
                 String sql = "INSERT INTO exercise (exName, exKcal, exIntensity) VALUES (?, ?, ?);";  // 1. SQL 작성
-                ps = conn.prepareStatement(sql);    // 2. sql 기재
+                ps = conn.prepareStatement(sql);                        // 2. sql 기재
                 ps.setString(1, exerDto.getExName());      // 3. 기재된 sql의 매개변수 값 대입
                 ps.setInt(2, exerDto.getExKcal());
                 ps.setInt(3, exerDto.getExIntensity());
@@ -89,7 +90,7 @@ public class ExerciseDao {
         }
         return false;
 
-    }
+    }   // exerAdd 함수 end
 
     // 운동 기능2. 운동 목록 조회 함수
     public ArrayList<ExerciseDto> exerListView(int exerCurrentPage) {
@@ -97,11 +98,11 @@ public class ExerciseDao {
 
         // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x
         // limit 0, 10 -> 10, 10
-        try {
-            String sql = "select * from exercise limit ?, 10;";
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, (exerCurrentPage - 1) * 10);
-            rs = ps.executeQuery();
+        try {       // 0. 예외 처리
+            String sql = "select * from exercise limit ?, 10;";         // 1. SQL 작성
+            ps = conn.prepareStatement(sql);                            // 2. sql 기재
+            ps.setInt(1, (exerCurrentPage - 1) * 10);    // 3. 기재된 sql의 매개변수 값 대입
+            rs = ps.executeQuery();                                     // 4. 기재된 sql 실행 하고 결과 반환
 
             while (rs.next()) {
                 ExerciseDto exerDto = new ExerciseDto();
@@ -117,18 +118,17 @@ public class ExerciseDao {
         }
         return exerList;
 
-    }
+    }   // exerListView 함수 end
 
     // 운동 기능3. 운동 수정 함수
     public boolean exerUpdate(String oldExName, ExerciseDto exerDto) {
         boolean result = exerciseCheck(oldExName);
 
         if (!result) {
-            try {
-                String sql = "update exercise set exName = ?, exKcal = ?, exIntensity = ? where exName = ?;";
-                ps = conn.prepareStatement(sql);
-
-                ps.setString(1, exerDto.getExName());
+            try {       // 0. 예외 처리
+                String sql = "update exercise set exName = ?, exKcal = ?, exIntensity = ? where exName = ?;";   // 1. SQL 작성
+                ps = conn.prepareStatement(sql);                        // 2. sql 기재
+                ps.setString(1, exerDto.getExName());       // 3. 기재된 sql의 매개변수 값 대입
                 ps.setInt(2, exerDto.getExKcal());
                 ps.setInt(3, exerDto.getExIntensity());
                 ps.setString(4, oldExName);
@@ -144,17 +144,17 @@ public class ExerciseDao {
             System.out.println(">> DB에 존재하지 않는 운동입니다.");
         }
         return false;
-    }
+    }   // exerUpdate 함수 end
 
     // 운동 기능4. 운동 삭제 함수
     public boolean exerDelete(String exName) {
         boolean result = exerciseCheck(exName);     // 삭제할 운동이 DB에 존재하는지 확인
 
         if (!result) {
-            try {
-                String sql = "delete from exercise where exName = ?;";
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, exName);
+            try {       // 0. 예외 처리
+                String sql = "delete from exercise where exName = ?;";  // 1. SQL 작성
+                ps = conn.prepareStatement(sql);                        // 2. sql 기재
+                ps.setString(1, exName);                    // 3. 기재된 sql의 매개변수 값 대입
                 int count = ps.executeUpdate();
                 if (count == 1) {
                     return true;
@@ -167,7 +167,7 @@ public class ExerciseDao {
         }
         return false;
 
-    }
+    }   // exerDelete 함수 end
 
     // 운동 기능5. 운동 DB 존재 여부 확인 함수
     public boolean exerciseCheck(String exName) {
@@ -176,7 +176,7 @@ public class ExerciseDao {
             ps = conn.prepareStatement(sql);            // 2. sql 기재
             ps.setString(1, exName);      // 3. 기재된 sql의 매개변수 값 대입
 
-            rs = ps.executeQuery();
+            rs = ps.executeQuery();                   // 4. 기재된 sql 실행 하고 결과 반환
 
             int count = 0;
             while (rs.next()) {
@@ -192,5 +192,8 @@ public class ExerciseDao {
         }
         return true;
 
-    }
-}
+    }   // exerciseCheck 함수 end
+
+    // ============================================================================ //
+
+}   // class end

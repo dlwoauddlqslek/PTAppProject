@@ -8,6 +8,7 @@ import controller.MemberController;
 import model.dto.ExerciseDto;
 import model.dto.MessageDto;
 import model.dto.MemberDto;
+import model.dto.WeightRecordDto;
 
 import static controller.MemberController.loginAccCode;
 import static controller.MemberController.loginMCode;
@@ -88,8 +89,9 @@ public class NormalMemberView {
                 if (ch == 1) {weightRecord();}
                 else if (ch == 2) {foodCal();}
                 else if(ch==3){exCal();}
-                else if(ch==4){mUpdate();}
-                else if(ch==5){logOut();}
+                else if(ch==4){msgView();}
+                else if(ch==5){mUpdate();}
+                else if(ch==6){logOut();}
                 else {
                     System.out.println("없는 기능입니다.");
                 }
@@ -99,15 +101,105 @@ public class NormalMemberView {
                 System.out.println("잘못된 입력입니다.");
                 scan = new Scanner(System.in);
             }
-        }
-    }
+        }   // while end
+    }   // index() end
     // 몸무게 기록이 있는지 확인
     private boolean hasWeightRecord() {
         return NormalMemberController.getInstance().hasWeightRecord();
     }
 
-    private void weightRecord() { // 몸무게 등록 메뉴
-    }
+    // 몸무게 기록 메뉴
+    private void weightRecord() {
+        while (true) {
+            System.out.println("================== 몸무게 기록 메뉴 "+ NormalMemberController.weightRecordCurrentPage + " 페이지 ==================");
+            System.out.println("번호         몸무게                측정시간");
+            System.out.println("-----------------------------------------------------------");
+            // DB에서 현재 페이지 번호에 해당되는 몸무게 기록 목록 가져와 출력
+            ArrayList<WeightRecordDto> weightRecordList = NormalMemberController.getInstance().weightRecordPrint(NormalMemberController.weightRecordCurrentPage);
+            // 몸무게 기록 출력 for문
+            for (int i = 0; i < weightRecordList.size(); i++){
+
+                int weightCode = weightRecordList.get(i).getWeightCode();
+                int weight = weightRecordList.get(i).getWeight();
+                String measureTime = weightRecordList.get(i).getMeasureTime();       //.substring(0,10); // 날짜까지만 dateTime 표시
+
+                System.out.printf(" %-12d %-12d %s \n", i + 1, weight, measureTime);
+            }
+            System.out.println("------------------------------------------------------------");
+            System.out.println("1 ~ 10 = 해당 몸무게 기록 보기, p = 이전 페이지, n = 다음 페이지");
+            System.out.print("r = 몸무게 기록하기, b = 돌아가기 : ");
+            int ch;
+            try { //알파벳 입력과 숫자 1~10 입력을 같이 받기
+                ch = scan.nextInt();
+                scan.nextLine();
+            } catch (Exception e) { // 정수 입력이 아닐 때 char 입력으로 전환
+                ch = scan.next().charAt(0);
+                scan.nextLine();
+            }
+//            if (ch >= 1 && ch <= 10){ // 몸무게 기록 상세보기
+//                if (ch <= weightRecordList.size()) { // 몸무게 기록 화면 번호와 입력 값의 유효성 검사
+//                    msgCheckMessage(ch, weightRecordList.get(ch - 1));
+//                } else { // 표시되지 않은 번호를 입력
+//                    System.out.println(">>쪽지번호를 다시 확인해주세요.");
+//                    System.out.println();
+//                }
+//            }
+            //else if인데 if 잠시 밑으로
+
+            if (ch == 'P' || ch == 'p'){ // 몸무게 기록 내역 이전 10개 출력
+                if (NormalMemberController.weightRecordCurrentPage == 1) { // 첫 번째 페이지일 때
+                    System.out.println(">>이미 첫 번째 페이지입니다!");
+                    System.out.println();
+                }
+                else { // 현재 페이지 -1 하고 출력
+                    System.out.println();
+                    NormalMemberController.weightRecordCurrentPage--;
+                }
+            }
+            else if (ch == 'N' || ch == 'n'){ // 몸무게 기록 내역 다음 10개
+                // 불러올 몸무게 기록 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
+                if (NormalMemberController.getInstance().weightRecordPrint(NormalMemberController.weightRecordCurrentPage+1).isEmpty()){
+                    System.out.println(">>마지막 페이지입니다!");
+                    System.out.println();
+                }
+                else { // 현재 페이지 +1 및 출력
+                    System.out.println();
+                    NormalMemberController.weightRecordCurrentPage++;
+                }
+            }
+            else if (ch == 'R' || ch == 'r'){ // 몸무게 기록하기
+                weightRecordAdd();   // 몸무게 기록하기 함수
+            }
+            else if (ch == 'B' || ch == 'b'){ // 메뉴 돌아가기
+                System.out.println(">>이전 메뉴로 돌아갑니다.");
+                NormalMemberController.weightRecordCurrentPage = 1;
+                break;
+            }
+            else { // 메뉴 입력값이 이상하다
+                System.out.println(">>입력이 잘못되었습니다.");
+                System.out.println();
+                scan = new Scanner(System.in); // 새 scanner 객체 부여
+            }
+        }
+
+    }   // weightRecord() end
+
+    // 몸무게 기록하는 함수
+    private void weightRecordAdd() {
+        // 기록할 몸무게 입력
+        System.out.print("몸무게를 입력해주세요 : ");
+        int weight = scan.nextInt();
+
+        boolean result = NormalMemberController.getInstance().weightRecordAdd(weight);
+
+        if (result) {
+            System.out.println("몸무게 기록이 완료되었습니다.\n");
+        } else {
+            System.out.println("몸무게를 기록하는 데에 실패하였습니다.\n");
+        }
+
+    }   // weightRecordAdd 함수 end
+
 
     // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
     public void foodCal(){

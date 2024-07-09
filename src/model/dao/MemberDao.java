@@ -174,11 +174,11 @@ public class MemberDao {
 
         // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x
         // limit 0, 10 -> 10, 10
-        try {
-            String sql = "select * from member limit ?, 10;";
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, (memberCurrentPage - 1) * 10);
-            rs = ps.executeQuery();
+        try {   // 0. 예외 처리
+            String sql = "select * from member limit ?, 10;";               // 1. SQL 작성
+            ps = conn.prepareStatement(sql);                                // 2. sql 기재
+            ps.setInt(1, (memberCurrentPage - 1) * 10);      // 3. 기재된 sql의 매개변수 값 대입
+            rs = ps.executeQuery();                                         // 4. 기재된 sql 실행 하고 결과 반환
 
             while (rs.next()) {
                 MemberDto memberDto = new MemberDto();
@@ -207,11 +207,11 @@ public class MemberDao {
         boolean result = memberCheck(ID);     // 삭제할 운동이 DB에 존재하는지 확인
 
         if (!result) {
-            try {
-                String sql = "delete from member where ID = ?;";
-                ps = conn.prepareStatement(sql);
-                ps.setString(1, ID);
-                int count = ps.executeUpdate();
+            try {   // 0. 예외 처리
+                String sql = "delete from member where ID = ?;";    // 1. SQL 작성
+                ps = conn.prepareStatement(sql);                    // 2. sql 기재
+                ps.setString(1, ID);                    // 3. 기재된 sql의 매개변수 값 대입
+                int count = ps.executeUpdate();                      // 4. sql 실행 후 결과받기
                 if (count == 1) {
                     return true;
                 }
@@ -229,10 +229,9 @@ public class MemberDao {
     public boolean memberCheck(String ID) {
         try {   // 0. 예외 처리
             String sql = "Select * from member where ID = ?;";  // 1. SQL 작성
-            ps = conn.prepareStatement(sql);            // 2. sql 기재
-            ps.setString(1, ID);      // 3. 기재된 sql의 매개변수 값 대입
-
-            rs = ps.executeQuery();
+            ps = conn.prepareStatement(sql);                    // 2. sql 기재
+            ps.setString(1, ID);                   // 3. 기재된 sql의 매개변수 값 대입
+            rs = ps.executeQuery();                             // 4. 기재된 sql 실행 하고 결과 반환
 
             int count = 0;
             while (rs.next()) {
