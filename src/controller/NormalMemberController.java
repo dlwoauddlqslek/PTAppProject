@@ -1,8 +1,6 @@
 package controller;
 
-import model.dao.MemberDao;
-import model.dao.MessageDao;
-import model.dao.WorkOutRecordDao;
+import model.dao.*;
 import model.dto.AteFoodRecordDto;
 import model.dto.ExerciseDto;
 import model.dto.MemberDto;
@@ -10,8 +8,6 @@ import model.dto.MessageDto;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
-import model.dao.AteFoodRecordDao;
 
 import static controller.MemberController.loginMCode;
 import static controller.MemberController.loginNo;
@@ -46,7 +42,7 @@ public class NormalMemberController {
 
     //===========================================운동선택 함수
     public ArrayList<ExerciseDto> exView( int choNum ){
-        return ExerciseDao.getInstance().exView( choNum );
+        return ExerciseDao.getInstance().exView(choNum);
     }
 
 
