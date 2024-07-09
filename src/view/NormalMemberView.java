@@ -33,7 +33,38 @@ public class NormalMemberView {
     // + 5. 로그아웃 번호 : 현재 로그인된 회원 로그아웃하기
     int kcal=2400;
     public void index(){
+
         while(true) {
+
+            System.out.println("====================== 쪽지 보내기 ======================");
+            System.out.println("                       페이지 "+msgListPage);
+            System.out.println("번호          이름        번호           이름");
+            System.out.println("--------------------------------------------------------");
+
+            // 번호 1~5 회원명 | 번호 6~10 회원명
+            ArrayList<MemberDto> leftList = new ArrayList<>();
+            ArrayList<MemberDto> rightList = new ArrayList<>();
+            // 왼쪽 오른쪽 출력할 목록 구분
+            for ( int i = 0; i < 10; i++){
+                if (i < 5 && i < memList.size()) {
+                    leftList.add(memList.get(i));
+                }
+                else if (i >= 5 && i < memList.size()){
+                    rightList.add(memList.get(i));
+                }
+            }
+            // printf 한줄로 양쪽에서 한 객체씩 뽑아서 출력
+            for (int i = 0; i < 5; i++) {
+                if (i < rightList.size()) {
+                    System.out.printf("%2d | %-15s | %2d | %-10s\n", i+1, leftList.get(i).getMemberName(), i+6, rightList.get(i).getMemberName());
+                }
+                else if (i < leftList.size()){
+                    System.out.printf("%2d | %-15s |    |\n", i+1, leftList.get(i).getMemberName());
+                }
+                else {
+                    System.out.println("   |                    |    |");
+                }
+            }
             try {
                 System.out.println("1.음식칼로리계산 2.운동칼로리계산");
                 int ch = scan.nextInt();
@@ -185,7 +216,7 @@ public class NormalMemberView {
             else if (ch == 'S' || ch == 's'){ // 쪽지 보내기
                 msgSendMessage();// 쪽지 보내기 함수, 기본 페이지번호 1
             }
-            else if (ch == 'B' || ch == 'b'){ // 메뉴 돌아가기(NormalMemberView)
+            else if (ch == 'B' || ch == 'b'){ // 메뉴 돌아가기 index()
                 System.out.println(">>이전 메뉴로 돌아갑니다.");
                 break;
             }
