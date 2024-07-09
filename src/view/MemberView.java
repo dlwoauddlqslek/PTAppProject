@@ -8,33 +8,40 @@ import java.util.Scanner;
 import static controller.MemberController.loginAccCode;
 
 public class MemberView {
+    // 싱글톤
+    private static MemberView mView = new MemberView();
+    private MemberView() {}
+    public static MemberView getInstance() {
+        return mView;
+    }
+
     Scanner scan = new Scanner(System.in);
 //
-    public static MemberView mView = new MemberView();
-    // 첫번째 회원 종류 선택창
-    public void index(){
-        while (true){
-            try {
-                System.out.println(">>>>> 1.일반회원 2.PT강사  :   ");
-                int ch = scan.nextInt();
-                if (ch == 1){normal();}
-                else if (ch == 2){pt();}
-                else if (ch == 99) {admin();}
-                else {System.out.println("잘못된 입력입니다.");}
-            }catch (Exception e){System.out.println(e); scan = new Scanner(System.in); }
-        }
-    }
-    public void normal(){firstMenu(2);}
-    public void pt(){firstMenu(3);}
-    public void admin(){firstMenu(1);}
+//    public static MemberView mView = new MemberView();
+//    // 첫번째 회원 종류 선택창
+//    public void index(){
+//        while (true){
+//            try {
+//                System.out.println(">>>>> 1.일반회원 2.PT강사  :   ");
+//                int ch = scan.nextInt();
+//                if (ch == 1){normal();}
+//                else if (ch == 2){pt();}
+//                else if (ch == 99) {admin();}
+//                else {System.out.println("잘못된 입력입니다.");}
+//            }catch (Exception e){System.out.println(e); scan = new Scanner(System.in); }
+//        }
+//    }
+//    public void normal(){firstMenu(2);}
+//    public void pt(){firstMenu(3);}
+//    public void admin(){firstMenu(1);}
 
     // 처음 메뉴창
-    public void firstMenu(int i){
+    public void firstMenu(){
         while (true){
             try {
                 System.out.println(">>>>> 1.회원가입 2.로그인 3.아이디찾기 4.비밀번호찾기");
                 int ch = scan.nextInt();
-                if (ch==1){signup(i);}
+                if (ch==1){signup();}
                 else if (ch==2){login();}
                 else if (ch==3){findId();}
                 else if (ch==4){findPw();}
@@ -47,7 +54,7 @@ public class MemberView {
         }
     }
 
-    public void signup(int i){
+    public void signup(){
         System.out.println("아이디 : "); String id = scan.next();
         System.out.println("비밀번호 : "); String pw = scan.next();
         System.out.println("이름 : "); String name = scan.next();
@@ -56,11 +63,20 @@ public class MemberView {
         System.out.println("성별 M/F"); String gender = scan.next();
         System.out.println("생일 ex)2001-01-01 : "); String birthDate = scan.next();
         System.out.println("연락처 : "); String phone = scan.next();
+        System.out.println("일반 회원 - 1 / PT 강사 - 2 선택 : "); int accCategory = scan.nextInt();
+        while (true) {
+            if (accCategory == 1 || accCategory == 2) {
+                break;
+            }
+            System.out.println("1이나 2로만 입력할 수 있습니다. 다시 입력해주세요.");
+            System.out.println("일반 회원 - 1 / PT 강사 - 2 선택 : ");
+            accCategory = scan.nextInt();
+        }
 
         MemberDto memberDto = new MemberDto();
         memberDto.setID(id); memberDto.setPW(pw);memberDto.setMemberName(name);memberDto.setHeight(height);
         memberDto.setExHabit(habit);memberDto.setGender(gender);memberDto.setBirthDate(birthDate);
-        memberDto.setContact(phone);memberDto.setAccCategory(i);
+        memberDto.setContact(phone);memberDto.setAccCategory(accCategory);
 
         boolean result = MemberController.getInstance().signup(memberDto);
         if (result){System.out.println("회원가입 성공");}
