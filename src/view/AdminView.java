@@ -93,13 +93,14 @@ public class AdminView {
     // 음식 기능2. 음식 목록 조회 함수
     public void foodListView() {
         while (true) {
-            System.out.println("========== 음식 목록 " + AdminController.foodCurrentPage + " 페이지 ==========");
+            System.out.println("============= 음식 목록 " + AdminController.foodCurrentPage + " 페이지 ==============");
             System.out.println("번호   음식                칼로리");
             System.out.println("============================================");
             // DB에서 현재 페이지 번호에 해당되는 음식 목록 가져와 출력
             ArrayList<FoodDto> foodList = AdminController.getInstance().foodListView(AdminController.foodCurrentPage);
 
             for (int i = 0; i < foodList.size(); i++) {
+                int foodCode = foodList.get(i).getFoodCode();
                 String foodName = foodList.get(i).getFoodName();
                 int foodKcal = foodList.get(i).getFoodKcal();
                 
@@ -109,7 +110,7 @@ public class AdminView {
                     }
                 }
 
-                System.out.printf(" %-5d %-15s %-5d \n", i + 1, foodName, foodKcal);
+                System.out.printf(" %-5d %-15s %-5d \n", foodCode, foodName, foodKcal);
             }
 
             System.out.println("============================================");
@@ -138,6 +139,7 @@ public class AdminView {
                 }
             } else if (ch == 'B' || ch == 'b'){     // 관리자 초기 화면으로 돌아가기
                 System.out.println(">> 이전 메뉴로 돌아갑니다.");
+                AdminController.foodCurrentPage = 1;
                 break;
             } else { // 메뉴 입력값이 이상하다
                 System.out.println(">> 입력이 잘못되었습니다.");
@@ -240,13 +242,14 @@ public class AdminView {
     // 운동 기능2. 운동 목록 조회 함수
     public void exerListView() {
         while (true) {
-            System.out.println("========== 운동 목록 " + AdminController.exerCurrentPage + " 페이지 ==========");
+            System.out.println("============= 운동 목록 " + AdminController.exerCurrentPage + " 페이지 ==============");
             System.out.println("번호   운동             칼로리    운동강도");
             System.out.println("============================================");
             // DB에서 현재 페이지 번호에 해당되는 운동 목록 가져와 출력
             ArrayList<ExerciseDto> exerList = AdminController.getInstance().exerListView(AdminController.exerCurrentPage);
 
             for (int i = 0; i < exerList.size(); i++) {
+                int exCode = exerList.get(i).getExCode();
                 String exName = exerList.get(i).getExName();
                 int exKcal = exerList.get(i).getExKcal();
                 int exIntensity = exerList.get(i).getExIntensity();
@@ -257,7 +260,7 @@ public class AdminView {
                     }
                 }
 
-                System.out.printf(" %-3d %-10s %-5d %-3d \n", i + 1, exName, exKcal, exIntensity);
+                System.out.printf(" %-3d %-10s %-5d %-3d \n", exCode, exName, exKcal, exIntensity);
             }
 
             System.out.println("============================================");
@@ -286,6 +289,7 @@ public class AdminView {
                 }
             } else if (ch == 'B' || ch == 'b'){     // 관리자 초기 화면으로 돌아가기
                 System.out.println(">> 이전 메뉴로 돌아갑니다.");
+                AdminController.exerCurrentPage = 1;
                 break;
             } else { // 메뉴 입력값이 이상하다
                 System.out.println(">> 입력이 잘못되었습니다.");
@@ -361,13 +365,14 @@ public class AdminView {
     // 회원 기능1. 회원 목록 조회 함수
     public void memberListView() {
         while (true) {
-            System.out.println("========== 회원 목록 " + AdminController.memberCurrentPage + " 페이지 ==========");
+            System.out.println("=================================== 회원 목록 " + AdminController.memberCurrentPage + " 페이지 ===================================");
             System.out.println("번호   아이디   비밀번호    이름    키    운동습관    성별    생년월일일   연락처  회원분류코드");
-            System.out.println("=======================================================================");
+            System.out.println("=======================================================================================");
             // DB에서 현재 페이지 번호에 해당되는 회원 목록 가져와 출력
             ArrayList<MemberDto> memberList = AdminController.getInstance().memberListView(AdminController.memberCurrentPage);
 
             for (int i = 0; i < memberList.size(); i++) {
+                int memberCode = memberList.get(i).getMemberCode();
                 String ID = memberList.get(i).getID();
                 String PW = memberList.get(i).getPW();
                 String memberName = memberList.get(i).getMemberName();
@@ -378,11 +383,11 @@ public class AdminView {
                 String contact = memberList.get(i).getContact();
                 int accCategory = memberList.get(i).getAccCategory();
 
-                System.out.printf(" %-3d %s %s %s %d %d %s %s %s %d \n",
-                        i + 1, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory);
+                System.out.printf(" %-3d %10s %10s %5s %5d %3d %3s %12s %15s %3d \n",
+                        memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory);
             }
 
-            System.out.println("=======================================================================");
+            System.out.println("=======================================================================================");
             System.out.print("p = 이전 페이지, n = 다음 페이지, b = 돌아가기 : ");
             char ch = scan.next().charAt(0);
 
@@ -408,6 +413,7 @@ public class AdminView {
                 }
             } else if (ch == 'B' || ch == 'b'){     // 관리자 초기 화면으로 돌아가기
                 System.out.println(">> 이전 메뉴로 돌아갑니다.");
+                AdminController.memberCurrentPage = 1;
                 break;
             } else { // 메뉴 입력값이 이상하다
                 System.out.println(">> 입력이 잘못되었습니다.");

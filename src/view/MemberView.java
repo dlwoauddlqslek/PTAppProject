@@ -5,6 +5,8 @@ import model.dto.MemberDto;
 
 import java.util.Scanner;
 
+import static controller.MemberController.loginAccCode;
+
 public class MemberView {
     Scanner scan = new Scanner(System.in);
 //
@@ -22,9 +24,9 @@ public class MemberView {
             }catch (Exception e){System.out.println(e); scan = new Scanner(System.in); }
         }
     }
-    public void normal(){firstMenu(1);}
-    public void pt(){firstMenu(2);}
-    public void admin(){firstMenu(3);}
+    public void normal(){firstMenu(2);}
+    public void pt(){firstMenu(3);}
+    public void admin(){firstMenu(1);}
 
     // 처음 메뉴창
     public void firstMenu(int i){
@@ -79,6 +81,19 @@ public class MemberView {
             // 로그인 성공시 이동 메뉴 만들기 ------->>>>>>
 
             // loginCate(memberDto);
+            // loginAccCode 값이 1이면 관리자 화면으로 / 2면 일반 회원 화면으로 / 3이면 PT강사 전용 화면으로 이동
+            switch (loginAccCode) {
+                case 1:
+                    AdminView.getInstance().indexAdm();
+                    break;
+                case 2:
+                    NormalMemberView.getInstance().index();
+                    break;
+                case 3:
+                    PtMemberView.getInstance().index();
+                    break;
+            }
+
         } else {
             System.out.println("로그인실패");
         }
