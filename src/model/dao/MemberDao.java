@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static controller.MemberController.loginMCode;
 
 public class MemberDao {
-
+    //싱글톤 패턴
     static Connection conn;
     PreparedStatement ps;
     ResultSet rs;
@@ -28,11 +28,10 @@ public class MemberDao {
         }
     }
     public static MemberDao getInstance(){return mDao;}
-
-
+    // 싱글톤 패턴 끝
 
     // 회원가입 함수
-    public boolean signup (MemberDto memberDto){
+    public boolean signUp(MemberDto memberDto){
         try {
             String sql = "INSERT INTO member ( ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -56,10 +55,9 @@ public class MemberDao {
 
     //로그인 함수
     public MemberDto login(MemberDto memberDto){
-
         MemberDto memberDto1 = new MemberDto();
         try {
-            String sql = "select * from member where ID = ? and PW = ? ; ";
+            String sql = "select * from member where ID = ? and PW = ? ;";
             ps = conn.prepareStatement(sql);
             ps.setString(1,memberDto.getID());
             ps.setString(2,memberDto.getPW());
@@ -79,29 +77,15 @@ public class MemberDao {
         return memberDto1;
     }
 
-//    public int loginCate(MemberDto memberDto){
-//        try {
-//            String sql = "select * from member where ID = ? and PW = ? ; ";
-//            ps = conn.prepareStatement(sql);
-//            ps.setString(1,memberDto.getID());
-//            ps.setString(2,memberDto.getPW());
-//            rs=ps.executeQuery();
-//            if (rs.next()){ int loginCate = rs.getInt("accCategory"); return loginCate;  }
-//        }catch (Exception e){
-//            System.out.println(e);
-//        }
-//        return 0;
-//    }
-
     //아이디 찾기 함수
     public String findId(MemberDto memberDto){
         try {
-            String sql = "select * from member where memberName = ? and contact = ?;";
+            String sql = "select id from member where memberName = ? and contact = ?;";
             ps = conn.prepareStatement(sql);
             ps.setString(1,memberDto.getMemberName());
             ps.setString(2,memberDto.getContact());
             rs = ps.executeQuery();
-            if (rs.next()){ String findId = rs.getString("ID"); return findId;  }
+            if (rs.next()){return rs.getString("ID");}
         }catch (Exception e){
             System.out.println(e);
         } return null;
@@ -110,13 +94,13 @@ public class MemberDao {
     //비밀번호 찾기 함수
     public String findPw(MemberDto memberDto){
         try {
-            String sql = "select * from member where ID = ? and memberName = ? and birthDate = ?;";
+            String sql = "select pw from member where ID = ? and memberName = ? and birthDate = ?;";
             ps = conn.prepareStatement(sql);
             ps.setString(1,memberDto.getID());
             ps.setString(2,memberDto.getMemberName());
             ps.setString(3,memberDto.getBirthDate());
             rs = ps.executeQuery();
-            if (rs.next()){ String findPw = rs.getString("PW"); return findPw;  }
+            if (rs.next()){return rs.getString("PW");}
         }catch (Exception e){
             System.out.println(e);
         } return null;

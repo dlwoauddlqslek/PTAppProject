@@ -3,11 +3,11 @@ package view;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import controller.NormalMemberController;
 import controller.MemberController;
 import model.dto.ExerciseDto;
 import model.dto.MessageDto;
 import model.dto.MemberDto;
-import controller.NormalMemberController;
 
 import static controller.MemberController.loginAccCode;
 import static controller.MemberController.loginMCode;
@@ -38,12 +38,19 @@ public class NormalMemberView {
         msgCurrentPage = 1;
 
         while(true) {
-            // 현재 회원 MemberDto 가져오기
-            double dailyKcal = NormalMemberController.getInstance().calcDailyKcal();
+            // "디스플레이" 시작
             ArrayList<MemberDto> memList = null;
+            // 현재 회원 MemberDto 가져오기
             MemberDto currentDto = NormalMemberController.getInstance().getCurrentDto();
             System.out.println("====================== 안녕하세요, " + currentDto.getMemberName() +"님 ======================");
-            System.out.println(" 오늘의 남은 칼로리 : " + dailyKcal + " Kcal");
+            // 몸무게 측정 기록 여부에 따라 안내 메시지 출력
+            if (hasWeightRecord()){
+                double dailyKcal = NormalMemberController.getInstance().calcDailyKcal();
+                System.out.println("오늘의 남은 칼로리 : " + dailyKcal + " Kcal");
+            } else {
+                System.out.println("몸무게를 등록해서 오늘의 남은 칼로리를 알아보세요.");
+            }
+
             System.out.println("오늘 먹은 음식                오늘 한 운동");
             System.out.println("번호          이름        번호           이름");
             System.out.println("--------------------------------------------------------");
@@ -72,29 +79,20 @@ public class NormalMemberView {
                     System.out.println("   |                    |    |");
                 }
             }
+            // "디스플레이" 끝
             System.out.println(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃");
 
             try {
                 System.out.println("1.음식칼로리계산 2.운동칼로리계산");
                 int ch = scan.nextInt();
-                switch (ch){
-                    case 1 :
-                        weightRecord();
-                        break;
-                    case 2 :
-                        foodCal();
-                        break;
-                    case 3 :
-
-                }
-                if (ch == 1) {foodCal();}
-                else if(ch==2){exCal();}
+                if (ch == 1) {weightRecord();}
+                else if (ch == 2) {foodCal();}
+                else if(ch==3){exCal();}
                 else if(ch==4){mUpdate();}
                 else if(ch==5){logOut();}
                 else {
                     System.out.println("없는 기능입니다.");
                 }
-
 
             } catch (Exception e) {
                 System.out.println(e);
@@ -102,13 +100,17 @@ public class NormalMemberView {
                 scan = new Scanner(System.in);
             }
         }
-        }
+    }
+    // 몸무게 기록이 있는지 확인
+    private boolean hasWeightRecord() {
+        return NormalMemberController.getInstance().hasWeightRecord();
+    }
 
     private void weightRecord() { // 몸무게 등록 메뉴
     }
 
     // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
-    public  void foodCal(){
+    public void foodCal(){
         scan.nextLine();
         System.out.print("먹은 음식을 입력해주세요: ");
         String foodName=scan.nextLine();
@@ -491,4 +493,6 @@ public class NormalMemberView {
         // 1/2를 고르면 오늘 날짜 기준으로 기록을 가져온다. 1.전날 2.다음날 3.돌아가기
     }
 }
+
+
 

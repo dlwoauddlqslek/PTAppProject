@@ -2,7 +2,6 @@ package controller;
 
 import model.dao.MemberDao;
 import model.dto.MemberDto;
-import view.NormalMemberView;
 
 public class MemberController {
 
@@ -11,27 +10,24 @@ public class MemberController {
     public static MemberController getInstance(){return mControl;}
 
     // 회원가입 함수
-    public boolean signup(MemberDto memberDto){
-        boolean result = MemberDao.getInstance().signup(memberDto);
-        return result;
+    public boolean signUp(MemberDto memberDto){
+        return MemberDao.getInstance().signUp(memberDto); // MemberDao 에서 리턴하는 값이 true/false
     }
 
-
-
     // member 관련 static 전역변수들
-    public static int loginNo = 0; //로그인됐을때 회원코드
-    public static int currentKcal = 12000; //당일 칼로리 계산
     // 현재 로그인중인 회원 코드
-    public static int loginMCode = 2;
+    public static int loginMCode = 0;
     // 현재 로그인된 회원 분류 코드
-    public static int loginAccCode = 2;
+    public static int loginAccCode = 0;
 
-    // 로그인 함수
+    // 로그인 함수 ID,PW ->
     public boolean login(MemberDto memberDto){
         MemberDto memberDto1 = MemberDao.getInstance().login(memberDto);
+        // memberCode 검사로 로그인 유효성 검사
         Integer integer = memberDto1.getMemberCode();
         if (integer == null){return false;}
-        loginNo = memberDto1.getMemberCode();
+
+        loginMCode = memberDto1.getMemberCode();
         loginAccCode = memberDto1.getAccCategory();
         NormalMemberController.getInstance().gender = memberDto1.getGender();
         NormalMemberController.getInstance().height = memberDto1.getHeight();
@@ -39,8 +35,6 @@ public class MemberController {
         NormalMemberController.getInstance().exHabit = memberDto1.getExHabit();
         return true;
     }
-
-
 
     // 아이디 찾기 함수
     public String findId(MemberDto memberDto){
@@ -54,13 +48,13 @@ public class MemberController {
     // 회원 수정 함수
     public boolean mUpdate(MemberDto memberDto){
         System.out.println(memberDto);
-        memberDto.setMemberCode(loginNo);
+        memberDto.setMemberCode(loginMCode);
         return MemberDao.getInstance().mUpdate(memberDto);
     }
 
     // 회원 로그아웃 함수
     public void logOut( ){
-        loginNo = 0;
+        loginMCode = 0;
     }
 
 

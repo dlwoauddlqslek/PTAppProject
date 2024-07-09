@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static controller.MemberController.loginMCode;
-import static controller.MemberController.loginNo;
 
 public class NormalMemberController {
     //싱글톤 패턴
@@ -26,6 +25,7 @@ public class NormalMemberController {
     // 일일칼로리 : 기초대사량 * 운동습관, 현재 몸무게를 유지하려면 +- 0, 매일 마이너스로 끝나면 체중 감량
     // 예시) 25세 남성, 180cm/65kg, 운동습관 1 (안함) : 1986 Kcal/day
     // BMR = 650 + 1125 - 125 + 5 = 1655, 1655*1.2 = 1986
+
     // 칼로리 계산용 회원 정보
     public String gender = "";
     public int weight;
@@ -47,17 +47,14 @@ public class NormalMemberController {
 
 
 
-    // 칼로리 계산
+    // 현재 칼로리 계산, 몸무게 기록에서 최신 기록 1개를 가져와서 계산
     public double calcDailyKcal(){
-        Integer weightInteger = WeightRecordDao.getInstance().checkWeight(loginMCode).getWeight();
-        if (weightInteger == null){
-
-        }
+        int recentWeight = WeightRecordDao.getInstance().checkWeight(loginMCode).getWeight();
         double baseKCal = 0;
         if (gender.equals("M")){
-            baseKCal = 10*weight + 6.25*height - 5*age + 5;
+            baseKCal = 10*recentWeight + 6.25*height - 5*age + 5;
         } else if (gender.equals("F")){
-            baseKCal = 10*weight + 6.25*height - 5*age - 161;
+            baseKCal = 10*recentWeight + 6.25*height - 5*age - 161;
         }
         switch (exHabit){
             case 1 :
@@ -71,18 +68,35 @@ public class NormalMemberController {
                 break;
         }
         // 오늘 기준 먹은 음식량 (+)
+        int foodKcal = 0;
         ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodList(0);
+        for (AteFoodRecordDto dto : dailyAteFoodList){
+            foodKcal += dto.getFoodkcal();
+        }
         // 오늘 기준 운동량 (-)
-        return baseKCal;
+        int workOutKcal = 0;
+        ArrayList<WorkOutRecordDto> dailyWorkOutList = getDailyWorkoutList(0);
+        for (WorkOutRecordDto dto : dailyWorkOutList){
+            workOutKcal += dto.getExKcal();
+        }
+        return baseKCal + foodKcal - workOutKcal;
+    }
+    // 몸무게 기록 내역이 있는지 체크
+    public boolean hasWeightRecord() {
+        WeightRecordDto weightDto = WeightRecordDao.getInstance().checkWeight(loginMCode);
+        if (weightDto == null){
+            return false;
+        }
+        return true;
     }
 
     //로그인 회원 코드 + 날짜 매개변수로 ArrayList 반환
-    private ArrayList<AteFoodRecordDto> getDailyFoodList(int dayModifier) {
+    public ArrayList<AteFoodRecordDto> getDailyFoodList(int dayModifier) {
         String date = LocalDate.now().plusDays(dayModifier).toString();
         return AteFoodRecordDao.getInstance().getDailyFoodRecord(loginMCode, date);
     }
     //로그인 회원 코드 + 날짜 매개변수로 ArrayList 반환
-    private ArrayList<WorkOutRecordDto> getDailyWorkoutList(int dayModifier) {
+    public ArrayList<WorkOutRecordDto> getDailyWorkoutList(int dayModifier) {
         String date = LocalDate.now().plusDays(dayModifier).toString();
         return WorkOutRecordDao.getInstance().getDailyWorkoutList(loginMCode, date);
     }
@@ -172,4 +186,6 @@ public class NormalMemberController {
     public MemberDto getCurrentDto() { // 회원 메뉴) 회원 메뉴에 띄울 정보를 가진 DTO 가져오기
         return MemberDao.getInstance().getCurrentDto(loginMCode);
     }
+
+
 }
