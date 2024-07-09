@@ -71,6 +71,7 @@ public class MemberDao {
             memberDto1.setGender(rs.getString("gender"));
             memberDto1.setExHabit(rs.getInt("exHabit"));
             memberDto1.setBirthDate(rs.getString("birthDate"));
+            memberDto1.setAccCategory(rs.getInt("accCategory"));
             }
         }catch (Exception e){
             System.out.println(e);

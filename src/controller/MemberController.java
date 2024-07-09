@@ -29,8 +29,10 @@ public class MemberController {
     // 로그인 함수
     public boolean login(MemberDto memberDto){
         MemberDto memberDto1 = MemberDao.getInstance().login(memberDto);
-        if (memberDto1.getID() == null){return false;}
+        Integer integer = memberDto1.getMemberCode();
+        if (integer == null){return false;}
         loginNo = memberDto1.getMemberCode();
+        loginAccCode = memberDto1.getAccCategory();
         NormalMemberController.getInstance().gender = memberDto1.getGender();
         NormalMemberController.getInstance().height = memberDto1.getHeight();
         NormalMemberController.getInstance().birthDate = memberDto1.getBirthDate();
