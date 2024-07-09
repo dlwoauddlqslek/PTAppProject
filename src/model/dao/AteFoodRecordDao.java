@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class AteFoodRecordDao {
     private static AteFoodRecordDao ateFoodRecordDao=new AteFoodRecordDao();
@@ -46,46 +47,7 @@ public class AteFoodRecordDao {
         return false;
     }
 
-    // 로그인한 회원이 먹은 음식들 칼로리 합
-    public int kcalTotal( int loginMno ){
 
-        int total = 0;
-         try{
-            String sql="select foodCode , ateTime from member inner join atefoodrecord on member.memberCode = atefoodrecord.memberCode where member.memberCode = ?;";
-            ps=conn.prepareStatement(sql);
-            ps.setInt( 1 , loginMno );
-            rs=ps.executeQuery();
-            while (rs.next()){
-                int foodCode = rs.getInt( "foodCode" ); System.out.println( foodCode );
-                String ateTime = rs.getString( "ateTime" ); System.out.println( ateTime );
-
-
-
-
-                LocalDate now = LocalDate.now();
-                LocalDate ateDate = LocalDate.of(
-                        Integer.parseInt( ateTime.substring( 0 , 4 ) ) ,
-                        Integer.parseInt(ateTime.substring( 5, 7 ) ),
-                                Integer.parseInt(ateTime.substring( 8 , 10 ) ));
-                
-                System.out.println(" now  = " +  now );
-                System.out.println("ateDate = " + ateDate);
-                System.out.println("ateDate.compareTo( now ) = " + ateDate.compareTo( now ));
-
-                if (ateDate.compareTo(now)==0) {
-
-                    String sql2 = "select foodKcal from food where foodCode = ? ";
-                    ps = conn.prepareStatement(sql2);
-                    ps.setInt(1, foodCode);
-                    ResultSet rs2 = ps.executeQuery();
-                    if (rs2.next()) {
-                        total += rs2.getInt("foodKcal");
-                    }
-                }
-            }
-        }catch (Exception e){System.out.println(e);}
-        return total;
-    }
     // 입력한 음식 먹은음식기록에 저장
     public boolean foodRecord(String foodName,int loginMno){
         try{
@@ -109,7 +71,27 @@ public class AteFoodRecordDao {
         }catch (Exception e){System.out.println(e);}
         return false;
     }
+    // 오늘 먹은 음식 기록 불러오기
+    // 회원코드, 음식(이름으로) 먹은 시간 (하루 기준)
+    public ArrayList<AteFoodRecordDto> getDailyFoodRecord(int loginMCode, String date) {
+        ArrayList<AteFoodRecordDto> dailyFoodList = new ArrayList<>();
+        try{
+            String sql="select * from atefoodrecord inner join food on atefoodrecord.foodCode = food.foodCode where memberCode = ? and ateTime > ? and ateTime < (select DATE_ADD(?, interval 1 day));";
+            ps=conn.prepareStatement(sql);
+            ps.setInt(1, loginMCode); ps.setString(2, date); ps.setString(3, date);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                AteFoodRecordDto foodRecordDto = new AteFoodRecordDto();
+                foodRecordDto.setFoodName(rs.getString("foodName"));
+                foodRecordDto.setFoodCode(rs.getInt("foodCode"));
+                foodRecordDto.setAteTime(rs.getString("ateTime"));
+                foodRecordDto.setFoodkcal(rs.getInt("foodKcal"));
+                dailyFoodList.add(foodRecordDto);
+            }
 
+        } catch (Exception e){System.out.println(e);}
+        return dailyFoodList;
+    }
 }
 
 

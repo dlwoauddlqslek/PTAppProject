@@ -1,12 +1,17 @@
 package controller;
 
-import model.dao.*;
+import model.dao.MemberDao;
+import model.dao.MessageDao;
+import model.dao.WorkOutRecordDao;
 import model.dto.AteFoodRecordDto;
 import model.dto.ExerciseDto;
 import model.dto.MemberDto;
 import model.dto.MessageDto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+
+import model.dao.AteFoodRecordDao;
 
 import static controller.MemberController.loginMCode;
 import static controller.MemberController.loginNo;
@@ -69,21 +74,28 @@ public class NormalMemberController {
                 break;
         }
         // 오늘 기준 먹은 음식량 (+)
-        //ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodRecord();
+        ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodList(0);
         // 오늘 기준 운동량 (-)
         return baseKCal;
     }
 
-//    private ArrayList<AteFoodRecordDto> getDailyFoodRecord() {
-//        return AteFoodRecordDao.getInstance().getDailyFoodRecord();
-//    }
+    //오늘 + 날짜 매개변수로 ArrayList 반환
+    private ArrayList<AteFoodRecordDto> getDailyFoodList(int dayModifier) {
+        String today = LocalDate.now().plusDays(dayModifier).toString();
+        return AteFoodRecordDao.getInstance().getDailyFoodRecord(loginMCode, today);
+    }
 
     //
     public int foodKcalTotal(){
         //2. 로그인된회원번호 (샘플 )
-        int loginMno=2;
+        int loginMCode=2;
+        int total=0;
+        ArrayList<AteFoodRecordDto> ateFoodList= getDailyFoodList(0);
         // 3. 로그인한 회원이 먹은 음식코드의 칼로리 합계
-        return AteFoodRecordDao.getInstance().kcalTotal( loginMno );
+        for (int i=0; i<ateFoodList.size(); i++){
+            total+=ateFoodList.get(i).getFoodkcal();
+        }
+        return total;
     }
 
     public boolean foodCheck(String foodName){
@@ -157,6 +169,6 @@ public class NormalMemberController {
     }
 
     public MemberDto getCurrentDto() { // 회원 메뉴) 회원 메뉴에 띄울 정보를 가진 DTO 가져오기
-        return MemberDao.getInstance().getCurrentDto(loginNo);
+        return MemberDao.getInstance().getCurrentDto(loginMCode);
     }
 }
