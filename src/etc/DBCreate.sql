@@ -102,6 +102,34 @@ INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES ('2', '조깅'
 INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES ('3', '수영', '60', '1');
 INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES ('4', '자전거타기', '40', '2');
 INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES ('5', '계단오르내리기', '80', '3');
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (6,'턱걸이',30,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (7,'요가',25,1);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (8,'등산',50,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (9,'줄넘기',70,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (10,'러시안 트위스트',50,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (11,'스쿼트',35,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (12,'필라테스',30,1);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (13,'피트니스 덤벨 운동',50,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (14,'댄스 운동',65,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (15,'버피 운동',50,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (16,'골프',30,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (17,'테니스',50,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (18,'레슬링',60,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (19,'카누',30,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (20,'스키',50,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (21,'스노보드',55,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (22,'아쿠아 에어로빅',50,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (23,'태권도',70,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (24,'바디웨이트 트레이닝',50,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (25,'팔레트톤 사이클링',45,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (26,'바디스컬프팅',40,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (27,'팔레트 트레이닝',40,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (28,'스노우슈',70,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (29,'체조',45,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (30,'스트리트 워크아웃',40,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (31,'승마',40,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (32,'사이클링',60,2);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (33,'레이싱',60,3);
 
 # weightrecord 테이블 샘플
 INSERT INTO weightrecord (weightCode, weight, measureTime, memberCode) VALUES ('1', '100', '2024-07-02 08:40:15', '1');
