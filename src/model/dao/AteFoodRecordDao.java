@@ -2,14 +2,13 @@ package model.dao;
 
 import model.dto.AteFoodRecordDto;
 import model.dto.FoodDto;
+import model.dto.WeightRecordDto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AteFoodRecordDao {
@@ -124,6 +123,8 @@ public class AteFoodRecordDao {
         } catch (Exception e){System.out.println(e);}
         return dailyFoodList;
     }
+
+
 }
 
 

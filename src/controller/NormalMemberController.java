@@ -1,8 +1,6 @@
 package controller;
 
-import model.dao.MemberDao;
-import model.dao.MessageDao;
-import model.dao.WorkOutRecordDao;
+import model.dao.*;
 import model.dto.AteFoodRecordDto;
 import model.dto.MemberDto;
 import model.dto.MessageDto;
@@ -10,7 +8,7 @@ import model.dto.MessageDto;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import model.dao.AteFoodRecordDao;
+import model.dto.WorkOutRecordDto;
 
 import static controller.MemberController.loginMCode;
 import static controller.MemberController.loginNo;
@@ -43,7 +41,10 @@ public class NormalMemberController {
 
     // 칼로리 계산
     public double calcDailyKcal(){
-        if (AteFoodRecordDao.getInstance().isFirstRecord())
+        Integer weightInteger = WeightRecordDao.getInstance().checkWeight(loginMCode).getWeight();
+        if (weightInteger == null){
+
+        }
         double baseKCal = 0;
         if (gender.equals("M")){
             baseKCal = 10*weight + 6.25*height - 5*age + 5;
@@ -67,12 +68,16 @@ public class NormalMemberController {
         return baseKCal;
     }
 
-    //오늘 + 날짜 매개변수로 ArrayList 반환
+    //로그인 회원 코드 + 날짜 매개변수로 ArrayList 반환
     private ArrayList<AteFoodRecordDto> getDailyFoodList(int dayModifier) {
-        String today = LocalDate.now().plusDays(dayModifier).toString();
-        return AteFoodRecordDao.getInstance().getDailyFoodRecord(loginMCode, today);
+        String date = LocalDate.now().plusDays(dayModifier).toString();
+        return AteFoodRecordDao.getInstance().getDailyFoodRecord(loginMCode, date);
     }
-
+    //로그인 회원 코드 + 날짜 매개변수로 ArrayList 반환
+    private ArrayList<WorkOutRecordDto> getDailyWorkoutList(int dayModifier) {
+        String date = LocalDate.now().plusDays(dayModifier).toString();
+        return WorkOutRecordDao.getInstance().getDailyWorkoutList(loginMCode, date);
+    }
     //
     public int foodKcalTotal(){
         //2. 로그인된회원번호 (샘플 )

@@ -268,17 +268,16 @@ public class MemberDao {
     // ============================================================================ //
 
 
-    public MemberDto getCurrentDto(int loginNo) { // 회원 메뉴) 회원 메뉴에 띄울 정보를 가진 DTO 가져오기
+    public MemberDto getCurrentDto(int loginMCode) { // 회원 메뉴) 회원 메뉴에 띄울 정보를 가진 DTO 가져오기
         MemberDto memberDto = new MemberDto();
         try {
             String sql = "select * from member where memberCode = ?";
             ps = conn.prepareStatement(sql);
-            ps.setInt(1,memberDto.getHeight());
-            ps.setInt(2,memberDto.getExHabit());
-            ps.setString(3,memberDto.getContact());
-            ps.setInt(4,memberDto.getMemberCode());
-            int count = ps.executeUpdate();
-            if (count == 1 ){}
+            ps.setInt(1, loginMCode);
+            rs = ps.executeQuery();
+            if (rs.next()){
+                memberDto.setMemberName(rs.getString("memberName"));
+            }
         }catch (Exception e){
             System.out.println(e);
         }
