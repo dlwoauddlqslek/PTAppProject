@@ -1,11 +1,13 @@
 package model.dao;
 
 import model.dto.ExerciseDto;
+import model.dto.FoodDto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class ExerciseDao {
     // 싱글톤
@@ -60,10 +62,31 @@ public class ExerciseDao {
 
     }
 
-
-
     // 운동 기능2. 운동 목록 조회 함수
-    public void exerListView() {
+    public ArrayList<ExerciseDto> exerListView(int exerCurrentPage) {
+        ArrayList<ExerciseDto> exerList = new ArrayList<>();
+
+        // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x
+        // limit 0, 10 -> 10, 10
+        try {
+            String sql = "select * from exercise limit ?, 10;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, (exerCurrentPage - 1) * 10);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ExerciseDto exerDto = new ExerciseDto();
+                exerDto.setExCode(rs.getInt("exCode"));
+                exerDto.setExName(rs.getString("exName"));
+                exerDto.setExKcal(rs.getInt("exKcal"));
+                exerDto.setExIntensity(rs.getInt("exIntensity"));
+                exerList.add(exerDto);
+            }
+            return exerList;
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return exerList;
 
     }
 
