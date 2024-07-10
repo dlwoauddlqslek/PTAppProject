@@ -78,21 +78,17 @@ public class MemberDao {
     }
 
     //아이디 찾기 함수
-    public ArrayList<String> findId(MemberDto memberDto){
-        ArrayList<String> idList = new ArrayList<>();
+    public String findId(MemberDto memberDto){
         try {
             String sql = "select id from member where memberName = ? and contact = ?;";
             ps = conn.prepareStatement(sql);
             ps.setString(1,memberDto.getMemberName());
             ps.setString(2,memberDto.getContact());
             rs = ps.executeQuery();
-            while (rs.next()){
-                idList.add(rs.getString("ID"));
-            }
+            if (rs.next()){return rs.getString("ID");}
         }catch (Exception e){
             System.out.println(e);
-        }
-        return idList;
+        } return null;
     }
 
     //비밀번호 찾기 함수
@@ -144,7 +140,7 @@ public class MemberDao {
         }
         return ptMemberList;
     }
-    // PT 강사 메뉴에서 답장 보내기
+    // PT 강사 메뉴에서 답장 보낼
     public ArrayList<MemberDto> msgShowMemberList(int msgMemberListPage) {
         ArrayList<MemberDto> memberList = new ArrayList<>();
         try {
