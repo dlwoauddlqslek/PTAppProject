@@ -204,7 +204,7 @@ public class NormalMemberView {
 
 
     // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
-    public void foodCal(){
+    public  void foodCal(){
         scan.nextLine();
         System.out.print("먹은 음식을 입력해주세요: ");
         String foodName=scan.nextLine();
