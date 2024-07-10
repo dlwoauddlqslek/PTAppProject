@@ -81,7 +81,7 @@ public class PtMemberView {
             } else if (ch == 'H' || ch == 'h') { // 쪽지 내역 조회하기
                 ptMsgHistory();
             } else if (ch == 'S' || ch == 's') { // 쪽지 보낸 회원의 건강 정보 조회
-                msgCheckMemberStat();
+                //msgCheckMemberStat();
             } else if (ch == 'E' || ch == 'e'){ // 회원 개인 정보 수정 함수
                 System.out.print(">>새 키 측정결과를 1cm 단위까지 입력해주세요 : "); int height = scan.nextInt();
                 System.out.println(">>새 운동습관을 설정해주세요.");
@@ -162,7 +162,7 @@ public class PtMemberView {
                     MessageDto messageDto = new MessageDto();
                     messageDto.setReplyContent(reply);
                     messageDto.setMessageCode(msgDto.getMessageCode());
-                    PtMemberController.getInstance().ptWriteReply(messageDto);
+                    //PtMemberController.getInstance().ptWriteReply(messageDto);
                 } else if (ch == 'S' || ch == 's') { // 쪽지 보낸 회원의 건강 정보 조회
                     msgCheckMemberStat(msgDto.getSentMCode());
                 } else if (ch == 'B' || ch == 'b'){

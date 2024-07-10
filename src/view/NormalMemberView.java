@@ -289,7 +289,7 @@ public class NormalMemberView {
         while (true) {
             try {
                 System.out.println(">>원하시는 메뉴를 선택해 주세요.");
-                System.out.print(">>1.먹은음식 등록 2.수정 3.삭제 b.: ");
+                System.out.print(">>1.먹은음식 등록 2.수정 3.삭제 4.돌아가기 : ");
                 int ch = scan.nextInt();
                 if (ch == 1) {
                     foodCal();
@@ -297,7 +297,8 @@ public class NormalMemberView {
                     ateFoodUpdate();
                 } else if (ch == 3) {
                     ateFoodDelete();
-                } else {
+                } else if (ch==4){return;}
+                else {
                     throw new RuntimeException();
                 }
             } catch (Exception e) {
@@ -371,7 +372,7 @@ public class NormalMemberView {
         while (true) {
             try {
                 System.out.println(">>원하시는 메뉴를 선택해 주세요.");
-                System.out.print(">>1.수행한 운동 등록 2.수정 3.삭제 : ");
+                System.out.print(">>1.수행한 운동 등록 2.수정 3.삭제 4.돌아가기 : ");
                 int ch = scan.nextInt();
                 if (ch == 1) {
                     exCal2();
@@ -384,7 +385,8 @@ public class NormalMemberView {
                     workOutRecordUpdate();
                 } else if (ch == 3) {
                     workOutRecordDelete();
-                } else {
+                } else if(ch==4){return;}
+                else {
                     throw new RuntimeException();
                 }
             } catch (Exception e) {
@@ -498,6 +500,7 @@ public class NormalMemberView {
     public void logOut(){
         MemberController.getInstance().logOut();
         System.out.println(">>로그아웃 성공, 초기 화면으로 돌아갑니다.");
+        MemberView.getInstance().index();
     }
 
     //=====================================================회원 탈퇴 함수===============================================================

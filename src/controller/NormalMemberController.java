@@ -121,8 +121,8 @@ public class NormalMemberController {
     }
 
     public boolean foodRecord(String foodName){
-        int loginMno=2;
-        return AteFoodRecordDao.getInstance().foodRecord(foodName,loginMno);
+
+        return AteFoodRecordDao.getInstance().foodRecord(foodName,loginMCode);
     }
 
     public boolean ateFoodUpdate(int ateFoodCode,String foodName){
@@ -147,8 +147,8 @@ public class NormalMemberController {
 
 
     public boolean exRecord(int selExCode){
-        int loginMno=2;
-        return WorkOutRecordDao.getInstance().exRecord(selExCode,loginMno);
+
+        return WorkOutRecordDao.getInstance().exRecord(selExCode,loginMCode);
     }
 
     public boolean workOutRecordUpdate(int workOutCode, int exCode){
