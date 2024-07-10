@@ -35,7 +35,7 @@ public class NormalMemberView {
     // 3. PT 강사에게 쪽지 : 최근 보낸 쪽지 목록 띄우기 & 보내기/수정/삭제
     // 4. 본인 정보 수정 : 비밀번호 확인 후 변경할 정보 선택 & 새로운 정보 입력 (키, 운동습관, 연락처)
     // + 5. 로그아웃 번호 : 현재 로그인된 회원 로그아웃하기
-    int kcal=2400;
+
     public void index(){
         System.out.println();
         System.out.println(">>일반 회원 메뉴입니다.");
@@ -309,6 +309,7 @@ public class NormalMemberView {
     }
     // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
     public void foodCal(){
+        calcDailyKcal();
         scan.nextLine();
         System.out.print("먹은 음식을 입력해주세요: ");
         String foodName=scan.nextLine();
@@ -318,9 +319,9 @@ public class NormalMemberView {
         int result4=NormalMemberController.getInstance().exKcalTotal();
         if(result1) {
             if (result2) {
-                if (kcal-result3+result4>=0) {
-                    System.out.println("현재 남은 칼로리: " + (kcal - result3+result4));
-                }else{System.out.println("현재 초과 칼로리: "+(Math.abs(kcal-result3+result4)));}
+                if (baseKcal-result3+result4>=0) {
+                    System.out.println("현재 남은 칼로리: " + (baseKcal - result3+result4));
+                }else{System.out.println("현재 초과 칼로리: "+(Math.abs(baseKcal-result3+result4)));}
             }
         }
         else{System.out.println("다시 입력해주세요");}
@@ -341,7 +342,7 @@ public class NormalMemberView {
         int ch = scan.nextInt();
         int ateFoodCode = ateFoodList.get(ch-1).getAteFoodCode();
 
-        System.out.println(ateFoodCode);
+
         System.out.print("수정할 음식명을 입력해주세요");
         scan.nextLine();
         String foodName=scan.nextLine();
@@ -368,6 +369,7 @@ public class NormalMemberView {
 
     public void exMenu(){
         while (true) {
+            calcDailyKcal();
             try {
                 System.out.println(">>원하시는 메뉴를 선택해 주세요.");
                 System.out.print(">>1.수행한 운동 등록 2.수정 3.삭제 4.돌아가기 : ");
@@ -376,9 +378,9 @@ public class NormalMemberView {
                     exCal2();
                     int result3=NormalMemberController.getInstance().foodKcalTotal();
                     int result4=NormalMemberController.getInstance().exKcalTotal();
-                    if (kcal-result3+result4>=0) {
-                        System.out.println("현재 남은 칼로리: " + (kcal - result3+result4));
-                    }else{System.out.println("현재 초과 칼로리: "+(Math.abs(kcal-result3+result4)));}
+                    if (baseKcal-result3+result4>=0) {
+                        System.out.println("현재 남은 칼로리: " + (baseKcal - result3+result4));
+                    }else{System.out.println("현재 초과 칼로리: "+(Math.abs(baseKcal-result3+result4)));}
                 } else if (ch == 2) {
                     workOutRecordUpdate();
                 } else if (ch == 3) {
@@ -489,7 +491,7 @@ public class NormalMemberView {
         memberDto.setExHabit(habit);
         memberDto.setContact(mphone);
         boolean result = MemberController.getInstance().mUpdate(memberDto);
-        System.out.println(result);
+
         if (result){System.out.println(">>수정 완료하였습니다."); }
         else {System.out.println(">>수정 실패. 다시 입력해주세요.");}
     }
