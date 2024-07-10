@@ -496,6 +496,7 @@ public class NormalMemberView {
     public void logOut(){
         MemberController.getInstance().logOut();
         System.out.println(">>로그아웃 성공, 초기 화면으로 돌아갑니다.");
+        MemberView.getInstance().index();
     }
 
     //=====================================================회원 탈퇴 함수===============================================================
@@ -509,7 +510,10 @@ public class NormalMemberView {
         memberDto.setID(removeId);memberDto.setPW(removePw);
         boolean result = MemberController.getInstance().removeMem(memberDto);
         if (result){
-            System.out.println("회원탈퇴 성공입니다."); MemberView.getInstance().index();
+            System.out.println();
+            System.out.println("회원탈퇴 성공입니다.");
+            System.out.println();
+            MemberView.getInstance().index();
         }
         else {
             System.out.println();
@@ -558,8 +562,8 @@ public class NormalMemberView {
             //쪽지 출력 for문
             for (int i = 0; i < msgList.size(); i++){
                 String title = msgList.get(i).getMsgTitle();
-                // 제목 : 15글자를 넘어가면 말줄임표, 미만이면 빈칸 추가
-                int maxTitleLen = 15;
+                // 제목 : maxTitleLen 글자수 넘어가면 말줄임표
+                int maxTitleLen = 9;
                 title = title.length() > maxTitleLen ? title.substring(0,maxTitleLen-3) + "..." : title;// 제목 : 10글자 이상이면 말줄임표
                 String sentDate = msgList.get(i).getMsgDate().substring(0,10); // 날짜까지만 dateTime 표시
                 String replyDate;
