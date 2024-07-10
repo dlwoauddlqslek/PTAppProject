@@ -511,7 +511,10 @@ public class NormalMemberView {
         memberDto.setID(removeId);memberDto.setPW(removePw);
         boolean result = MemberController.getInstance().removeMem(memberDto);
         if (result){
-            System.out.println("회원탈퇴 성공입니다."); MemberView.getInstance().index();
+            System.out.println();
+            System.out.println("회원탈퇴 성공입니다.");
+            System.out.println();
+            MemberView.getInstance().index();
         }
         else {
             System.out.println();

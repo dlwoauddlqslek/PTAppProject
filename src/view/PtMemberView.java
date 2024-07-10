@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.MemberController;
 import controller.NormalMemberController;
 import controller.PtMemberController;
 import static controller.PtMemberController.msgCurrentPage;
@@ -41,8 +42,10 @@ public class PtMemberView {
             }
             System.out.println("--------------------------------------------------------");
             // 강사 메뉴 "디스플레이" 끝
-            System.out.println("1 ~ 10.해당 쪽지에 답글 작성하기, p.이전 페이지, n.다음 페이지");
-            System.out.println("h.받은 쪽지 내역 보기, e.개인정보 수정, o.로그아웃 : ");
+            
+            System.out.println("1 ~ 10 = 해당 쪽지에 답글 작성하기, p = 이전 페이지, n = 다음 페이지");
+            System.out.println("h = 받은 쪽지 내역 보기, s = 쪽지 보낸 회원의 건강 정보 조회");
+            System.out.println("e = 개인정보 수정, o = 로그아웃, x = 회원탈퇴 : ");
             int ch;
             try { //알파벳 입력과 숫자 1~10 입력을 같이 받기
                 ch = scan.nextInt();
@@ -77,6 +80,8 @@ public class PtMemberView {
                 }
             } else if (ch == 'H' || ch == 'h') { // 쪽지 내역 조회하기
                 ptMsgHistory();
+            } else if (ch == 'S' || ch == 's') { // 쪽지 보낸 회원의 건강 정보 조회
+                msgCheckMemberStat();
             } else if (ch == 'E' || ch == 'e'){ // 회원 개인 정보 수정 함수
                 System.out.print(">>새 키 측정결과를 1cm 단위까지 입력해주세요 : "); int height = scan.nextInt();
                 System.out.println(">>새 운동습관을 설정해주세요.");
@@ -95,6 +100,26 @@ public class PtMemberView {
                 PtMemberController.getInstance().logOut();
                 System.out.println(">>로그아웃 성공. 메인 화면으로 돌아갑니다.");
                 return;
+            } else if (ch == 'X' || ch == 'x') {
+                System.out.println(">>회원탈퇴 메뉴입니다.");
+                System.out.print(">>회원탈퇴할 계정의 아이디를 입력해 주세요 : ");
+                String removeId = scan.next();
+                System.out.print(">>회원탈퇴할 계정의 비밀번호를 입력해 주세요 : ");
+                String removePw = scan.next();
+                MemberDto memberDto = new MemberDto();
+                memberDto.setID(removeId);memberDto.setPW(removePw);
+                boolean result = MemberController.getInstance().removeMem(memberDto);
+                if (result){
+                    System.out.println();
+                    System.out.println("회원탈퇴 성공입니다.");
+                    System.out.println();
+                    MemberView.getInstance().index();
+                }
+                else {
+                    System.out.println();
+                    System.out.println("회원탈퇴 실패입니다. 다시 입력해주세요");
+                    System.out.println();
+                }
             }
             else { // 메뉴 입력값이 이상하다
                 System.out.println(">>입력이 잘못되었습니다.");
