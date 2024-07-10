@@ -132,7 +132,7 @@ public class PtMemberView {
                 scan = new Scanner(System.in); // 새 scanner 객체 부여
             }
         }
-
+    }
 
         // 쪽지 상세 "디스플레이" 띄우기
         public void showMessage (MessageDto msgDto){
@@ -155,7 +155,7 @@ public class PtMemberView {
         }
 
         // 첫 화면에서 미답신 쪽지 선택시 - 답장 보내기 메뉴
-        public void ptCheckMessage ( int screenNum, MessageDto msgDto){ // 화면 쪽지 번호 ch, 해당 DTO객체 msgDTO
+        public void ptCheckMessage ( int screenNum, MessageDto msgDto) { // 화면 쪽지 번호 ch, 해당 DTO객체 msgDTO
             // 2 \ 제목2 \ 4 \ 2024-07-03 \ 답장이 있습니다
             System.out.println("===============" + screenNum + "번 쪽지에 답장 보내기 ===============");
             showMessage(msgDto);
@@ -208,6 +208,7 @@ public class PtMemberView {
                     }
                 }
             }
+        }
             // 쪽지 내역 - 쪽지 선택시 상세표시 메뉴
             private void msgCheckMessage ( int screenNum, MessageDto msgDto){
                 while (true) {
