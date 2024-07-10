@@ -240,7 +240,7 @@ public class NormalMemberController {
 
     // ============================================================================ //
 
-}   // class end
+
     //선택된 쪽지 삭제
     public boolean msgDelete(int messageCode) {
         return MessageDao.getInstance().msgDelete(messageCode);
@@ -249,4 +249,4 @@ public class NormalMemberController {
     public boolean msgEdit(MessageDto msgDto) {
         return MessageDao.getInstance().msgEdit(msgDto);
     }
-}
+}   // class end
