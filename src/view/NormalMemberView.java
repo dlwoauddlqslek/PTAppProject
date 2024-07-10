@@ -223,41 +223,38 @@ public class NormalMemberView {
     }
 
     public void exCal2(){
-        System.out.println("============================운동선택메뉴=========================");
-        System.out.println("1.초급운동(Level)      2.중급운동(Level)      3.고급운동(Level)");
+        System.out.println("========================운동선택메뉴======================");
+        System.out.println("1.초급운동(Level)    2.중급운동(Level)    3.고급운동(Level)");
         int choNum = scan.nextInt();
         if (choNum == 1 ) {
             ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
-            System.out.println("===강도===============운동내용===============칼로리===========");
-            result.forEach(dto -> {
-                System.out.println(dto.getExIntensity() + "     " + dto.getExName() + "    " + dto.getExKcal());
-            });
+            System.out.println("번호=======운동강도========운동내용==========칼로리========");
+            for (int i = 0; i < result.size() ; i++) {
+                System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"             "+result.get(i).getExName()+"              "+result.get(i).getExKcal());
+            }
             int ch = scan.nextInt();
-            System.out.println(result);
-            result.get(ch-1).getExKcal();
-            System.out.println(result.get(ch-1).getExKcal());
+            int selExCode = result.get(ch-1).getExCode();
+            // System.out.println(selExCode); 운동코드 확인용
         }
         else if (choNum == 2){
             ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
-            System.out.println("===강도===============운동내용===============칼로리===========");
-            result.forEach(dto -> {
-                System.out.println(dto.getExIntensity() + "     " + dto.getExName() + "    " + dto.getExKcal());
-            });
+            System.out.println("번호=======운동강도========운동내용==========칼로리========");
+            for (int i = 0; i < result.size() ; i++) {
+                System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"             "+result.get(i).getExName()+"              "+result.get(i).getExKcal());
+            }
             int ch = scan.nextInt();
-            System.out.println(result);
-            result.get(ch-1).getExKcal();
-            System.out.println(result.get(ch-1).getExKcal());
+            int selExCode = result.get(ch-1).getExCode();
+            // System.out.println(selExCode); 운동코드 확인용
         }
         else if (choNum == 3){
             ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
-            System.out.println("===강도===============운동내용===============칼로리===========");
-            result.forEach(dto -> {
-                System.out.println(dto.getExIntensity() + "     " + dto.getExName() + "    " + dto.getExKcal());
-            });
+            System.out.println("번호=======운동강도========운동내용============칼로리======");
+            for (int i = 0; i < result.size() ; i++) {
+                System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"         "+result.get(i).getExName()+"         "+result.get(i).getExKcal());
+            }
             int ch = scan.nextInt();
-            System.out.println(result);
-            int selKcal = result.get(ch-1).getExCode();
-            System.out.println(selKcal);
+            int selExCode = result.get(ch-1).getExCode();
+            // System.out.println(selExCode); 운동코드 확인용
         }
 
     }// 운동 고르기 함수 종료
