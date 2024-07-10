@@ -82,11 +82,11 @@ public class NormalMemberView {
                 System.out.print(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃 : ");
                 int ch = scan.nextInt();
                 if (ch == 1) {
-                    weightRecord();
+
                 } else if (ch == 2) {
                     foodCal();
                 } else if (ch == 3) {
-                    exCal();
+                    exCal2();
                 } else if (ch == 4) {
                     msgView();
                 } else if (ch == 5) {
@@ -107,9 +107,9 @@ public class NormalMemberView {
         return NormalMemberController.getInstance().hasWeightRecord();
     }
 
-    private void weightRecord() { // 몸무게 등록 메뉴
-        System.out.println(">>몸무게 기록 관리 메뉴입니다.");
-    }
+//    private void weightRecord() { // 몸무게 등록 메뉴
+//        System.out.println(">>몸무게 기록 관리 메뉴입니다.");
+//    }
     // 몸무게 기록 메뉴
     private void weightRecord() {
         while (true) {
