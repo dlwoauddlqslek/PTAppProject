@@ -55,7 +55,7 @@ public class FoodDao {
                 System.out.println(e);
             }
         } else {
-            System.out.println(">> 이미 등록되어 있는 음식입니다.");
+            System.out.println(">>이미 등록되어 있는 음식입니다.");
         }
         return false;
 
@@ -110,7 +110,7 @@ public class FoodDao {
                 System.out.println(e);
             }
         } else {
-            System.out.println(">> DB에 존재하지 않는 음식입니다.");
+            System.out.println(">>DB에 존재하지 않는 음식입니다.");
         }
         return false;
 
@@ -136,7 +136,7 @@ public class FoodDao {
                 System.out.println(e);
             }
         } else {
-            System.out.println(">> DB에 존재하지 않는 음식입니다.");
+            System.out.println(">>DB에 존재하지 않는 음식입니다.");
         }
         return false;
 

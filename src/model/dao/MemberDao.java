@@ -219,7 +219,7 @@ public class MemberDao {
                 System.out.println(e);
             }
         } else {
-            System.out.println(">> 존재하지 않는 회원입니다.");
+            System.out.println(">>존재하지 않는 회원입니다.");
         }
         return false;
 

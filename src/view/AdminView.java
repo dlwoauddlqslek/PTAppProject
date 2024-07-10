@@ -72,9 +72,9 @@ public class AdminView {
     public void foodAdd() {
         // AdminController에 전달할 음식 이름과 칼로리 입력 받기
         scan.nextLine();
-        System.out.print(">>추가할 음식 이름 : ");
+        System.out.print(">>추가할 음식 이름을 입력해주세요 : ");
         String foodName = scan.nextLine();
-        System.out.print(">>추가할 칼로리 : ");
+        System.out.print(">>추가할 칼로리를 입력해주세요 : ");
         int foodKcal = scan.nextInt();
 
         FoodDto foodDto = new FoodDto(foodName, foodKcal);
@@ -83,9 +83,9 @@ public class AdminView {
         boolean result = AdminController.getInstance().foodAdd(foodDto);
 
         if (result) {
-            System.out.println(">>음식 추가 성공");
+            System.out.println(">>음식을 추가하는 데에 성공하였습니다.");
         } else {
-            System.out.println(">>음식 추가 실패");
+            System.out.println(">>음식을 추가하는 데에 실패하였습니다.");
         }
 
     }   // foodAdd() end
@@ -158,13 +158,13 @@ public class AdminView {
     public void foodUpdate() {
         // 1. 수정하려고 하는 기존 음식 이름 입력
         scan.nextLine();
-        System.out.print(">>수정하려고 하는 기존 음식 이름 : ");
+        System.out.print(">>수정하려고 하는 기존 음식 이름을 입력해주세요 : ");
         String oldFoodName = scan.nextLine();
 
         // 2. 수정할 새 음식 이름과 칼로리 입력
-        System.out.print(">>수정할 새 음식 이름 : ");
+        System.out.print(">>수정할 새 음식 이름을 입력해주세요 : ");
         String newFoodName = scan.nextLine();
-        System.out.print(">>수정할 칼로리 값 : ");
+        System.out.print(">>수정할 칼로리 값을 입력해주세요 : ");
         int newFoodKcal = scan.nextInt();
 
         FoodDto foodDto = new FoodDto(newFoodName, newFoodKcal);
@@ -172,9 +172,9 @@ public class AdminView {
         boolean result = AdminController.getInstance().foodUpdate(oldFoodName, foodDto);
 
         if (result) {
-            System.out.println(">>음식 수정 성공");
+            System.out.println(">>음식을 수정하는 데에 성공하였습니다.");
         } else {
-            System.out.println(">>음식 수정 실패");
+            System.out.println(">>음식을 수정하는 데에 실패하였습니다.");
         }
 
     }   // foodUpdate() end
@@ -182,16 +182,16 @@ public class AdminView {
     // 음식 기능4. 음식 삭제 함수 -> AdminController에 전달 : 삭제할 음식 이름 String / AdminController로부터 받을 반환값 : 음식 삭제 성공 여부 boolean
     public void foodDelete() {
         // AdminController에 전달할 음식 이름 입력
-        System.out.print(">>삭제할 음식 이름 : ");
+        System.out.print(">>삭제할 음식 이름을 입력해주세요 : ");
         String foodName = scan.next();
 
         // AdminController에게 foodName 전달 / 반환 받은 음식 삭제 성공 여부를 result에 대입
         boolean result = AdminController.getInstance().foodDelete(foodName);
 
         if (result) {
-            System.out.println(">>음식 삭제 성공");
+            System.out.println(">>음식을 삭제하는 데에 성공하였습니다.");
         } else {
-            System.out.println(">>음식 삭제 실패");
+            System.out.println(">>음식을 삭제하는 데에 실패하였습니다.");
         }
 
     }
@@ -223,11 +223,11 @@ public class AdminView {
     public void exerAdd() {
         // 추가할 운동 이름, 칼로리, 강도 입력 받기
         scan.nextLine();
-        System.out.print(">>추가할 운동 이름 : ");
+        System.out.print(">>추가할 운동 이름을 입력해주세요 : ");
         String exName = scan.nextLine();
-        System.out.print(">>추가할 운동 칼로리 : ");
+        System.out.print(">>추가할 운동 칼로리를 입력해주세요 : ");
         int exKcal = scan.nextInt();
-        System.out.print(">>추가할 운동 강도 : ");
+        System.out.print(">>추가할 운동 강도를 입력해주세요 : ");
         int exIntensity = scan.nextInt();
 
         ExerciseDto exerDto = new ExerciseDto(exName, exKcal, exIntensity);
@@ -235,9 +235,9 @@ public class AdminView {
         boolean result = AdminController.getInstance().exerAdd(exerDto);
 
         if (result) {
-            System.out.println(">>운동 추가 성공");
+            System.out.println(">>운동을 추가하는 데에 성공하였습니다.");
         } else {
-            System.out.println(">>운동 추가 실패");
+            System.out.println(">>운동을 추가하는 데에 실패하였습니다.");
         }
 
     }
@@ -311,15 +311,15 @@ public class AdminView {
     public void exerUpdate() {
         // 수정하려고 하는 기존 운동 이름 입력 받기
         scan.nextLine();
-        System.out.print(">>수정하려고 하는 기존 운동 이름 : ");
+        System.out.print(">>수정하려고 하는 기존 운동 이름을 입력해주세요 : ");
         String oldExName = scan.nextLine();
 
         // 수정할 새 운동 이름, 새 칼로리, 새 운동 강도 입력 받기
-        System.out.print(">>수정할 새 운동 이름 : ");
+        System.out.print(">>수정할 새 운동 이름을 입력해주세요 : ");
         String newExName = scan.nextLine();
-        System.out.print(">>수정할 칼로리 값 : ");
+        System.out.print(">>수정할 칼로리 값을 입력해주세요 : ");
         int newExKcal = scan.nextInt();
-        System.out.print(">>수정할 운동 강도 : ");
+        System.out.print(">>수정할 운동 강도를 입력해주세요 : ");
         int newExIntensity = scan.nextInt();
 
         ExerciseDto exerDto = new ExerciseDto(newExName, newExKcal, newExIntensity);
@@ -327,9 +327,9 @@ public class AdminView {
         boolean result = AdminController.getInstance().exerUpdate(oldExName, exerDto);
 
         if (result) {
-            System.out.println(">>운동 수정 성공");
+            System.out.println(">>운동을 수정하는 데에 성공하였습니다.");
         } else {
-            System.out.println(">>운동 수정 실패");
+            System.out.println(">>운동을 수정하는 데에 실패하였습니다.");
         }
     }
 
@@ -337,15 +337,15 @@ public class AdminView {
     public void exerDelete() {
         // 삭제할 운동 이름 입력 받기
         scan.nextLine();
-        System.out.print(">>삭제할 운동 이름 : ");
+        System.out.print(">>삭제할 운동 이름을 입력해주세요 : ");
         String exName = scan.nextLine();
 
         boolean result = AdminController.getInstance().exerDelete(exName);
 
         if (result) {
-            System.out.println(">>운동 삭제 성공");
+            System.out.println(">>운동을 삭제하는 데에 성공하였습니다.");
         } else {
-            System.out.println(">>운동 삭제 실패");
+            System.out.println(">>운동을 삭제하는 데에 실패하였습니다.");
         }
     }
 
@@ -454,15 +454,15 @@ public class AdminView {
     // 회원 기능2. 회원 탈퇴 함수 -> AdminController에 전달 : 탈퇴시킬 회원 이름 String / AdminController로부터 받을 반환값 : 회원 탈퇴 성공 여부 boolean
     public void memberWithdraw() {
         // 탈퇴시킬 회원 이름 입력 받기
-        System.out.print(">>탈퇴시킬 회원 아이디 : ");
+        System.out.print(">>탈퇴시킬 회원 아이디를 입력해주세요 : ");
         String ID = scan.next();
 
         boolean result = AdminController.getInstance().memberWithdraw(ID);
 
         if (result) {
-            System.out.println(">>회원 탈퇴 성공");
+            System.out.println(">>회원을 탈퇴시키는 데에 성공하였습니다.");
         } else {
-            System.out.println(">>회원 탈퇴 실패");
+            System.out.println(">>회원을 탈퇴시키는 데에 실패하였습니다.");
         }
 
     }   // memberWithdraw() end

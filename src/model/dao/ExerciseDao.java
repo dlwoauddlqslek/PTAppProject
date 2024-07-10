@@ -55,7 +55,7 @@ public class ExerciseDao {
             }
             return exList;
         } catch (Exception e){
-            System.out.println(">>쪽지 출력 DAO 오류 : " +e);
+            System.out.println(e);
         }
         return exList;
     }
@@ -86,7 +86,7 @@ public class ExerciseDao {
                 System.out.println(e);
             }
         } else {
-            System.out.println(">> 이미 등록되어 있는 운동입니다.");
+            System.out.println(">>이미 등록되어 있는 운동입니다.");
         }
         return false;
 
@@ -141,7 +141,7 @@ public class ExerciseDao {
                 System.out.println(e);
             }
         } else {
-            System.out.println(">> DB에 존재하지 않는 운동입니다.");
+            System.out.println(">>DB에 존재하지 않는 운동입니다.");
         }
         return false;
     }   // exerUpdate 함수 end
@@ -163,7 +163,7 @@ public class ExerciseDao {
                 System.out.println(e);
             }
         } else {
-            System.out.println(">> DB에 존재하지 않는 운동입니다.");
+            System.out.println(">>DB에 존재하지 않는 운동입니다.");
         }
         return false;
 
