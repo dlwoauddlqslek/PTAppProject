@@ -282,4 +282,20 @@ public class MemberDao {
         }
         return memberDto;
     }
+
+    public MemberDto getMemberInfo(int memberCode) {
+        MemberDto memberDto = new MemberDto();
+        try {
+            String sql = "select height from member where memberCode = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, memberCode);
+            rs = ps.executeQuery();
+            if (rs.next()){
+                memberDto.setHeight(rs.getInt("height"));
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return memberDto;
+    }
 }
