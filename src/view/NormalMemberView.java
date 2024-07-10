@@ -51,6 +51,7 @@ public class NormalMemberView {
             } else {
                 System.out.println("몸무게를 등록해서 오늘의 남은 칼로리를 알아보세요.");
             }
+            System.out.println("--------------------------------------------------------");
             System.out.println("    오늘 먹은 음식                  오늘 한 운동");
             System.out.println(" 번호         이름        번호           이름");
             System.out.println("--------------------------------------------------------");
@@ -79,10 +80,10 @@ public class NormalMemberView {
             // "디스플레이" 끝
             try {
                 System.out.println(">>원하시는 메뉴를 선택해 주세요.");
-                System.out.print(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃 : 7.회원탈퇴 ");
+                System.out.print(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃 7.회원탈퇴 : ");
                 int ch = scan.nextInt();
                 if (ch == 1) {
-                    weightRecord();
+                    weightRecordMenu();
                 } else if (ch == 2) {
                     foodMenu();
                 } else if (ch == 3) {
@@ -93,6 +94,7 @@ public class NormalMemberView {
                     mUpdate();
                 } else if (ch == 6) {
                     logOut();
+                    return;
                 } else if (ch == 7) {
                     removeMem();
                 } else {
@@ -117,7 +119,7 @@ public class NormalMemberView {
 //        System.out.println(">>몸무게 기록 관리 메뉴입니다.");
 //    }
     // 몸무게 기록 메뉴
-    private void weightRecord() {
+    private void weightRecordMenu() {
         while (true) {
             System.out.println("================== 몸무게 기록 메뉴 "+ NormalMemberController.weightRecordCurrentPage + " 페이지 ==================");
             System.out.println("번호         몸무게                측정시간");
