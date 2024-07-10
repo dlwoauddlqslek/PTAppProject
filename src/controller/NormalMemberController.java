@@ -72,14 +72,14 @@ public class NormalMemberController {
         for (AteFoodRecordDto dto : dailyAteFoodList){
             foodKcal += dto.getFoodkcal();
         }
-        System.out.println("foodKcal : " + foodKcal);
+        System.out.println("foodKcal(-) : " + foodKcal);
         // 오늘 기준 운동량 (-)
         int workOutKcal = 0;
         ArrayList<WorkOutRecordDto> dailyWorkOutList = getDailyWorkoutList(0, 0);
         for (WorkOutRecordDto dto : dailyWorkOutList){
             workOutKcal += dto.getExKcal();
         }
-        System.out.println("workOUtKcal" + workOutKcal);
+        System.out.println("workOUtKcal(+) : " + workOutKcal);
         return (baseKcal + foodKcal - workOutKcal);
     }
     // 몸무게 기록 내역이 있는지 체크
@@ -119,8 +119,8 @@ public class NormalMemberController {
     }
 
     public boolean foodRecord(String foodName){
-        int loginMno=2;
-        return AteFoodRecordDao.getInstance().foodRecord(foodName,loginMno);
+
+        return AteFoodRecordDao.getInstance().foodRecord(foodName,loginMCode);
     }
 
     public boolean ateFoodUpdate(int ateFoodCode,String foodName){
@@ -145,8 +145,8 @@ public class NormalMemberController {
 
 
     public boolean exRecord(int selExCode){
-        int loginMno=2;
-        return WorkOutRecordDao.getInstance().exRecord(selExCode,loginMno);
+
+        return WorkOutRecordDao.getInstance().exRecord(selExCode,loginMCode);
     }
 
     public boolean workOutRecordUpdate(int workOutCode, int exCode){
