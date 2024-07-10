@@ -289,7 +289,7 @@ public class NormalMemberView {
         while (true) {
             try {
                 System.out.println(">>원하시는 메뉴를 선택해 주세요.");
-                System.out.print(">>1.먹은음식 등록 2.수정 3.삭제 : ");
+                System.out.print(">>1.먹은음식 등록 2.수정 3.삭제 b.: ");
                 int ch = scan.nextInt();
                 if (ch == 1) {
                     foodCal();
@@ -307,9 +307,7 @@ public class NormalMemberView {
         }
     }
     // 몸무게 등록 메뉴
-    private void weightRecord() {
-        System.out.println(">>몸무게 기록 관리 메뉴입니다.");
-    }
+
     // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
     public void foodCal(){
         scan.nextLine();
