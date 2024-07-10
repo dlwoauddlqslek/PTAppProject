@@ -59,27 +59,27 @@ public class NormalMemberView {
             // 번호 1~5 회원명 | 번호 6~10 회원명
             ArrayList<MemberDto> leftList = new ArrayList<>();
             ArrayList<MemberDto> rightList = new ArrayList<>();
-            // 왼쪽 오른쪽 출력할 목록 구분
-            for ( int i = 0; i < 10; i++){
-                if (i < 5 && i < memList.size()) {
-                    leftList.add(memList.get(i));
-                }
-                else if (i >= 5 && i < memList.size()){
-                    rightList.add(memList.get(i));
-                }
-            }
-            // printf 한줄로 양쪽에서 한 객체씩 뽑아서 출력
-            for (int i = 0; i < 5; i++) {
-                if (i < rightList.size()) {
-                    System.out.printf("%2d | %-15s | %2d | %-10s\n", i+1, leftList.get(i).getMemberName(), i+6, rightList.get(i).getMemberName());
-                }
-                else if (i < leftList.size()){
-                    System.out.printf("%2d | %-15s |    |\n", i+1, leftList.get(i).getMemberName());
-                }
-                else {
-                    System.out.println("   |                    |    |");
-                }
-            }
+//            // 왼쪽 오른쪽 출력할 목록 구분
+//            for ( int i = 0; i < 10; i++){
+//                if (i < 5 && i < memList.size()) {
+//                    leftList.add(memList.get(i));
+//                }
+//                else if (i >= 5 && i < memList.size()){
+//                    rightList.add(memList.get(i));
+//                }
+//            }
+//            // printf 한줄로 양쪽에서 한 객체씩 뽑아서 출력
+//            for (int i = 0; i < 5; i++) {
+//                if (i < rightList.size()) {
+//                    System.out.printf("%2d | %-15s | %2d | %-10s\n", i+1, leftList.get(i).getMemberName(), i+6, rightList.get(i).getMemberName());
+//                }
+//                else if (i < leftList.size()){
+//                    System.out.printf("%2d | %-15s |    |\n", i+1, leftList.get(i).getMemberName());
+//                }
+//                else {
+//                    System.out.println("   |                    |    |");
+//                }
+//            }
             // "디스플레이" 끝
             System.out.println(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃");
 
@@ -194,7 +194,7 @@ public class NormalMemberView {
             System.out.println(weightRecordDto.getWeight());
             System.out.print("측정 시간 : ");
             System.out.println(weightRecordDto.getMeasureTime());
-            System.out.println("--------------------------------------------------------");
+            System.out.println("------------------------------------------------------------");
             System.out.print(">>u = 몸무게 기록 수정, d = 몸무게 기록 삭제, b = 돌아가기 : ");
             char ch = scan.next().charAt(0);    // 메뉴 입력 받기
             if (ch == 'u') {            // 몸무게 기록 수정 함수 호출
