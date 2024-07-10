@@ -170,4 +170,51 @@ public class MessageDao {
         }
         return false;
     }
+    // 답장을 보내지 않은 쪽지들 확인하기
+    public ArrayList<MessageDto> checkPtMsgNoReply(int msgCurrentPage, int loginMCode) {
+        ArrayList<MessageDto> msgList = new ArrayList<>();
+        try{
+            String sql = "select * from message where receivedMCode = ? and hasReply = 0 order by msgDate desc limit ?, 10;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, loginMCode); ps.setInt(2, msgCurrentPage);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                MessageDto msgDto = new MessageDto();
+                msgDto.setSentMCode(rs.getInt(2));
+                msgDto.setMessageCode(rs.getInt(1));
+                msgDto.setMsgTitle(rs.getString(4));
+                msgDto.setMsgContent(rs.getString(5));
+                msgDto.setMsgDate(rs.getString(7));
+                sql = "select memberName from member where memberCode = ?";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, rs.getInt(2));
+                ResultSet rs1 = ps.executeQuery();
+                msgDto.setSentMName(rs1.getString(1));
+                msgList.add(msgDto);
+            }
+        }catch (Exception e) {
+            System.out.println(">>답장 삭제 실패 : " + e);
+        }
+        return msgList;
+    }
+
+    public boolean ptWriteReply(MessageDto messageDto) {
+        try{
+            String sql = "insert into message(replyContent) values(?) where messageCode = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, messageDto.getReplyContent()); ps.setInt(2, messageDto.getMessageCode());
+            int result = ps.executeUpdate();
+            if (result == 1){
+                // 답글여부 O, 답글날짜 now()
+                sql = "update message set hasReply = 1, replyDate = now() where messageCode = ?";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, messageDto.getMessageCode());
+                int updateResult = ps.executeUpdate();
+                return updateResult==1;
+            }
+        }catch (Exception e) {
+            System.out.println(">>답장 삭제 실패 : " + e);
+        }
+        return false;
+    }
 }

@@ -23,7 +23,7 @@ public class PtMemberController {
     public static int msgCurrentPage = 1;
 
     public ArrayList<MessageDto> checkPtMsgNoReply(int msgCurrentPage) {
-        return MessageDao.getInstance().msgView(msgCurrentPage, loginMCode);
+        return MessageDao.getInstance().checkPtMsgNoReply(msgCurrentPage, loginMCode);
     }
 
     public boolean mUpdate(MemberDto memberDto){
@@ -50,5 +50,9 @@ public class PtMemberController {
     // 답장 삭제하기
     public boolean msgReplyDelete(int messageCode) {
         return MessageDao.getInstance().msgReplyDelete(messageCode);
+    }
+    // 답장 보내기
+    public boolean ptWriteReply(MessageDto messageDto) {
+        return MessageDao.getInstance().ptWriteReply(messageDto);
     }
 }
