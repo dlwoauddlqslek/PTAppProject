@@ -88,7 +88,6 @@ public class AteFoodRecordDao {
                 foodRecordDto.setFoodkcal(rs.getInt("foodKcal"));
                 dailyFoodList.add(foodRecordDto);
             }
-
         } catch (Exception e){System.out.println(e);}
         return dailyFoodList;
     }

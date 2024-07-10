@@ -31,7 +31,7 @@ public class WeightRecordDao {
     public WeightRecordDto checkWeight(int loginMCode) {
         WeightRecordDto weightDto = new WeightRecordDto();
         try{
-            String sql="select weight from weightrecord where membercode = 1 order by measureTime desc limit 0, 1;";
+            String sql="select weight from weightrecord where membercode = ? order by measureTime desc limit 0, 1;";
             ps=conn.prepareStatement(sql);
             ps.setInt(1, loginMCode);
             rs=ps.executeQuery();
