@@ -306,10 +306,7 @@ public class NormalMemberView {
             }
         }
     }
-    // 몸무게 등록 메뉴
-    private void weightRecord() {
-        System.out.println(">>몸무게 기록 관리 메뉴입니다.");
-    }
+
     // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
     public void foodCal(){
         scan.nextLine();
@@ -500,6 +497,7 @@ public class NormalMemberView {
     public void logOut(){
         MemberController.getInstance().logOut();
         System.out.println(">>로그아웃 성공, 초기 화면으로 돌아갑니다.");
+        MemberView.getInstance().index();
     }
 
     //=====================================================회원 탈퇴 함수===============================================================
@@ -513,7 +511,10 @@ public class NormalMemberView {
         memberDto.setID(removeId);memberDto.setPW(removePw);
         boolean result = MemberController.getInstance().removeMem(memberDto);
         if (result){
-            System.out.println("회원탈퇴 성공입니다."); MemberView.getInstance().index();
+            System.out.println();
+            System.out.println("회원탈퇴 성공입니다.");
+            System.out.println();
+            MemberView.getInstance().index();
         }
         else {
             System.out.println();

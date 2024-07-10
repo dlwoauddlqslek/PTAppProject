@@ -1,6 +1,7 @@
 package view;
 
 
+import controller.MemberController;
 import controller.NormalMemberController;
 import controller.PtMemberController;
 import static controller.PtMemberController.msgCurrentPage;
@@ -24,13 +25,14 @@ public class PtMemberView {
     public void index(){
         msgCurrentPage = 1; // 메뉴 진입시 현재 페이지 초기화
         while (true) {
+            //강사 메뉴 "디스플레이"
             System.out.println("=========== 강사 메뉴 | 답장이 필요한 쪽지  " + msgCurrentPage + " 페이지 ===========");
             System.out.println("번호         제목          받은 날짜");
             System.out.println("--------------------------------------------------------");
             ArrayList<MessageDto> ptMsgList;
             // ArrayList MessageDAO에서 가져오기
             ptMsgList = PtMemberController.getInstance().checkPtMsgNoReply(msgCurrentPage);
-            //쪽지 출력 for문
+            //쪽지 목록 출력 for문
             for (int i = 0; i < ptMsgList.size(); i++){
                 String title = ptMsgList.get(i).getMsgTitle();
                 int maxTitleLen = 15;
@@ -39,9 +41,11 @@ public class PtMemberView {
                 System.out.printf("%2d | %-15s | %10s\n", i+1, title, sentDate);
             }
             System.out.println("--------------------------------------------------------");
+            // 강사 메뉴 "디스플레이" 끝
+            
             System.out.println("1 ~ 10 = 해당 쪽지에 답글 작성하기, p = 이전 페이지, n = 다음 페이지");
             System.out.println("h = 받은 쪽지 내역 보기, s = 쪽지 보낸 회원의 건강 정보 조회");
-            System.out.println("e = 개인정보 수정, o = 로그아웃 : ");
+            System.out.println("e = 개인정보 수정, o = 로그아웃, x = 회원탈퇴 : ");
             int ch;
             try { //알파벳 입력과 숫자 1~10 입력을 같이 받기
                 ch = scan.nextInt();
@@ -52,7 +56,7 @@ public class PtMemberView {
             }
             if (ch >= 1 && ch <= 10) { // 쪽지 상세보기
                 if (ch <= ptMsgList.size()) { // 쪽지 화면 번호와 입력 값의 유효성 검사
-                    ptWriteReply(ch, ptMsgList.get(ch - 1));
+                    ptCheckMessage(ch, ptMsgList.get(ch - 1));
                 } else { // 표시되지 않은 번호를 입력
                     System.out.println(">>쪽지번호를 다시 확인해주세요.");
                     System.out.println();
@@ -67,7 +71,7 @@ public class PtMemberView {
                 }
             } else if (ch == 'N' || ch == 'n') { // 쪽지 내역 다음 10개
                 // 불러올 쪽지 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
-                if (PtMemberController.getInstance().checkPtMsgList(msgCurrentPage + 1).isEmpty()) {
+                if (PtMemberController.getInstance().checkPtMsgNoReply(msgCurrentPage + 1).isEmpty()) {
                     System.out.println(">>마지막 페이지입니다!");
                     System.out.println();
                 } else { // 현재 페이지 +1 및 출력
@@ -96,6 +100,26 @@ public class PtMemberView {
                 PtMemberController.getInstance().logOut();
                 System.out.println(">>로그아웃 성공. 메인 화면으로 돌아갑니다.");
                 return;
+            } else if (ch == 'X' || ch == 'x') {
+                System.out.println(">>회원탈퇴 메뉴입니다.");
+                System.out.print(">>회원탈퇴할 계정의 아이디를 입력해 주세요 : ");
+                String removeId = scan.next();
+                System.out.print(">>회원탈퇴할 계정의 비밀번호를 입력해 주세요 : ");
+                String removePw = scan.next();
+                MemberDto memberDto = new MemberDto();
+                memberDto.setID(removeId);memberDto.setPW(removePw);
+                boolean result = MemberController.getInstance().removeMem(memberDto);
+                if (result){
+                    System.out.println();
+                    System.out.println("회원탈퇴 성공입니다.");
+                    System.out.println();
+                    MemberView.getInstance().index();
+                }
+                else {
+                    System.out.println();
+                    System.out.println("회원탈퇴 실패입니다. 다시 입력해주세요");
+                    System.out.println();
+                }
             }
             else { // 메뉴 입력값이 이상하다
                 System.out.println(">>입력이 잘못되었습니다.");
@@ -121,18 +145,34 @@ public class PtMemberView {
         }
     }
     // 첫 화면에서 미답신 쪽지 선택시 - 답장 보내기 메뉴
-    public void ptWriteReply(int screenNum, MessageDto msgDto){ // 화면 쪽지 번호 ch, 해당 DTO객체 msgDTO
+    public void ptCheckMessage(int screenNum, MessageDto msgDto){ // 화면 쪽지 번호 ch, 해당 DTO객체 msgDTO
         // 2 \ 제목2 \ 4 \ 2024-07-03 \ 답장이 있습니다
         System.out.println("===============" + screenNum + "번 쪽지에 답장 보내기 ===============");
         showMessage(msgDto);
         System.out.println("--------------------------------------------------------");
-        System.out.println("r.답글 작성 b.돌아가기");
-        char ch = scan.next().charAt(0);
-        scan.nextLine();
-        if (ch == 'r' || ch == 'R'){
-            //ptMsgHistory(msgDto.getSentMCode(), msgDto.getReceivedMCode())
+        System.out.println("r.답글 작성, s.해당 회원 건강정보 조회, b.돌아가기");
+        while (true) {
+            try {
+                scan.nextLine();
+                char ch = scan.next().charAt(0);
+                scan.nextLine();
+                if (ch == 'R' || ch == 'r') {
+                    System.out.println(">>답글 내용을 입력해주세요.");
+                    String reply = scan.nextLine();
+                    MessageDto messageDto = new MessageDto();
+                    messageDto.setReplyContent(reply);
+                    messageDto.setMessageCode(msgDto.getMessageCode());
+                    PtMemberController.getInstance().ptWriteReply(messageDto);
+                } else if (ch == 'S' || ch == 's') { // 쪽지 보낸 회원의 건강 정보 조회
+                    msgCheckMemberStat(msgDto.getSentMCode());
+                } else if (ch == 'B' || ch == 'b'){
+                    break;
+                }
+                else {throw new RuntimeException();}
+            } catch (Exception e) {
+                System.out.println(">>잘못된 입력입니다. 다시 확인해 주세요.");
+            }
         }
-
     }
     // 쪽지 내역 - 쪽지 선택시 상세표시 메뉴
     private void msgCheckMessage(int screenNum, MessageDto msgDto) {
@@ -270,7 +310,8 @@ public class PtMemberView {
     }
 
     // 강사) 쪽지 메뉴 - 쪽지 보낸 회원 정보(키, 몸무게, 음식기록, 운동기록) 확인하기
-    public void msgCheckMemberStat(){
+    public void msgCheckMemberStat(int sentMCode){
+
         // 현재 memberCode를 보내 쪽지 기록이 있는 회원 코드와 이름을 불러오기
         // 1. 아무개 ... <- 번호를 고르면 키와 몸무게가 뜨고 1.음식기록 2.운동기록 3.뒤로가기
         // 1/2를 고르면 오늘 날짜 기준으로 기록을 가져온다. 1.전날 2.다음날 3.돌아가기
