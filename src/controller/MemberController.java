@@ -34,6 +34,7 @@ public class MemberController {
         NormalMemberController.getInstance().birthDate = memberDto1.getBirthDate();
         NormalMemberController.getInstance().exHabit = memberDto1.getExHabit();
         return true;
+
     }
 
     // 아이디 찾기 함수
@@ -57,5 +58,10 @@ public class MemberController {
         loginMCode = 0;
     }
 
+    //회원 탈퇴 함수
+    public boolean removeMem(MemberDto memberDto){
+        memberDto.setMemberCode(loginMCode);
+        return MemberDao.getInstance().removeMem(memberDto);
+    }
 
 }

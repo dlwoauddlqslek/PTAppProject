@@ -235,6 +235,8 @@ public class MemberView {
         else{  System.out.println(">>회원정보가 없습니다."); }
     }
 
+
+
     //시작화면 아스키아트
     public void indexAsciiArt(){
         System.out.println(".·:'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''':·.");

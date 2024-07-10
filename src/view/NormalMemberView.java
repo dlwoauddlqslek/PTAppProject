@@ -79,7 +79,7 @@ public class NormalMemberView {
             // "디스플레이" 끝
             try {
                 System.out.println(">>원하시는 메뉴를 선택해 주세요.");
-                System.out.print(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃 : ");
+                System.out.print(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃 : 7.회원탈퇴 ");
                 int ch = scan.nextInt();
                 if (ch == 1) {
                     weightRecord();
@@ -93,6 +93,8 @@ public class NormalMemberView {
                     mUpdate();
                 } else if (ch == 6) {
                     logOut();
+                } else if (ch == 7) {
+                    removeMem();
                 } else {
                     throw new RuntimeException();
                 }
@@ -107,9 +109,9 @@ public class NormalMemberView {
         return NormalMemberController.getInstance().hasWeightRecord();
     }
 
-    private void weightRecord() { // 몸무게 등록 메뉴
-        System.out.println(">>몸무게 기록 관리 메뉴입니다.");
-    }
+//    private void weightRecord() { // 몸무게 등록 메뉴
+//        System.out.println(">>몸무게 기록 관리 메뉴입니다.");
+//    }
     // 몸무게 기록 메뉴
     private void weightRecord() {
         while (true) {
@@ -224,10 +226,11 @@ public class NormalMemberView {
 
     public void exCal2(){
         System.out.println("========================운동선택메뉴======================");
-        System.out.println("1.초급운동(Level)    2.중급운동(Level)    3.고급운동(Level)");
+        System.out.print("1.초급운동(Level)    2.중급운동(Level)    3.고급운동(Level)  :  ");
         int choNum = scan.nextInt();
         if (choNum == 1 ) {
             ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
+            System.out.println();
             System.out.println("번호=======운동강도========운동내용==========칼로리========");
             for (int i = 0; i < result.size() ; i++) {
                 System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"             "+result.get(i).getExName()+"              "+result.get(i).getExKcal());
@@ -238,6 +241,7 @@ public class NormalMemberView {
         }
         else if (choNum == 2){
             ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
+            System.out.println();
             System.out.println("번호=======운동강도========운동내용==========칼로리========");
             for (int i = 0; i < result.size() ; i++) {
                 System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"             "+result.get(i).getExName()+"              "+result.get(i).getExKcal());
@@ -248,6 +252,7 @@ public class NormalMemberView {
         }
         else if (choNum == 3){
             ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
+            System.out.println();
             System.out.println("번호=======운동강도========운동내용============칼로리======");
             for (int i = 0; i < result.size() ; i++) {
                 System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"         "+result.get(i).getExName()+"         "+result.get(i).getExKcal());
@@ -256,7 +261,6 @@ public class NormalMemberView {
             int selExCode = result.get(ch-1).getExCode();
             // System.out.println(selExCode); 운동코드 확인용
         }
-
     }// 운동 고르기 함수 종료
 
 
@@ -279,9 +283,9 @@ public class NormalMemberView {
 
     //=======================================================회원수정 함수=======================================================
     public void mUpdate(){
-        System.out.println("변경할 키 : "); int height = scan.nextInt();
-        System.out.println("변경할 운동습관(1 ~ 3) : "); int habit = scan.nextInt();
-        System.out.println("변경할 연락처 : "); String mphone = scan.next();
+        System.out.print("변경할 키 : "); int height = scan.nextInt();
+        System.out.print("변경할 운동습관(1 ~ 3) : "); int habit = scan.nextInt();
+        System.out.print("변경할 연락처 : "); String mphone = scan.next();
         MemberDto memberDto = new MemberDto();
         memberDto.setHeight(height);
         memberDto.setExHabit(habit);
@@ -298,7 +302,25 @@ public class NormalMemberView {
         System.out.println("로그아웃 성공");
     }
 
-
+    //=====================================================회원 탈퇴 함수===============================================================
+    public void removeMem(){
+        System.out.println(">>회원탈퇴 메뉴입니다.");
+        System.out.print(">>회원탈퇴할 계정의 아이디를 입력해 주세요 : ");
+        String removeId = scan.next();
+        System.out.print(">>회원탈퇴할 계정의 비밀번호를 입력해 주세요 : ");
+        String removePw = scan.next();
+        MemberDto memberDto = new MemberDto();
+        memberDto.setID(removeId);memberDto.setPW(removePw);
+        boolean result = MemberController.getInstance().removeMem(memberDto);
+        if (result){
+            System.out.println("회원탈퇴 성공입니다."); MemberView.getInstance().index();
+        }
+        else {
+            System.out.println();
+            System.out.println("회원탈퇴 실패입니다. 다시 입력해주세요");
+            System.out.println();
+        }
+    }
 
 
 

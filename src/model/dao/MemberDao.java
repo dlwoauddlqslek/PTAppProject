@@ -106,6 +106,21 @@ public class MemberDao {
         } return null;
     }
 
+    public boolean removeMem(MemberDto memberDto){
+        try {
+            String sql = "delete from member where memberCode = ? and ID = ? and PW = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,memberDto.getMemberCode());
+            ps.setString(2,memberDto.getID());
+            ps.setString(3,memberDto.getPW());
+            int count = ps.executeUpdate();
+            if (count == 1){return true;}
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
+
     // 강사 회원 목록 조회 함수
     public ArrayList<MemberDto> msgShowPtMemberList(int msgPtMemberListPage) {
         ArrayList<MemberDto> ptMemberList = new ArrayList<>();
