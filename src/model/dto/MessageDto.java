@@ -11,6 +11,8 @@ public class MessageDto {
     private String msgDate;         // 쪽지보낸날짜
     private String replyContent;    // 답장내용
     private String replyDate;       // 답장날짜
+    private String sentMName;       // 보낸 회원 이름
+    private String receivedMName;   // 받은 회원 이름
 
     public MessageDto() {
     }
@@ -23,11 +25,29 @@ public class MessageDto {
                 ", receivedMCode=" + receivedMCode +
                 ", msgTitle='" + msgTitle + '\'' +
                 ", msgContent='" + msgContent + '\'' +
-                ", hasReply" + hasReply +
+                ", hasReply=" + hasReply +
                 ", msgDate='" + msgDate + '\'' +
                 ", replyContent='" + replyContent + '\'' +
                 ", replyDate='" + replyDate + '\'' +
+                ", sentMName='" + sentMName + '\'' +
+                ", receivedMName='" + receivedMName + '\'' +
                 '}';
+    }
+
+    public String getSentMName() {
+        return sentMName;
+    }
+
+    public void setSentMName(String sentMName) {
+        this.sentMName = sentMName;
+    }
+
+    public String getReceivedMName() {
+        return receivedMName;
+    }
+
+    public void setReceivedMName(String receivedMName) {
+        this.receivedMName = receivedMName;
     }
 
     public int getMessageCode() {

@@ -109,16 +109,12 @@ public class NormalMemberController {
 
         int total=0;
         ArrayList<AteFoodRecordDto> ateFoodList= getDailyFoodList(0, 0);
-        System.out.println(ateFoodList);
         // 3. 로그인한 회원이 먹은 음식코드의 칼로리 합계
         for (int i=0; i<ateFoodList.size(); i++){
-            System.out.println(ateFoodList.get(i).getFoodkcal());
             total+=ateFoodList.get(i).getFoodkcal();
         }
         return total;
     }
-
-
 
     public boolean foodCheck(String foodName){
         return AteFoodRecordDao.getInstance().foodCheck(foodName);
@@ -245,3 +241,12 @@ public class NormalMemberController {
     // ============================================================================ //
 
 }   // class end
+    //선택된 쪽지 삭제
+    public boolean msgDelete(int messageCode) {
+        return MessageDao.getInstance().msgDelete(messageCode);
+    }
+    //선택된 쪽지 수정
+    public boolean msgEdit(MessageDto msgDto) {
+        return MessageDao.getInstance().msgEdit(msgDto);
+    }
+}

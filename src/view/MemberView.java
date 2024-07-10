@@ -3,6 +3,7 @@ package view;
 import controller.MemberController;
 import model.dto.MemberDto;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import static controller.MemberController.loginAccCode;
@@ -20,33 +21,29 @@ public class MemberView {
     // 프로그램 시작시 메뉴
     public void index(){
         // 아스키아트
-        indexAsciiArt();
+        while (true) {
+            indexAsciiArt();
 
-        System.out.println(">>환영합니다. 퍼스널 트레이너 어플리케이션입니다. 메뉴를 선택해 주세요.");
-        while (true){
+            System.out.println(">>환영합니다. 퍼스널 트레이너 어플리케이션입니다. 메뉴를 선택해 주세요.");
+
             try {
                 System.out.print(">>1.회원가입 2.로그인 3.아이디찾기 4.비밀번호찾기 5.프로그램종료 : ");
                 int ch = scan.nextInt();
-                if (ch==1){ //실행 확인됨
+                if (ch == 1) { //실행 확인됨
                     signUp();
-                }
-                else if (ch==2){ //실행 확인됨
+                } else if (ch == 2) { //실행 확인됨
                     login();
-                }
-                else if (ch==3){ //실행 확인됨
+                } else if (ch == 3) { //실행 확인됨
                     findId();
-                }
-                else if (ch==4){ //실행 확인됨
+                } else if (ch == 4) { //실행 확인됨
                     findPw();
-                }
-                else if (ch==5) { //실행 확인됨
+                } else if (ch == 5) { //실행 확인됨
                     System.out.println(">>프로그램을 종료합니다.");
                     break;
-                }
-                else{
+                } else {
                     System.out.println(">>입력이 잘못되었습니다. 다시 시도해 주세요.");
                 }
-            }catch (Exception e){ // 문자열 입력시 오류
+            } catch (Exception e) { // 문자열 입력시 오류
                 System.out.println(">>입력이 잘못되었습니다. 다시 시도해 주세요.");
                 scan = new Scanner(System.in);
             }
@@ -199,8 +196,10 @@ public class MemberView {
                     PtMemberView.getInstance().index();
                     break;
             }
+        } else {
+            System.out.println(">>로그인이 실패하였습니다. 아이디와 비밀번호를 다시 확인해 주세요.");
+            scan = new Scanner(System.in);
         }
-        System.out.println(">>로그인이 실패하였습니다. 아이디와 비밀번호를 다시 확인해 주세요.");
     }
 
     //아이디 찾기 메뉴
@@ -214,8 +213,14 @@ public class MemberView {
         MemberDto memberDto = new MemberDto();
         memberDto.setMemberName(name); memberDto.setContact(phone);
         // DB 검색후 ID를 String result 로 가져오기
-        String result =  MemberController.getInstance().findId( memberDto );
-        if( result != null ){  System.out.println(">>회원님의 아이디는 ["+result+"] 입니다.");}
+        ArrayList<String> result =  MemberController.getInstance().findId( memberDto );
+        if(!result.isEmpty()){
+            System.out.print(">>회원님의 아이디는 [");
+            for (String id : result){
+                System.out.print(id+", ");
+            }
+            System.out.println("] 입니다.");
+        }
         else{  System.out.println(">>회원정보가 없습니다."); }
     }
 

@@ -22,8 +22,8 @@ public class PtMemberController {
 
     public static int msgCurrentPage = 1;
 
-    public ArrayList<MessageDto> checkPtMsgList(int msgCurrentPage) {
-        return MessageDao.getInstance().msgView(msgCurrentPage, loginMCode);
+    public ArrayList<MessageDto> checkPtMsgNoReply(int msgCurrentPage) {
+        return MessageDao.getInstance().checkPtMsgNoReply(msgCurrentPage, loginMCode);
     }
 
     public boolean mUpdate(MemberDto memberDto){
@@ -36,4 +36,23 @@ public class PtMemberController {
         loginNo = 0;
     }
 
+    public ArrayList<MemberDto> msgShowMemberList(int msgMemberListPage) {
+        return MemberDao.getInstance().msgShowMemberList(msgMemberListPage);
+    }
+    // 쪽지 내역 조회하기
+    public ArrayList<MessageDto> msgView(int msgCurrentPage) {
+        return MessageDao.getInstance().msgView(msgCurrentPage, loginMCode);
+    }
+    // 답장 수정하기
+    public boolean msgReplyEdit(MessageDto msgDto) {
+        return MessageDao.getInstance().msgReplyEdit(msgDto);
+    }
+    // 답장 삭제하기
+    public boolean msgReplyDelete(int messageCode) {
+        return MessageDao.getInstance().msgReplyDelete(messageCode);
+    }
+    // 답장 보내기
+    public boolean ptWriteReply(MessageDto messageDto) {
+        return MessageDao.getInstance().ptWriteReply(messageDto);
+    }
 }

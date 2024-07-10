@@ -78,17 +78,21 @@ public class MemberDao {
     }
 
     //아이디 찾기 함수
-    public String findId(MemberDto memberDto){
+    public ArrayList<String> findId(MemberDto memberDto){
+        ArrayList<String> idList = new ArrayList<>();
         try {
             String sql = "select id from member where memberName = ? and contact = ?;";
             ps = conn.prepareStatement(sql);
             ps.setString(1,memberDto.getMemberName());
             ps.setString(2,memberDto.getContact());
             rs = ps.executeQuery();
-            if (rs.next()){return rs.getString("ID");}
+            while (rs.next()){
+                idList.add(rs.getString("ID"));
+            }
         }catch (Exception e){
             System.out.println(e);
-        } return null;
+        }
+        return idList;
     }
 
     //비밀번호 찾기 함수
@@ -127,7 +131,7 @@ public class MemberDao {
         try {
             String sql = "select * from member where accCategory = 3 LIMIT ?, ?";
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, (msgPtMemberListPage-1)*10); ps.setInt(2, msgPtMemberListPage*10);
+            ps.setInt(1, (msgPtMemberListPage-1)*10); ps.setInt(2, 10);
             rs = ps.executeQuery();
             while (rs.next()) {
                 MemberDto memberDto = new MemberDto();
@@ -140,14 +144,14 @@ public class MemberDao {
         }
         return ptMemberList;
     }
-
+    // PT 강사 메뉴에서 답장 보내기
     public ArrayList<MemberDto> msgShowMemberList(int msgMemberListPage) {
         ArrayList<MemberDto> memberList = new ArrayList<>();
         try {
             String sql = "select * from member where accCategory = 2 and receivedMCode = ? LIMIT ?, ?";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginMCode);
-            ps.setInt(2, (msgMemberListPage-1)*10); ps.setInt(3, msgMemberListPage*10);
+            ps.setInt(2, (msgMemberListPage-1)*10); ps.setInt(3, 10);
             rs = ps.executeQuery();
             while (rs.next()) {
                 MemberDto memberDto = new MemberDto();
