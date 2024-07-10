@@ -1,3 +1,4 @@
+import view.AdminView;
 import view.NormalMemberView;
 
 
@@ -5,7 +6,7 @@ import view.NormalMemberView;
 public class AppStart {
     public static void main(String[] args) {
 
-        NormalMemberView.getInstance().exCal2();
+        AdminView.getInstance().exerListView();
 
     }
 }
