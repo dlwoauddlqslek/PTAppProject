@@ -102,7 +102,7 @@ INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES ('2', '조깅'
 INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES ('3', '수영', '60', '1');
 INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES ('4', '자전거타기', '40', '2');
 INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES ('5', '계단오르내리기', '80', '3');
-INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (6,'턱걸이',30,3);
+INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES ('6','턱걸이','30','3');
 INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (7,'요가',25,1);
 INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (8,'등산',50,3);
 INSERT INTO exercise (exCode, exName, exKcal, exIntensity) VALUES (9,'줄넘기',70,2);

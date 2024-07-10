@@ -190,5 +190,12 @@ public class NormalMemberController {
         return MemberDao.getInstance().getCurrentDto(loginMCode);
     }
 
-
+    //선택된 쪽지 삭제
+    public boolean msgDelete(int messageCode) {
+        return MessageDao.getInstance().msgDelete(messageCode);
+    }
+    //선택된 쪽지 수정
+    public boolean msgEdit(MessageDto msgDto) {
+        return MessageDao.getInstance().msgEdit(msgDto);
+    }
 }

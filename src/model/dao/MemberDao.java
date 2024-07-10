@@ -112,7 +112,7 @@ public class MemberDao {
         try {
             String sql = "select * from member where accCategory = 3 LIMIT ?, ?";
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, (msgPtMemberListPage-1)*10); ps.setInt(2, msgPtMemberListPage*10);
+            ps.setInt(1, (msgPtMemberListPage-1)*10); ps.setInt(2, 10);
             rs = ps.executeQuery();
             while (rs.next()) {
                 MemberDto memberDto = new MemberDto();
@@ -125,14 +125,14 @@ public class MemberDao {
         }
         return ptMemberList;
     }
-
+    // PT 강사 메뉴에서 답장 보낼
     public ArrayList<MemberDto> msgShowMemberList(int msgMemberListPage) {
         ArrayList<MemberDto> memberList = new ArrayList<>();
         try {
             String sql = "select * from member where accCategory = 2 and receivedMCode = ? LIMIT ?, ?";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginMCode);
-            ps.setInt(2, (msgMemberListPage-1)*10); ps.setInt(3, msgMemberListPage*10);
+            ps.setInt(2, (msgMemberListPage-1)*10); ps.setInt(3, 10);
             rs = ps.executeQuery();
             while (rs.next()) {
                 MemberDto memberDto = new MemberDto();

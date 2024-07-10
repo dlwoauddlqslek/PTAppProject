@@ -1,0 +1,226 @@
+<mxfile host="app.diagrams.net" modified="2024-07-08T05:27:03.740Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" etag="qxDZnqbe9837kkB-GO6y" version="24.6.4" type="device">
+  <diagram name="페이지-1" id="w-7bJfR7nvVKTc9TRFa_">
+    <mxGraphModel dx="1582" dy="1771" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="rBv40_DbePplf0dnozrN-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rBv40_DbePplf0dnozrN-1" target="rBv40_DbePplf0dnozrN-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-1" value="앱 실행" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.terminator;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="100" y="-80" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-6" value="1. 회원가입" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rBv40_DbePplf0dnozrN-2" target="rBv40_DbePplf0dnozrN-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-12" value="2. 로그인" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rBv40_DbePplf0dnozrN-2" target="rBv40_DbePplf0dnozrN-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-14" value="3. ID 찾기" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rBv40_DbePplf0dnozrN-2" target="rBv40_DbePplf0dnozrN-13" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-16" value="4. 비밀번호 찾기" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rBv40_DbePplf0dnozrN-2" target="rBv40_DbePplf0dnozrN-15" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-2" value="&lt;div&gt;1 : 신규회원&lt;/div&gt;&lt;div&gt;2 : 로그인&lt;/div&gt;&lt;div&gt;3 : ID찾기&lt;/div&gt;&lt;div&gt;4 : 비밀번호찾기&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;rounded=1;size=26;arcSize=11;verticalAlign=middle;align=center;" parent="1" vertex="1">
+          <mxGeometry x="70" y="210" width="160" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-6" value="1. 일반회원" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="rBv40_DbePplf0dnozrN-3" target="WP8uK_1YEPMtT4Iq28Pu-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-8" value="2. PT 강사 회원" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="rBv40_DbePplf0dnozrN-3" target="WP8uK_1YEPMtT4Iq28Pu-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-3" value="신규 회원 구분&lt;div&gt;1. 일반 회원&lt;/div&gt;&lt;div&gt;2. PT 강사 회원&lt;/div&gt;" style="shape=mxgraph.flowchart.decision;html=1;strokeWidth=2;whiteSpace=wrap;rounded=1;arcSize=11;size=26;" parent="1" vertex="1">
+          <mxGeometry x="-221.94" y="220" width="161.94" height="106" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-9" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="rBv40_DbePplf0dnozrN-29" target="rBv40_DbePplf0dnozrN-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-20" y="107.5" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="rBv40_DbePplf0dnozrN-11" target="rBv40_DbePplf0dnozrN-35" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-11" value="ID, 비밀번호&lt;div&gt;입력&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="90" y="390" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="rBv40_DbePplf0dnozrN-13" target="rBv40_DbePplf0dnozrN-25" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-13" value="ID 찾기:&lt;div&gt;이름, 연락처&amp;nbsp;&lt;/div&gt;&lt;div&gt;입력&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="360" y="160" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rBv40_DbePplf0dnozrN-24" target="rBv40_DbePplf0dnozrN-20" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-15" value="비밀번호 찾기:&lt;br&gt;ID, 이름, 연락처&lt;div&gt;입력&lt;/div&gt;" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="360" y="300" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-17" value="ID 출력" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="180" y="67.5" width="120" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-20" value="비밀번호 출력" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="510" y="-10" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="rBv40_DbePplf0dnozrN-20" target="rBv40_DbePplf0dnozrN-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rBv40_DbePplf0dnozrN-15" target="rBv40_DbePplf0dnozrN-24" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="330" as="sourcePoint" />
+            <mxPoint x="550" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-24" value="&lt;div&gt;비밀번호 찾기:&lt;/div&gt;DB 조회" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;shape=mxgraph.flowchart.database;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="520" y="190" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="rBv40_DbePplf0dnozrN-25" target="rBv40_DbePplf0dnozrN-17" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-25" value="&lt;div&gt;ID 찾기:&lt;/div&gt;DB 조회" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;shape=mxgraph.flowchart.database;verticalAlign=bottom;horizontal=1;" parent="1" vertex="1">
+          <mxGeometry x="370" y="65" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-29" value="&lt;div&gt;ID, 연락처&lt;/div&gt;&lt;div&gt;중복검사 및&lt;/div&gt;&lt;div&gt;저장&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;shape=mxgraph.flowchart.database;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="-180" y="30" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="rBv40_DbePplf0dnozrN-17" target="rBv40_DbePplf0dnozrN-2" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="150" y="95" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="rBv40_DbePplf0dnozrN-35" target="rBv40_DbePplf0dnozrN-40" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-35" value="로그인 :&lt;div&gt;DB 조회&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;shape=mxgraph.flowchart.database;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="100" y="500" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="rBv40_DbePplf0dnozrN-40" target="WP8uK_1YEPMtT4Iq28Pu-1" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="rBv40_DbePplf0dnozrN-40" target="WP8uK_1YEPMtT4Iq28Pu-2" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rBv40_DbePplf0dnozrN-40" value="회원 권한:&lt;div&gt;일반회원&lt;/div&gt;&lt;div&gt;PT강사&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="90" y="600" width="120" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-1" target="WP8uK_1YEPMtT4Iq28Pu-21" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-1" value="일반 회원" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="260" y="620" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-2" target="WP8uK_1YEPMtT4Iq28Pu-23" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-2" value="PT강사" style="rounded=1;whiteSpace=wrap;html=1;direction=west;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="-150" y="620" width="135" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-5" value="ID, 비밀번호&lt;div&gt;이름, 연락처,&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;성별, 나이,&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;몸무게, 키,&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;운동습관(1~3)&lt;/span&gt;&lt;/div&gt;" style="html=1;strokeWidth=2;shape=manualInput;whiteSpace=wrap;rounded=1;size=26;arcSize=11;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="-420" y="148.15" width="145" height="71.85" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-7" value="ID, 비밀번호&lt;div&gt;이름, 연락처,&lt;/div&gt;&lt;div&gt;생년월일(자격증조회)&lt;/div&gt;" style="html=1;strokeWidth=2;shape=manualInput;whiteSpace=wrap;rounded=1;size=26;arcSize=11;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="-520" y="330" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-7" target="rBv40_DbePplf0dnozrN-29" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-5" target="rBv40_DbePplf0dnozrN-29" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-21" target="WP8uK_1YEPMtT4Iq28Pu-29" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-21" target="WP8uK_1YEPMtT4Iq28Pu-30" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-21" target="WP8uK_1YEPMtT4Iq28Pu-31" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-21" target="WP8uK_1YEPMtT4Iq28Pu-32" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-21" target="WP8uK_1YEPMtT4Iq28Pu-37" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-21" value="&lt;div&gt;메뉴 표시:&lt;/div&gt;&lt;div&gt;현재 남은 칼로리&lt;/div&gt;메뉴 입력&lt;div&gt;1. 식단 관리&lt;/div&gt;&lt;div&gt;2. 운동 관리&lt;/div&gt;&lt;div&gt;3. PT 강사에게 쪽지&lt;/div&gt;&lt;div&gt;4. 본인 정보 수정&lt;/div&gt;" style="whiteSpace=wrap;html=1;strokeWidth=2;shape=mxgraph.flowchart.decision;" parent="1" vertex="1">
+          <mxGeometry x="470" y="550" width="240" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-42" value="메뉴 1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-23" target="WP8uK_1YEPMtT4Iq28Pu-39" edge="1">
+          <mxGeometry x="0.4322" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-43" value="메뉴 3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-23" target="WP8uK_1YEPMtT4Iq28Pu-40" edge="1">
+          <mxGeometry x="0.6976" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-44" value="메뉴 2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-23" target="WP8uK_1YEPMtT4Iq28Pu-41" edge="1">
+          <mxGeometry x="0.6123" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-23" value="메뉴 표시:&lt;div&gt;현재 읽지 않은 쪽지 수&lt;/div&gt;&lt;div&gt;메뉴 입력:&lt;/div&gt;&lt;div&gt;1. 나에게 온 쪽지 관리&lt;/div&gt;&lt;div&gt;2. 쪽지 받은 회원 정보 조회&lt;/div&gt;&lt;div&gt;3. 본인 정보 수정&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=0;shape=rhombus;perimeter=rhombusPerimeter;" parent="1" vertex="1">
+          <mxGeometry x="-490" y="575" width="232.5" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-29" value="1. 식단 관리" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="880" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-30" value="2. 운동 관리" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="880" y="340" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-31" value="3. 운동 일지" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="880" y="430" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-32" value="4. PT 강사에게 쪽지" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="880" y="530" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-37" value="5. 본인 정보 수정" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="880" y="620" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-39" target="xza1wipvMu-xcJCYFXXS-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-39" value="1. 나에게 온 쪽지 관리" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="-275" y="790" width="140" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-8" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-40" target="xza1wipvMu-xcJCYFXXS-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-40" value="3. 본인 정보 수정" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="-275" y="960" width="125" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="WP8uK_1YEPMtT4Iq28Pu-41" target="xza1wipvMu-xcJCYFXXS-5" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="WP8uK_1YEPMtT4Iq28Pu-41" value="2. 쪽지 받은 회원 정보 조회" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="-275" y="880" width="165" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-3" value="DB 테이블 조회" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="-45" y="787.5" width="115" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-5" value="DB 테이블 조회" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="-45" y="877.5" width="115" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-10" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="xza1wipvMu-xcJCYFXXS-7" target="xza1wipvMu-xcJCYFXXS-9" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-7" value="본인확인용&lt;div&gt;비밀번호 재입력&lt;/div&gt;" style="html=1;strokeWidth=2;shape=manualInput;whiteSpace=wrap;rounded=1;size=26;arcSize=11;verticalAlign=bottom;" parent="1" vertex="1">
+          <mxGeometry x="-80" y="960" width="110" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-9" value="&lt;div&gt;변경할 정보 메뉴&lt;/div&gt;1. 비밀번호&lt;div&gt;2. 연락처&lt;/div&gt;" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.decision;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="100" y="940" width="140" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-11" value="관리자&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;absoluteArcSize=1;arcSize=14;strokeWidth=2;" parent="1" vertex="1">
+          <mxGeometry x="260" y="725" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="xza1wipvMu-xcJCYFXXS-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=-0.002;entryY=0.611;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="rBv40_DbePplf0dnozrN-40" target="xza1wipvMu-xcJCYFXXS-11" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

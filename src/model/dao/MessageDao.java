@@ -30,17 +30,18 @@ public class MessageDao {
     //.getInstance()
     public static MessageDao getInstance(){return msgDao;};
 
-    // 쪽지 메뉴 & 쪽지 내역 출력
+    // 쪽지 메뉴 : 쪽지 내역 출력
     public ArrayList<MessageDto> msgView(int msgCurrentPage, int loginMCode){
         ArrayList<MessageDto> msgList = new ArrayList<>();
         // currentpage 1 = 0, 9, 2 = 10, 19 -> x-1, 10x-1
         // limit 0, 10 -> 11, 20 ...
         try {
-            String sql = "select * from message where sentMCode = ? or receivedMCode = ? LIMIT ?, ?";
+            String sql = "select * from message where sentMCode = ? or receivedMCode = ? order by msgDate desc LIMIT ?, 10;";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginMCode); ps.setInt(2, loginMCode);
-            ps.setInt(3, (msgCurrentPage-1)*10); ps.setInt(4, 10);
+            ps.setInt(3, (msgCurrentPage-1)*10);
             rs = ps.executeQuery();
+            ResultSet rs1;
             while (rs.next()){
                 // 쪽지 메뉴 번호 \ msgTitle \ msgView \ msgDate \ replyContent 여부 확인?
                 // 1 \ 제목1 \ 0 \ 2024-07-03 \ 답장이 아직 없습니다
@@ -54,26 +55,29 @@ public class MessageDao {
                 msgDto.setMsgDate(rs.getString(7)); 
                 msgDto.setReplyContent(rs.getString(8));
                 msgDto.setReplyDate(rs.getString(9));
+                int sentMCode = rs.getInt(2); int receivedMCode = rs.getInt(3);
+                // 보낸 회원 이름
+                sql = "select memberName from member where memberCode = ?;";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, sentMCode );
+                rs1 = ps.executeQuery();
+                rs1.next();
+                msgDto.setSentMName(rs1.getString(1));
+                // 받은 강사 회원 이름
+                sql = "select memberName from member where memberCode = ?;";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, receivedMCode );
+                rs1 = ps.executeQuery();
+                rs1.next();
+                msgDto.setReceivedMName(rs1.getString(1));
                 msgList.add(msgDto);
             }
-            return msgList;
         } catch (Exception e){
             System.out.println(">>쪽지 출력 DAO 오류 : " +e);
         }
         return msgList;
     }
 
-    public void msgPrint(int accCode, int loginMCode, int msgCurrentPage){
-        String sql = "";
-        if (accCode == 1){ //일반회원 보낸 쪽지들
-            sql = "select * from message where ";
-        }
-        else if (accCode == 2){ // PT강사회원 받은 쪽지들
-
-        }
-        // 2 = 일반회원 : 1 쪽지 보내기, 2 답장 확인하기, 3 쪽지 내역 보기
-        // 3 = 강사회원 : 1 받은 쪽지 확인하기, 2 답장 보내기, 3 쪽지 보낸 회원의 키, 몸무게, 음식기록, 운동기록 확인하기, 4 쪽지 내역 보기
-    }
     // 쪽지 보내기
     public boolean msgSendMessage(MessageDto msgDto){
         try{
@@ -111,5 +115,59 @@ public class MessageDao {
         // 현재 memberCode를 보내 쪽지 기록이 있는 회원 코드와 이름을 불러오기
         // 1. 아무개 ... <- 번호를 고르면 키와 몸무게가 뜨고 1.음식기록 2.운동기록 3.뒤로가기
         // 1/2를 고르면 오늘 날짜 기준으로 기록을 가져온다. 1.전날 2.다음날 3.돌아가기
+    }
+    // 쪽지 삭제
+    public boolean msgDelete(int messageCode) {
+        try{
+            String sql = "delete from message where messageCode = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, messageCode);
+            int result = ps.executeUpdate();
+            return result==1;
+        }catch (Exception e) {
+            System.out.println(">>쪽지 삭제 실패 : " + e);
+        }
+        return false;
+    }
+    // 쪽지 수정
+    public boolean msgEdit(MessageDto msgDto) {
+        try{
+            String sql = "update message set msgTitle = ?, msgContent = ? where messageCode = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, msgDto.getMsgTitle()); ps.setString(2, msgDto.getMsgContent());
+            ps.setInt(3, msgDto.getMessageCode());
+            int result = ps.executeUpdate();
+            return result==1;
+        }catch (Exception e) {
+            System.out.println(">>쪽지 수정 실패 : " + e);
+        }
+        return false;
+    }
+    // PT 회원 메뉴 - 쪽지 내역 조회 - 쪽지 답장 수정
+    public boolean msgReplyEdit(MessageDto msgDto) {
+        try{
+            String sql = "update message set replyContent = ? where messageCode = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, msgDto.getReplyContent());
+            ps.setInt(2, msgDto.getMessageCode());
+            int result = ps.executeUpdate();
+            return result==1;
+        }catch (Exception e) {
+            System.out.println(">>답장 수정 실패 : " + e);
+        }
+        return false;
+    }
+    // PT 회원 메뉴 - 쪽지 내역 조회 - 쪽지 답장 수정
+    public boolean msgReplyDelete(int messageCode) {
+        try{
+            String sql = "update message set replyContent = NULL, replyDate = NULL where messageCode = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, messageCode);
+            int result = ps.executeUpdate();
+            return result==1;
+        }catch (Exception e) {
+            System.out.println(">>답장 삭제 실패 : " + e);
+        }
+        return false;
     }
 }
