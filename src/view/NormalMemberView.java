@@ -5,9 +5,7 @@ import java.util.Scanner;
 
 import controller.NormalMemberController;
 import controller.MemberController;
-import model.dto.ExerciseDto;
-import model.dto.MessageDto;
-import model.dto.MemberDto;
+import model.dto.*;
 
 import static controller.MemberController.loginAccCode;
 import static controller.MemberController.loginMCode;
@@ -39,7 +37,6 @@ public class NormalMemberView {
 
         while(true) {
             // "디스플레이" 시작
-            ArrayList<MemberDto> memList = null;
             // 현재 회원 MemberDto 가져오기
             MemberDto currentDto = NormalMemberController.getInstance().getCurrentDto();
             System.out.println("====================== 안녕하세요, " + currentDto.getMemberName() +"님 ======================");
@@ -50,23 +47,14 @@ public class NormalMemberView {
             } else {
                 System.out.println("몸무게를 등록해서 오늘의 남은 칼로리를 알아보세요.");
             }
-
-            System.out.println("오늘 먹은 음식                오늘 한 운동");
-            System.out.println("번호          이름        번호           이름");
+            System.out.println("   오늘 먹은 음식                   오늘 한 운동");
+            System.out.println(" 번호          이름            번호           이름");
             System.out.println("--------------------------------------------------------");
             // 날짜 기준 최근 운동 5개, 먹은 음식 5개
-            // 번호 1~5 회원명 | 번호 6~10 회원명
-            ArrayList<MemberDto> leftList = new ArrayList<>();
-            ArrayList<MemberDto> rightList = new ArrayList<>();
-            // 왼쪽 오른쪽 출력할 목록 구분
-            for ( int i = 0; i < 10; i++){
-                if (i < 5 && i < memList.size()) {
-                    leftList.add(memList.get(i));
-                }
-                else if (i >= 5 && i < memList.size()){
-                    rightList.add(memList.get(i));
-                }
-            }
+            // 번호 1~5 음식 | 번호 1~5 운동
+            ArrayList<AteFoodRecordDto> foodList = NormalMemberController.getInstance().getDailyFoodList(0, 5);
+            ArrayList<WorkOutRecordDto> workoutList = NormalMemberController.getInstance().getDailyWorkoutList(0, 5);
+
             // printf 한줄로 양쪽에서 한 객체씩 뽑아서 출력
             for (int i = 0; i < 5; i++) {
                 if (i < rightList.size()) {
