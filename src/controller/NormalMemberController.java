@@ -67,19 +67,22 @@ public class NormalMemberController {
                 baseKCal *= 1.7;
                 break;
         }
+        System.out.println("기초대사량 : " + baseKCal + " exHabit : " + exHabit + " recWeight : " + recentWeight);
         // 오늘 기준 먹은 음식량 (+)
         int foodKcal = 0;
-        ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodList(0);
+        ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodList(0, 0);
         for (AteFoodRecordDto dto : dailyAteFoodList){
             foodKcal += dto.getFoodkcal();
         }
+        System.out.println("foodKcal : " + foodKcal);
         // 오늘 기준 운동량 (-)
         int workOutKcal = 0;
-        ArrayList<WorkOutRecordDto> dailyWorkOutList = getDailyWorkoutList(0);
+        ArrayList<WorkOutRecordDto> dailyWorkOutList = getDailyWorkoutList(0, 0);
         for (WorkOutRecordDto dto : dailyWorkOutList){
             workOutKcal += dto.getExKcal();
         }
-        return baseKCal + foodKcal - workOutKcal;
+        System.out.println("workOUtKcal" + workOutKcal);
+        return (baseKCal + foodKcal - workOutKcal);
     }
     // 몸무게 기록 내역이 있는지 체크
     public boolean hasWeightRecord() {
@@ -91,21 +94,21 @@ public class NormalMemberController {
     }
 
     //로그인 회원 코드 + 날짜 매개변수로 ArrayList 반환
-    public ArrayList<AteFoodRecordDto> getDailyFoodList(int dayModifier) {
+    public ArrayList<AteFoodRecordDto> getDailyFoodList(int dayModifier, int recordNum) {
         String date = LocalDate.now().plusDays(dayModifier).toString();
-        return AteFoodRecordDao.getInstance().getDailyFoodRecord(loginMCode, date);
+        return AteFoodRecordDao.getInstance().getDailyFoodRecord(loginMCode, date, recordNum);
     }
     //로그인 회원 코드 + 날짜 매개변수로 ArrayList 반환
-    public ArrayList<WorkOutRecordDto> getDailyWorkoutList(int dayModifier) {
+    public ArrayList<WorkOutRecordDto> getDailyWorkoutList(int dayModifier, int recordNum) {
         String date = LocalDate.now().plusDays(dayModifier).toString();
-        return WorkOutRecordDao.getInstance().getDailyWorkoutList(loginMCode, date);
+        return WorkOutRecordDao.getInstance().getDailyWorkoutList(loginMCode, date, recordNum);
     }
     //
     public int foodKcalTotal(){
         //2. 로그인된회원번호 (샘플 )
         int loginMCode=2;
         int total=0;
-        ArrayList<AteFoodRecordDto> ateFoodList= getDailyFoodList(0);
+        ArrayList<AteFoodRecordDto> ateFoodList= getDailyFoodList(0, 0);
         // 3. 로그인한 회원이 먹은 음식코드의 칼로리 합계
         for (int i=0; i<ateFoodList.size(); i++){
             total+=ateFoodList.get(i).getFoodkcal();

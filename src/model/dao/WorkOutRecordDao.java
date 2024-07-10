@@ -89,10 +89,11 @@ public class WorkOutRecordDao {
         return false;
     }
 
-    public ArrayList<WorkOutRecordDto> getDailyWorkoutList(int loginMCode, String date){
+    public ArrayList<WorkOutRecordDto> getDailyWorkoutList(int loginMCode, String date, int recordNum){
         ArrayList<WorkOutRecordDto> workoutList = new ArrayList<>();
         try{
-            String sql="select * from workoutrecord inner join exercise on workoutrecord.exCode = exercise.exCode where memberCode = ? and workOutTime > ? and workOutTime < (select DATE_ADD(?, interval 1 day));";
+            String sql="select * from workoutrecord inner join exercise on workoutrecord.exCode = exercise.exCode where memberCode = ? and workOutTime > ? and workOutTime < (select DATE_ADD(?, interval 1 day)) order by workOutTime desc;";
+            if (recordNum != 0) {sql = sql.replace(";", " limit 0," + recordNum + ";");}
             ps=conn.prepareStatement(sql);
             ps.setInt(1, loginMCode); ps.setString(2, date); ps.setString(3, date);
             rs=ps.executeQuery();

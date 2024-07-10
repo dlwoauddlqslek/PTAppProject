@@ -72,10 +72,11 @@ public class AteFoodRecordDao {
     }
     // 오늘 먹은 음식 기록 불러오기
     // 회원코드, 음식(이름으로) 먹은 시간 (하루 기준)
-    public ArrayList<AteFoodRecordDto> getDailyFoodRecord(int loginMCode, String date) {
+    public ArrayList<AteFoodRecordDto> getDailyFoodRecord(int loginMCode, String date, int recordNum) {
         ArrayList<AteFoodRecordDto> dailyFoodList = new ArrayList<>();
         try{
-            String sql="select * from atefoodrecord inner join food on atefoodrecord.foodCode = food.foodCode where memberCode = ? and ateTime > ? and ateTime < (select DATE_ADD(?, interval 1 day));";
+            String sql="select * from atefoodrecord inner join food on atefoodrecord.foodCode = food.foodCode where memberCode = ? and ateTime > ? and ateTime < (select DATE_ADD(?, interval 1 day)) order by atetime desc;";
+            if (recordNum != 0) {sql = sql.replace(";", " limit 0," + recordNum + ";");}
             ps=conn.prepareStatement(sql);
             ps.setInt(1, loginMCode); ps.setString(2, date); ps.setString(3, date);
             rs=ps.executeQuery();
@@ -87,7 +88,6 @@ public class AteFoodRecordDao {
                 foodRecordDto.setFoodkcal(rs.getInt("foodKcal"));
                 dailyFoodList.add(foodRecordDto);
             }
-
         } catch (Exception e){System.out.println(e);}
         return dailyFoodList;
     }
