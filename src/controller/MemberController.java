@@ -24,15 +24,13 @@ public class MemberController {
     public boolean login(MemberDto memberDto){
         MemberDto memberDto1 = MemberDao.getInstance().login(memberDto);
         // memberCode 검사로 로그인 유효성 검사
-        Integer integer = memberDto1.getMemberCode();
-        if (integer == null){return false;}
-
+        if (memberDto1.getMemberCode() == 0){return false;}
         loginMCode = memberDto1.getMemberCode();
         loginAccCode = memberDto1.getAccCategory();
-        NormalMemberController.getInstance().gender = memberDto1.getGender();
-        NormalMemberController.getInstance().height = memberDto1.getHeight();
-        NormalMemberController.getInstance().birthDate = memberDto1.getBirthDate();
-        NormalMemberController.getInstance().exHabit = memberDto1.getExHabit();
+        NormalMemberController.currentGender = memberDto1.getGender();
+        NormalMemberController.currentHeight = memberDto1.getHeight();
+        NormalMemberController.currentBirthDate = memberDto1.getBirthDate();
+        NormalMemberController.currentExHabit = memberDto1.getExHabit();
         return true;
 
     }

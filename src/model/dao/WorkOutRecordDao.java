@@ -1,6 +1,5 @@
 package model.dao;
 
-import model.dto.AteFoodRecordDto;
 import model.dto.WorkOutRecordDto;
 
 import java.sql.Connection;
@@ -47,13 +46,14 @@ public class WorkOutRecordDao {
     // 로그인한 회원이 수행한 운동들 칼로리 합
 
     // 입력한 음식 먹은음식기록에 저장
-    public boolean exRecord(int selExCode,int loginMno){
+    public boolean exRecord(int selExCode,int loginMno,int time){
         try{
 
-                String sql2="insert into workoutrecord(exCode,memberCode) values(?,?);";
+                String sql2="insert into workoutrecord(exCode,memberCode,workOutAmount) values(?,?,?);";
                 ps=conn.prepareStatement(sql2);
                 ps.setInt(1,selExCode);
                 ps.setInt(2,loginMno);
+                ps.setInt(3,time);
                 int count=ps.executeUpdate();
                 if(count==1){
                     return true;
@@ -78,6 +78,7 @@ public class WorkOutRecordDao {
                 workoutDto.setWorkOutTime(rs.getString("workOutTime"));
                 workoutDto.setExKcal(rs.getInt("exKcal"));
                 workoutDto.setWorkOutCode(rs.getInt("workoutcode"));
+                workoutDto.setWorkOutAmount(rs.getInt("workoutamount"));
                 workoutList.add(workoutDto);
             }
         } catch (Exception e){System.out.println(e);}

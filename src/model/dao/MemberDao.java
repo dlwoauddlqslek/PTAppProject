@@ -61,15 +61,15 @@ public class MemberDao {
             ps = conn.prepareStatement(sql);
             ps.setString(1,memberDto.getID());
             ps.setString(2,memberDto.getPW());
-            rs=ps.executeQuery();
+            rs = ps.executeQuery();
 
-            if (rs.next()){
-            memberDto1.setMemberCode(rs.getInt("memberCode"));
-            memberDto1.setHeight(rs.getInt("height"));
-            memberDto1.setGender(rs.getString("gender"));
-            memberDto1.setExHabit(rs.getInt("exHabit"));
-            memberDto1.setBirthDate(rs.getString("birthDate"));
-            memberDto1.setAccCategory(rs.getInt("accCategory"));
+            if (rs.next()) {
+                memberDto1.setMemberCode(rs.getInt("memberCode"));
+                memberDto1.setHeight(rs.getInt("height"));
+                memberDto1.setGender(rs.getString("gender"));
+                memberDto1.setExHabit(rs.getInt("exHabit"));
+                memberDto1.setBirthDate(rs.getString("birthDate"));
+                memberDto1.setAccCategory(rs.getInt("accCategory"));
             }
         }catch (Exception e){
             System.out.println(e);

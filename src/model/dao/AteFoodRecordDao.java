@@ -8,9 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class AteFoodRecordDao {
     private static AteFoodRecordDao ateFoodRecordDao=new AteFoodRecordDao();
@@ -32,10 +30,8 @@ public class AteFoodRecordDao {
 
     // 입력한 음식이 음식DB에 있는지 확인
     public boolean foodCheck(String foodName){
-        System.out.println("foodName = " + foodName);
         try{
             String sql="select * from food where foodName='"+foodName+"';";
-            System.out.println("sql = " + sql);
             ps=conn.prepareStatement(sql);
             rs=ps.executeQuery();
             if(rs.next()){
@@ -52,12 +48,10 @@ public class AteFoodRecordDao {
     public boolean foodRecord(String foodName,int loginMno){
         try{
             String sql="select * from food where foodName='"+foodName+"';";
-            System.out.println("sql = " + sql);
             ps=conn.prepareStatement(sql);
             rs=ps.executeQuery();
             if(rs.next()){
                 int foodCode=rs.getInt("foodCode");
-
                 String sql2="insert into atefoodrecord(foodCode,memberCode) values(?,?);";
                 ps=conn.prepareStatement(sql2);
                 ps.setInt(1,foodCode);
@@ -77,21 +71,18 @@ public class AteFoodRecordDao {
         ArrayList<AteFoodRecordDto> dailyFoodList = new ArrayList<>();
         try{
             String sql="select * from atefoodrecord inner join food on atefoodrecord.foodCode = food.foodCode where memberCode = ? and ateTime > ? and ateTime < (select DATE_ADD(?, interval 1 day)) order by atetime desc;";
-            System.out.println("sql = " + sql);
             if (recordNum != 0) {sql = sql.replace(";", " limit 0," + recordNum + ";");}
             ps=conn.prepareStatement(sql);
             ps.setInt(1, loginMCode); ps.setString(2, date); ps.setString(3, date);
             rs=ps.executeQuery();
 
             while(rs.next()){
-                System.out.println(rs);
                 AteFoodRecordDto foodRecordDto = new AteFoodRecordDto();
                 foodRecordDto.setFoodName(rs.getString("foodName"));
                 foodRecordDto.setFoodCode(rs.getInt("foodCode"));
                 foodRecordDto.setAteTime(rs.getString("ateTime"));
                 foodRecordDto.setFoodkcal(rs.getInt("foodKcal"));
                 foodRecordDto.setAteFoodCode(rs.getInt("atefoodcode"));
-                System.out.println(foodRecordDto);
                 dailyFoodList.add(foodRecordDto);
             }
         } catch (Exception e){System.out.println(e);}
@@ -102,17 +93,13 @@ public class AteFoodRecordDao {
     public boolean ateFoodUpdate(int ateFoodCode,  String foodName){
         try{
 
-            System.out.println(ateFoodCode);
             String sql="select * from food where foodName='"+foodName+"';";
-            System.out.println("sql = " + sql);
             ps=conn.prepareStatement(sql);
             rs=ps.executeQuery();
             if(rs.next()){
 
                 int foodCode=rs.getInt("foodCode");
-
                 String sql2="update atefoodrecord set foodcode=? where atefoodcode=?;";
-                System.out.println("sql2 = " + sql2);
                 ps=conn.prepareStatement(sql2);
                 ps.setInt(1,foodCode);
                 ps.setInt(2,ateFoodCode);
@@ -126,20 +113,18 @@ public class AteFoodRecordDao {
         return false;
     }
 
-    public boolean ateFoodDelete(int ateFoodCode){
-        try{
-
-
-
-                String sql2="delete from atefoodrecord where atefoodcode=?;";
-                System.out.println("sql2 = " + sql2);
-                ps=conn.prepareStatement(sql2);
-                ps.setInt(1,ateFoodCode);
-                int count=ps.executeUpdate();
-                if(count==1){
-                    return true;
-                }
-            }catch (Exception e){System.out.println(e);}
+    public boolean ateFoodDelete(int ateFoodCode) {
+        try {
+            String sql2 = "delete from atefoodrecord where atefoodcode=?;";
+            ps = conn.prepareStatement(sql2);
+            ps.setInt(1, ateFoodCode);
+            int count = ps.executeUpdate();
+            if (count == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
         return false;
 
         }

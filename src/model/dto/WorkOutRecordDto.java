@@ -7,6 +7,7 @@ public class WorkOutRecordDto {
     private int memberCode;
     private String exName;
     private int exKcal;
+    private int workOutAmount;
 
     public WorkOutRecordDto(){}
 
@@ -65,6 +66,14 @@ public class WorkOutRecordDto {
         this.memberCode = memberCode;
     }
 
+    public int getWorkOutAmount() {
+        return workOutAmount;
+    }
+
+    public void setWorkOutAmount(int workOutAmount) {
+        this.workOutAmount = workOutAmount;
+    }
+
     @Override
     public String toString() {
         return "WorkOutRecordDto{" +
@@ -74,4 +83,5 @@ public class WorkOutRecordDto {
                 ", memberCode=" + memberCode +
                 '}';
     }
+
 }
