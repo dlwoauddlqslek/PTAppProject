@@ -27,12 +27,12 @@ public class NormalMemberController {
     // BMR = 650 + 1125 - 125 + 5 = 1655, 1655*1.2 = 1986
 
     // 칼로리 계산용 회원 정보
-    public String gender = "";
-    public int weight;
-    public int height;
-    public int age;
-    public String birthDate;
-    public int exHabit;
+    public static String gender = "";
+    public static int height;
+    public static int age;
+    public static String birthDate;
+    public static int exHabit;
+    public static double baseKcal;
     // 로그인시 회원 정보 불러오기
 
 
@@ -46,28 +46,26 @@ public class NormalMemberController {
 
 
 
-
     // 현재 칼로리 계산, 몸무게 기록에서 최신 기록 1개를 가져와서 계산
-    public double calcDailyKcal(){
+    public static double calcDailyKcal(){
         int recentWeight = WeightRecordDao.getInstance().checkWeight(loginMCode).getWeight();
-        double baseKCal = 0;
+        baseKcal = 0;
         if (gender.equals("M")){
-            baseKCal = 10*recentWeight + 6.25*height - 5*age + 5;
+            baseKcal = 10*recentWeight + 6.25*height - 5*age + 5;
         } else if (gender.equals("F")){
-            baseKCal = 10*recentWeight + 6.25*height - 5*age - 161;
+            baseKcal = 10*recentWeight + 6.25*height - 5*age - 161;
         }
         switch (exHabit){
             case 1 :
-                baseKCal *= 1.2;
+                baseKcal *= 1.2;
                 break;
             case 2 :
-                baseKCal *= 1.4;
+                baseKcal *= 1.4;
                 break;
             case 3 :
-                baseKCal *= 1.7;
+                baseKcal *= 1.7;
                 break;
         }
-        System.out.println("기초대사량 : " + baseKCal + " exHabit : " + exHabit + " recWeight : " + recentWeight);
         // 오늘 기준 먹은 음식량 (+)
         int foodKcal = 0;
         ArrayList<AteFoodRecordDto> dailyAteFoodList = getDailyFoodList(0, 0);
@@ -82,7 +80,7 @@ public class NormalMemberController {
             workOutKcal += dto.getExKcal();
         }
         System.out.println("workOUtKcal" + workOutKcal);
-        return (baseKCal + foodKcal - workOutKcal);
+        return (baseKcal + foodKcal - workOutKcal);
     }
     // 몸무게 기록 내역이 있는지 체크
     public boolean hasWeightRecord() {
@@ -94,12 +92,12 @@ public class NormalMemberController {
     }
 
     //로그인 회원 코드 + 날짜 매개변수로 ArrayList 반환
-    public ArrayList<AteFoodRecordDto> getDailyFoodList(int dayModifier, int recordNum) {
+    public static ArrayList<AteFoodRecordDto> getDailyFoodList(int dayModifier, int recordNum) {
         String date = LocalDate.now().plusDays(dayModifier).toString();
         return AteFoodRecordDao.getInstance().getDailyFoodRecord(loginMCode, date, recordNum);
     }
     //로그인 회원 코드 + 날짜 매개변수로 ArrayList 반환
-    public ArrayList<WorkOutRecordDto> getDailyWorkoutList(int dayModifier, int recordNum) {
+    public static ArrayList<WorkOutRecordDto> getDailyWorkoutList(int dayModifier, int recordNum) {
         String date = LocalDate.now().plusDays(dayModifier).toString();
         return WorkOutRecordDao.getInstance().getDailyWorkoutList(loginMCode, date, recordNum);
     }
@@ -121,8 +119,8 @@ public class NormalMemberController {
     }
 
     public boolean foodRecord(String foodName){
-        int loginMno=2;
-        return AteFoodRecordDao.getInstance().foodRecord(foodName,loginMno);
+
+        return AteFoodRecordDao.getInstance().foodRecord(foodName,loginMCode);
     }
 
     public boolean ateFoodUpdate(int ateFoodCode,String foodName){
@@ -147,8 +145,8 @@ public class NormalMemberController {
 
 
     public boolean exRecord(int selExCode){
-        int loginMno=2;
-        return WorkOutRecordDao.getInstance().exRecord(selExCode,loginMno);
+
+        return WorkOutRecordDao.getInstance().exRecord(selExCode,loginMCode);
     }
 
     public boolean workOutRecordUpdate(int workOutCode, int exCode){

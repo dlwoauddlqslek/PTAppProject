@@ -1,12 +1,12 @@
 package view;
 
 
+import controller.MemberController;
 import controller.NormalMemberController;
 import controller.PtMemberController;
 import static controller.PtMemberController.msgCurrentPage;
 
-import model.dto.MemberDto;
-import model.dto.MessageDto;
+import model.dto.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -41,8 +41,9 @@ public class PtMemberView {
             }
             System.out.println("--------------------------------------------------------");
             // 강사 메뉴 "디스플레이" 끝
-            System.out.println("1 ~ 10.해당 쪽지에 답글 작성하기, p.이전 페이지, n.다음 페이지");
-            System.out.println("h.받은 쪽지 내역 보기, e.개인정보 수정, o.로그아웃 : ");
+            
+            System.out.println("1 ~ 10 = 해당 쪽지에 답글 작성하기, p = 이전 페이지, n = 다음 페이지");
+            System.out.println("h = 받은 쪽지 내역 보기, e = 개인정보 수정, o = 로그아웃, x = 회원탈퇴 : ");
             int ch;
             try { //알파벳 입력과 숫자 1~10 입력을 같이 받기
                 ch = scan.nextInt();
@@ -95,6 +96,26 @@ public class PtMemberView {
                 PtMemberController.getInstance().logOut();
                 System.out.println(">>로그아웃 성공. 메인 화면으로 돌아갑니다.");
                 return;
+            } else if (ch == 'X' || ch == 'x') {
+                System.out.println(">>회원탈퇴 메뉴입니다.");
+                System.out.print(">>회원탈퇴할 계정의 아이디를 입력해 주세요 : ");
+                String removeId = scan.next();
+                System.out.print(">>회원탈퇴할 계정의 비밀번호를 입력해 주세요 : ");
+                String removePw = scan.next();
+                MemberDto memberDto = new MemberDto();
+                memberDto.setID(removeId);memberDto.setPW(removePw);
+                boolean result = MemberController.getInstance().removeMem(memberDto);
+                if (result){
+                    System.out.println();
+                    System.out.println("회원탈퇴 성공입니다.");
+                    System.out.println();
+                    MemberView.getInstance().index();
+                }
+                else {
+                    System.out.println();
+                    System.out.println("회원탈퇴 실패입니다. 다시 입력해주세요");
+                    System.out.println();
+                }
             }
             else { // 메뉴 입력값이 이상하다
                 System.out.println(">>입력이 잘못되었습니다.");
@@ -125,6 +146,28 @@ public class PtMemberView {
         System.out.println("===============" + screenNum + "번 쪽지에 답장 보내기 ===============");
         showMessage(msgDto);
         System.out.println("--------------------------------------------------------");
+        System.out.println("r.답글 작성, s.해당 회원 건강정보 조회, b.돌아가기");
+        while (true) {
+            try {
+                scan.nextLine();
+                char ch = scan.next().charAt(0);
+                scan.nextLine();
+                if (ch == 'R' || ch == 'r') {
+                    System.out.println(">>답글 내용을 입력해주세요.");
+                    String reply = scan.nextLine();
+                    MessageDto messageDto = new MessageDto();
+                    messageDto.setReplyContent(reply);
+                    messageDto.setMessageCode(msgDto.getMessageCode());
+                    //PtMemberController.getInstance().ptWriteReply(messageDto);
+                } else if (ch == 'S' || ch == 's') { // 쪽지 보낸 회원의 건강 정보 조회
+                    msgCheckMemberStat(msgDto.getSentMCode());
+                } else if (ch == 'B' || ch == 'b'){
+                    break;
+                }
+                else {throw new RuntimeException();}
+            } catch (Exception e) {
+                System.out.println(">>잘못된 입력입니다. 다시 확인해 주세요.");
+            }
         System.out.println("r.답글 작성, s.해당 회원 건강정보 조회, b.돌아가기");
         while (true) {
             try {
@@ -285,10 +328,35 @@ public class PtMemberView {
     }
 
     // 강사) 쪽지 메뉴 - 쪽지 보낸 회원 정보(키, 몸무게, 음식기록, 운동기록) 확인하기
-    public void msgCheckMemberStat(int sentMCode){
-
-        // 현재 memberCode를 보내 쪽지 기록이 있는 회원 코드와 이름을 불러오기
-        // 1. 아무개 ... <- 번호를 고르면 키와 몸무게가 뜨고 1.음식기록 2.운동기록 3.뒤로가기
-        // 1/2를 고르면 오늘 날짜 기준으로 기록을 가져온다. 1.전날 2.다음날 3.돌아가기
+    public void msgCheckMemberStat(int memberCode){
+        while(true){
+            System.out.println(">>해당 회원의 건강정보를 조회합니다.");
+            MemberDto memberInfo = PtMemberController.getInstance().getMemberInfo(memberCode);
+            System.out.print(">>해당 회원의 키 : ");
+            System.out.println(memberInfo.getHeight() + "cm");
+            WeightRecordDto weightInfo = PtMemberController.getInstance().getWeight(memberCode);
+            System.out.print(">>해당 회원의 몸무게 : ");
+            System.out.println(weightInfo.getWeight() + "kg");
+            System.out.println(">>1.음식 기록 2.운동 기록 3.돌아가기");
+            int ch;
+            try {
+                ch = scan.nextInt();
+                if (ch == 1) {
+                    ArrayList<AteFoodRecordDto> foodList = PtMemberController.getInstance().getFoodRecord(memberCode);
+                    for(AteFoodRecordDto dto : foodList){
+                        System.out.println(">>음식 이름 : " + dto.getFoodName() + ", 먹은 시간 : " + dto.getAteTime());
+                    }
+                } else if (ch == 2) {
+                    ArrayList<WorkOutRecordDto> workOutList = PtMemberController.getInstance().getWorkOutRecord(memberCode);
+                    for(WorkOutRecordDto dto : workOutList){
+                        System.out.println(">>운동 이름 : " + dto.getExName() + ", 운동한 시간 : " + dto.getWorkOutTime());
+                    }
+                } else if (ch == 3) {
+                    break;
+                }
+            } catch (Exception e) {
+                System.out.println(">>잘못된 입력입니다.");
+            }
+        }
     }
 }

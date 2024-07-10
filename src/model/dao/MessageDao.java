@@ -189,11 +189,12 @@ public class MessageDao {
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, rs.getInt(2));
                 ResultSet rs1 = ps.executeQuery();
+                rs1.next();
                 msgDto.setSentMName(rs1.getString(1));
                 msgList.add(msgDto);
             }
         }catch (Exception e) {
-            System.out.println(">>답장 삭제 실패 : " + e);
+            System.out.println(">>checkPtMsgNoReply : " + e);
         }
         return msgList;
     }

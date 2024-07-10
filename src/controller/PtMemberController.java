@@ -1,10 +1,11 @@
 package controller;
 
 
+import model.dao.AteFoodRecordDao;
 import model.dao.MemberDao;
 import model.dao.MessageDao;
-import model.dto.MemberDto;
-import model.dto.MessageDto;
+import model.dao.WeightRecordDao;
+import model.dto.*;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public class PtMemberController {
     public static int msgCurrentPage = 1;
 
     public ArrayList<MessageDto> checkPtMsgNoReply(int msgCurrentPage) {
-        return MessageDao.getInstance().checkPtMsgNoReply(msgCurrentPage, loginMCode);
+        return MessageDao.getInstance().msgView(msgCurrentPage, loginMCode);
     }
 
     public boolean mUpdate(MemberDto memberDto){
@@ -54,5 +55,22 @@ public class PtMemberController {
     // 답장 보내기
     public boolean ptWriteReply(MessageDto messageDto) {
         return MessageDao.getInstance().ptWriteReply(messageDto);
+    }
+
+    public WeightRecordDto getWeight(int memberCode) {
+        return WeightRecordDao.getInstance().checkWeight(memberCode);
+    }
+
+    public MemberDto getMemberInfo(int memberCode) {
+        return MemberDao.getInstance().getMemberInfo(memberCode);
+    }
+
+    public ArrayList<AteFoodRecordDto> getFoodRecord(int memberCode) {
+        return NormalMemberController.getDailyFoodList(memberCode, 0);
+    }
+
+
+    public ArrayList<WorkOutRecordDto> getWorkOutRecord(int memberCode) {
+        return NormalMemberController.getDailyWorkoutList(memberCode, 0);
     }
 }
