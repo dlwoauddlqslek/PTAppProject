@@ -106,15 +106,19 @@ public class NormalMemberController {
     //
     public int foodKcalTotal(){
         //2. 로그인된회원번호 (샘플 )
-        int loginMCode=2;
+
         int total=0;
         ArrayList<AteFoodRecordDto> ateFoodList= getDailyFoodList(0, 0);
+        System.out.println(ateFoodList);
         // 3. 로그인한 회원이 먹은 음식코드의 칼로리 합계
         for (int i=0; i<ateFoodList.size(); i++){
+            System.out.println(ateFoodList.get(i).getFoodkcal());
             total+=ateFoodList.get(i).getFoodkcal();
         }
         return total;
     }
+
+
 
     public boolean foodCheck(String foodName){
         return AteFoodRecordDao.getInstance().foodCheck(foodName);
@@ -125,20 +129,38 @@ public class NormalMemberController {
         return AteFoodRecordDao.getInstance().foodRecord(foodName,loginMno);
     }
 
+    public boolean ateFoodUpdate(int ateFoodCode,String foodName){
+
+        return AteFoodRecordDao.getInstance().ateFoodUpdate(ateFoodCode, foodName);
+    }
+
+    public boolean ateFoodDelete(int ateFoodCode){
+        return AteFoodRecordDao.getInstance().ateFoodDelete(ateFoodCode);
+    }
+
     public int exKcalTotal(){
-        //2. 로그인된회원번호 (샘플 )
-        int loginMno=2;
+        int total=0;
+        ArrayList<WorkOutRecordDto> workoutList= getDailyWorkoutList(0, 0);
         // 3. 로그인한 회원이 먹은 음식코드의 칼로리 합계
-        return WorkOutRecordDao.getInstance().exKcalTotal(loginMno);
+        for (int i=0; i<workoutList.size(); i++){
+            total+=workoutList.get(i).getExKcal();
+        }
+        return total;
     }
 
-    public boolean exCheck(String exName){
-        return WorkOutRecordDao.getInstance().exCheck(exName);
-    }
 
-    public boolean exRecord(String exName){
+
+    public boolean exRecord(int selExCode){
         int loginMno=2;
-        return WorkOutRecordDao.getInstance().exRecord(exName,loginMno);
+        return WorkOutRecordDao.getInstance().exRecord(selExCode,loginMno);
+    }
+
+    public boolean workOutRecordUpdate(int workOutCode, int exCode){
+        return WorkOutRecordDao.getInstance().workOutRecordUpdate(workOutCode,exCode);
+    }
+
+    public boolean workOutRecordDelete(int workOutCode){
+        return WorkOutRecordDao.getInstance().workOutRecordDelete(workOutCode);
     }
 
 

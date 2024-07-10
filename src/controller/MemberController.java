@@ -16,7 +16,7 @@ public class MemberController {
 
     // member 관련 static 전역변수들
     // 현재 로그인중인 회원 코드
-    public static int loginMCode = 0;
+    public static int loginMCode = 2;
     // 현재 로그인된 회원 분류 코드
     public static int loginAccCode = 0;
 
