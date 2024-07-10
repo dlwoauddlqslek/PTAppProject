@@ -148,7 +148,6 @@ public class ExerciseDao {
 
     // 운동 기능4. 운동 삭제 함수
     public boolean exerDelete(String exName) {
-
         boolean result = exerciseCheck(exName);     // 삭제할 운동이 DB에 존재하는지 확인
 
         if (!result) {
@@ -163,6 +162,8 @@ public class ExerciseDao {
             } catch (Exception e) {
                 System.out.println(e);
             }
+        } else {
+            System.out.println(">>DB에 존재하지 않는 운동입니다.");
         }
         return false;
 
