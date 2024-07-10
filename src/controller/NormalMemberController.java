@@ -190,6 +190,7 @@ public class NormalMemberController {
 
 
 
+    // =============================== 몸무게 기록 부분 =============================== //
 
     // 몸무게 기록 메뉴 현재 페이지 번호
     public static int weightRecordCurrentPage = 1;
@@ -204,4 +205,18 @@ public class NormalMemberController {
         return WeightRecordDao.getInstance().weightRecordAdd(weight, loginMCode);
     }   // weightRecordAdd 함수 end
 
-}
+    // 몸무게 기록 수정 함수
+    public boolean weightRecordUpdate(WeightRecordDto weightRecordDto) {
+        weightRecordDto.setMemberCode(loginMCode);
+        return WeightRecordDao.getInstance().weightRecordUpdate(weightRecordDto);
+
+    }   // weightRecordUpdate 함수 end
+
+    // 몸무게 기록 삭제 함수
+    public boolean weightRecordDelete(int weightCode) {
+        return WeightRecordDao.getInstance().weightRecordDelete(weightCode, loginMCode);
+    }   // weightRecordDelete 함수 end
+
+    // ============================================================================ //
+
+}   // class end
