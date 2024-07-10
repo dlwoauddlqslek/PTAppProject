@@ -44,6 +44,7 @@ public class WeightRecordDao {
     }
 
 
+    // =============================== 몸무게 기록 부분 =============================== //
 
     // 몸무게 기록 메뉴
     public ArrayList<WeightRecordDto> weightRecordPrint(int weightRecordCurrentPage, int loginMCode) {
@@ -88,5 +89,44 @@ public class WeightRecordDao {
         }
         return false;
     }   // weightRecordAdd 함수 end
+
+    // 몸무게 기록 수정 함수
+    public boolean weightRecordUpdate(WeightRecordDto weightRecordDto) {
+        try {
+            String sql = "update weightrecord set weight = ? where weightCode = ? and memberCode = ?;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, weightRecordDto.getWeight());
+            //ps.setString(2, weightRecordDto.getMeasureTime());
+            ps.setInt(2, weightRecordDto.getWeightCode());
+            ps.setInt(3, weightRecordDto.getMemberCode());
+            int count = ps.executeUpdate();
+            if (count == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+
+    }   // weightRecordUpdate 함수 end
+
+    // 몸무게 기록 삭제 함수
+    public boolean weightRecordDelete(int weightCode, int loginMCode) {
+        try {
+            String sql = "delete from weightrecord where weightCode = ? and memberCode = ?;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, weightCode);
+            ps.setInt(2, loginMCode);
+            int count = ps.executeUpdate();
+            if (count == 1) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }   // weightRecordDelete 함수 end
+
+    // ============================================================================ //
 
 }
