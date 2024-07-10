@@ -79,7 +79,7 @@ public class NormalMemberController {
         for (WorkOutRecordDto dto : dailyWorkOutList){
             workOutKcal += dto.getExKcal();
         }
-        System.out.println("workOUtKcal" + workOutKcal);
+        System.out.println("workOutKcal : " + workOutKcal);
         return (baseKcal + foodKcal - workOutKcal);
     }
     // 몸무게 기록 내역이 있는지 체크
