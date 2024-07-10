@@ -3,8 +3,6 @@ package controller;
 import model.dao.MemberDao;
 import model.dto.MemberDto;
 
-import java.util.ArrayList;
-
 public class MemberController {
 
     private static MemberController mControl = new MemberController();
@@ -26,7 +24,9 @@ public class MemberController {
     public boolean login(MemberDto memberDto){
         MemberDto memberDto1 = MemberDao.getInstance().login(memberDto);
         // memberCode 검사로 로그인 유효성 검사
-        if (memberDto1.getMemberCode() == 0){return false;}
+        Integer integer = memberDto1.getMemberCode();
+        if (integer == null){return false;}
+
         loginMCode = memberDto1.getMemberCode();
         loginAccCode = memberDto1.getAccCategory();
         NormalMemberController.getInstance().gender = memberDto1.getGender();
@@ -38,7 +38,7 @@ public class MemberController {
     }
 
     // 아이디 찾기 함수
-    public ArrayList<String> findId(MemberDto memberDto){
+    public String findId(MemberDto memberDto){
         return MemberDao.getInstance().findId(memberDto);
     }
     // 비밀번호 찾기 함수

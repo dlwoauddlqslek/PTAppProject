@@ -3,7 +3,6 @@ package view;
 import controller.MemberController;
 import model.dto.MemberDto;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import static controller.MemberController.loginAccCode;
@@ -198,7 +197,6 @@ public class MemberView {
             }
         } else {
             System.out.println(">>로그인이 실패하였습니다. 아이디와 비밀번호를 다시 확인해 주세요.");
-            scan = new Scanner(System.in);
         }
     }
 
@@ -213,14 +211,8 @@ public class MemberView {
         MemberDto memberDto = new MemberDto();
         memberDto.setMemberName(name); memberDto.setContact(phone);
         // DB 검색후 ID를 String result 로 가져오기
-        ArrayList<String> result =  MemberController.getInstance().findId( memberDto );
-        if(!result.isEmpty()){
-            System.out.print(">>회원님의 아이디는 [");
-            for (String id : result){
-                System.out.print(id+", ");
-            }
-            System.out.println("] 입니다.");
-        }
+        String result =  MemberController.getInstance().findId( memberDto );
+        if( result != null ){  System.out.println(">>회원님의 아이디는 ["+result+"] 입니다.");}
         else{  System.out.println(">>회원정보가 없습니다."); }
     }
 
