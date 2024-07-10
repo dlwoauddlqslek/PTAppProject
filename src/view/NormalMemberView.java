@@ -497,7 +497,6 @@ public class NormalMemberView {
     public void logOut(){
         MemberController.getInstance().logOut();
         System.out.println(">>로그아웃 성공, 초기 화면으로 돌아갑니다.");
-        MemberView.getInstance().index();
     }
 
     //=====================================================회원 탈퇴 함수===============================================================
