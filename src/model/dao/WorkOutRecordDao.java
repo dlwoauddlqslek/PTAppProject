@@ -116,4 +116,25 @@ public class WorkOutRecordDao {
         }catch (Exception e){System.out.println(e);}
         return false;
     }
+
+    public ArrayList<WorkOutRecordDto> getWorkoutRecord(int loginMCode, int pageNum) {
+        ArrayList<WorkOutRecordDto> workoutList = new ArrayList<>();
+        try{
+            String sql="select * from workoutrecord inner join exercise on workoutrecord.exCode = exercise.exCode where memberCode = ? order by workOutTime desc limit ?, 10;";
+            ps=conn.prepareStatement(sql);
+            ps.setInt(1, loginMCode); ps.setInt(2, (pageNum-1)*10);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                WorkOutRecordDto workoutDto = new WorkOutRecordDto();
+                workoutDto.setExName(rs.getString("exName"));
+                workoutDto.setExCode(rs.getInt("exCode"));
+                workoutDto.setWorkOutTime(rs.getString("workOutTime"));
+                workoutDto.setExKcal(rs.getInt("exKcal"));
+                workoutDto.setWorkOutCode(rs.getInt("workoutcode"));
+                workoutDto.setWorkOutAmount(rs.getInt("workoutamount"));
+                workoutList.add(workoutDto);
+            }
+        } catch (Exception e){System.out.println(e);}
+        return workoutList;
+    }
 }

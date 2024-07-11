@@ -163,7 +163,6 @@ public class MemberDao {
 
     public boolean mUpdate(MemberDto memberDto){
         try {
-            System.out.println(memberDto+"dao");
             String sql = "update member set height = ? , exHabit = ?, contact=? where memberCode = ?;\n";
             ps = conn.prepareStatement(sql);
             ps.setInt(1,memberDto.getHeight());

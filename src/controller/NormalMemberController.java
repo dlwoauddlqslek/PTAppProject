@@ -39,7 +39,12 @@ public class NormalMemberController {
     public static int msgCurrentPage = 1;
     // 쪽지 메뉴 PT 강사 목록 페이지 번호
     public static int msgPtMemberListPage = 1;
+    // 음식 메뉴 페이지 번호
+    public static int foodCurrentPage = 1;
+    //
+    public static int foodRecordPage = 1;
 
+    public static int workOutRecordPage = 1;
 
     //===========================================운동선택 함수
     public ArrayList<ExerciseDto> exView(int choNum ){
@@ -186,5 +191,17 @@ public class NormalMemberController {
     //선택된 쪽지 수정
     public boolean msgEdit(MessageDto msgDto) {
         return MessageDao.getInstance().msgEdit(msgDto);
+    }
+
+    public ArrayList<FoodDto> foodView(int foodCurrentPage) {
+        return FoodDao.getInstance().foodListView(foodCurrentPage);
+    }
+    //로그인 회원 코드로 ArrayList 반환
+    public ArrayList<AteFoodRecordDto> getFoodRecord(int pageNum) {
+        return AteFoodRecordDao.getInstance().getFoodRecord(loginMCode, pageNum);
+    }
+    //로그인 회원 코드로 ArrayList 반환
+    public ArrayList<WorkOutRecordDto> getWorkoutRecord(int pageNum) {
+        return WorkOutRecordDao.getInstance().getWorkoutRecord(loginMCode, pageNum);
     }
 }   // class end

@@ -19,11 +19,10 @@ public class PtMemberController {
     public static int msgCurrentPage = 1;
 
     public ArrayList<MessageDto> checkPtMsgNoReply(int msgCurrentPage) {
-        return MessageDao.getInstance().msgView(msgCurrentPage, loginMCode);
+        return MessageDao.getInstance().checkPtMsgNoReply(msgCurrentPage, loginMCode);
     }
 
     public boolean mUpdate(MemberDto memberDto){
-        System.out.println(memberDto);
         memberDto.setMemberCode(loginMCode);
         return MemberDao.getInstance().mUpdate(memberDto);
     }

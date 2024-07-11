@@ -40,7 +40,7 @@ public class PtMemberView {
             System.out.println("--------------------------------------------------------");
             // 강사 메뉴 "디스플레이" 끝
             System.out.println("1 ~ 10.해당 쪽지에 답글 작성하기, p.이전 페이지, n.다음 페이지");
-            System.out.println("h.받은 쪽지 내역 보기, e.개인정보 수정, o.로그아웃 : ");
+            System.out.print("h.받은 쪽지 내역 보기, e.개인정보 수정, o.로그아웃 : ");
             int ch;
             try { //알파벳 입력과 숫자 1~10 입력을 같이 받기
                 ch = scan.nextInt();
@@ -85,7 +85,6 @@ public class PtMemberView {
                 memberDto.setExHabit(habit);
                 memberDto.setContact(mphone);
                 boolean result = PtMemberController.getInstance().mUpdate(memberDto);
-                System.out.println(result);
                 if (result){System.out.println(">>수정 완료하였습니다.");}
                 else {System.out.println(">>수정 실패. 다시 입력해주세요.");}
             }
@@ -105,7 +104,7 @@ public class PtMemberView {
     public void showMessage(MessageDto msgDto){
         System.out.print("쪽지 제목 : "); System.out.println(msgDto.getMsgTitle());
         System.out.print("받은 시간 : "); System.out.println(msgDto.getMsgDate());
-        System.out.print("보낸 회원 : "); System.out.println(msgDto.getReceivedMName());
+        System.out.print("보낸 회원 : "); System.out.println(msgDto.getSentMName());
         String mainContent = msgDto.getMsgContent();
         if (mainContent.length() > 35){
             for(int i = 0; i <= mainContent.length()/35; i++){
@@ -115,33 +114,39 @@ public class PtMemberView {
                 }
                 System.out.println(mainContent.substring(35 * i, 35 * (i + 1)));
             }
+        } else {
+            System.out.println(mainContent);
         }
     }
-    // 첫 화면에서 미답신 쪽지 선택시 - 답장 보내기 메뉴
+    // 첫 화면에서 미답신 쪽지 선택시 - 상세조회 및 답장 보내기 메뉴
     public void ptCheckMessage(int screenNum, MessageDto msgDto){ // 화면 쪽지 번호 ch, 해당 DTO객체 msgDTO
         // 2 \ 제목2 \ 4 \ 2024-07-03 \ 답장이 있습니다
-        System.out.println("===============" + screenNum + "번 쪽지에 답장 보내기 ===============");
-        showMessage(msgDto);
-        System.out.println("--------------------------------------------------------");
-        System.out.println("r.답글 작성, s.해당 회원 건강정보 조회, b.돌아가기");
         while (true) {
+            System.out.println("===============" + screenNum + "번 쪽지에 답장 보내기 ===============");
+            showMessage(msgDto);
+            System.out.println("--------------------------------------------------------");
+            System.out.println("r.답글 작성, s.해당 회원 건강정보 조회, b.돌아가기");
+
             try {
-                scan.nextLine();
                 char ch = scan.next().charAt(0);
-                scan.nextLine();
                 if (ch == 'R' || ch == 'r') {
+                    scan.nextLine();
                     System.out.println(">>답글 내용을 입력해주세요.");
                     String reply = scan.nextLine();
                     MessageDto messageDto = new MessageDto();
                     messageDto.setReplyContent(reply);
                     messageDto.setMessageCode(msgDto.getMessageCode());
-                    PtMemberController.getInstance().ptWriteReply(messageDto);
+                    if(PtMemberController.getInstance().ptWriteReply(messageDto)){
+                        System.out.println(">>답장 보내기 완료. 처음 화면으로 돌아갑니다.");
+                        break;
+                    }
                 } else if (ch == 'S' || ch == 's') { // 쪽지 보낸 회원의 건강 정보 조회
                     msgCheckMemberStat(msgDto.getSentMCode());
-                } else if (ch == 'B' || ch == 'b'){
+                } else if (ch == 'B' || ch == 'b') {
                     break;
+                } else {
+                    throw new RuntimeException();
                 }
-                else {throw new RuntimeException();}
             } catch (Exception e) {
                 System.out.println(">>잘못된 입력입니다. 다시 확인해 주세요.");
             }
@@ -149,34 +154,31 @@ public class PtMemberView {
 
     }
     // 쪽지 내역 - 쪽지 선택시 상세표시 메뉴
-    private void msgCheckMessage(int screenNum, MessageDto msgDto) {
+    private void msgHistoryCheckMessage(int screenNum, MessageDto msgDto) {
         while (true) {
             try {
                 // "디스플레이" 시작
-                System.out.println("===================" + screenNum + "번 쪽지 상세보기 ===================");
+                System.out.println("=================== " + screenNum + "번 쪽지 상세보기 ===================");
                 showMessage(msgDto);
+                System.out.println("--------------------------------------------------------");
                 if (msgDto.getHasReply() == 1) {
-                    System.out.println();
                     System.out.print("답장 보낸 시간 : ");
                     System.out.println(msgDto.getReplyDate());
                     System.out.println(msgDto.getReplyContent());
+                    System.out.println("--------------------------------------------------------");
                 }
-                System.out.println("--------------------------------------------------------");
                 // "디스플레이" 끝
                 System.out.print(">>1.돌아가기 2.답장 수정하기 3. 답장 삭제하기 : ");
                 int ch = scan.nextInt();
-                switch (ch) {
-                    case 1:
-                        return;
-                    case 2:
-                        msgReplyEdit(msgDto.getMessageCode());
-                        break;
-                    case 3:
-                        msgReplyDelete(msgDto.getMessageCode());
-                        break;
-                    default:
-                        throw new RuntimeException();
-                }
+                if (ch == 1){
+                    return;
+                } else if (ch == 2){
+                    msgReplyEdit(msgDto.getMessageCode());
+                    return;
+                } else if (ch == 3){
+                    msgReplyDelete(msgDto.getMessageCode());
+                    return;
+                } else {throw new RuntimeException();}
             } catch (Exception e) {
                 System.out.println(">>입력이 잘못되었습니다. 다시 확인해 주세요.");
             }
@@ -213,7 +215,7 @@ public class PtMemberView {
             System.out.println("--------------------------------------------------------");
             // "디스플레이" 끝
             System.out.print("1 ~ 10 = 해당 쪽지 보기, p = 이전 페이지, n = 다음 페이지 b = 돌아가기 : ");
-            int ch;
+            int ch; scan = new Scanner(System.in);
             try { //알파벳 입력과 숫자 1~10 입력을 같이 받기
                 ch = scan.nextInt();
                 scan.nextLine();
@@ -223,7 +225,7 @@ public class PtMemberView {
             }
             if (ch >= 1 && ch <= 10) { // 쪽지 상세보기
                 if (ch <= msgList.size()) { // 쪽지 화면 번호와 입력 값의 유효성 검사
-                    msgCheckMessage(ch, msgList.get(ch - 1));
+                    msgHistoryCheckMessage(ch, msgList.get(ch - 1));
                 } else { // 표시되지 않은 번호를 입력
                     System.out.println(">>쪽지번호를 다시 확인해주세요.");
                     System.out.println();
@@ -279,6 +281,7 @@ public class PtMemberView {
     private void msgReplyDelete(int messageCode) {
         if (PtMemberController.getInstance().msgReplyDelete(messageCode)){
             System.out.println(">>답장 삭제 완료되었습니다.");
+            return;
         }
         System.out.println(">>삭제 중 오류가 발생하였습니다. 다시 시도해 주세요.");
     }
@@ -294,19 +297,24 @@ public class PtMemberView {
             System.out.print(">>해당 회원의 몸무게 : ");
             System.out.println(weightInfo.getWeight() + "kg");
             System.out.println(">>1.음식 기록 2.운동 기록 3.돌아가기");
+            scan.nextLine();
             int ch;
             try {
                 ch = scan.nextInt();
                 if (ch == 1) {
                     ArrayList<AteFoodRecordDto> foodList = PtMemberController.getInstance().getFoodRecord(memberCode);
+                    System.out.println("=================== 오늘 기록한 음식 목록 ===================");
                     for(AteFoodRecordDto dto : foodList){
                         System.out.println(">>음식 이름 : " + dto.getFoodName() + ", 먹은 시간 : " + dto.getAteTime());
                     }
+                    System.out.println("--------------------------------------------------------");
                 } else if (ch == 2) {
                     ArrayList<WorkOutRecordDto> workOutList = PtMemberController.getInstance().getWorkOutRecord(memberCode);
+                    System.out.println("=================== 오늘 기록한 운동 목록 ===================");
                     for(WorkOutRecordDto dto : workOutList){
-                        System.out.println(">>운동 이름 : " + dto.getExName() + ", 운동한 시간 : " + dto.getWorkOutTime());
+                        System.out.println(">>운동 이름 : " + dto.getExName() + ", 운동 분량 : "+ dto.getWorkOutAmount() +"0분, 운동한 시간 : " + dto.getWorkOutTime());
                     }
+                    System.out.println("--------------------------------------------------------");
                 } else if (ch == 3) {
                     break;
                 }

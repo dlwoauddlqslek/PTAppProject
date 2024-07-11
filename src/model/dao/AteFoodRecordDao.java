@@ -1,8 +1,6 @@
 package model.dao;
 
 import model.dto.AteFoodRecordDto;
-import model.dto.FoodDto;
-import model.dto.WeightRecordDto;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -128,7 +126,28 @@ public class AteFoodRecordDao {
         return false;
 
         }
+
+    public ArrayList<AteFoodRecordDto> getFoodRecord(int loginMCode, int pageNum) {
+        ArrayList<AteFoodRecordDto> foodRecordList = new ArrayList<>();
+        try{
+            String sql="select * from atefoodrecord inner join food on atefoodrecord.foodCode = food.foodCode where memberCode = ? order by atetime desc limit ?, 10;";
+            ps=conn.prepareStatement(sql);
+            ps.setInt(1, loginMCode); ps.setInt(2, (pageNum-1)*10);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                AteFoodRecordDto foodRecordDto = new AteFoodRecordDto();
+                foodRecordDto.setFoodName(rs.getString("foodName"));
+                foodRecordDto.setFoodCode(rs.getInt("foodCode"));
+                foodRecordDto.setAteTime(rs.getString("ateTime"));
+                foodRecordDto.setFoodkcal(rs.getInt("foodKcal"));
+                foodRecordDto.setAteFoodCode(rs.getInt("atefoodcode"));
+                foodRecordList.add(foodRecordDto);
+            }
+        } catch (Exception e){System.out.println(e);}
+
+        return foodRecordList;
     }
+}
 
 
 
