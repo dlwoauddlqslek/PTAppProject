@@ -179,6 +179,7 @@ public class MemberView {
         memberDto.setPW(pw);
 
         if (MemberController.getInstance().login(memberDto)) {
+
             // 로그인 성공시 이동 메뉴
             // loginAccCode 값이 1이면 관리자 화면으로 / 2면 일반 회원 화면으로 / 3이면 PT 강사 전용 화면으로 이동
             switch (loginAccCode) {

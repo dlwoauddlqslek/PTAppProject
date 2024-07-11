@@ -35,7 +35,6 @@ public class NormalMemberView {
     // 3. PT 강사에게 쪽지 : 최근 보낸 쪽지 목록 띄우기 & 보내기/수정/삭제
     // 4. 본인 정보 수정 : 비밀번호 확인 후 변경할 정보 선택 & 새로운 정보 입력 (키, 운동습관, 연락처)
     // + 5. 로그아웃 번호 : 현재 로그인된 회원 로그아웃하기
-
     public void index(){
         System.out.println();
         System.out.println(">>일반 회원 메뉴입니다.");
@@ -43,34 +42,32 @@ public class NormalMemberView {
             // "디스플레이" 시작
             // 현재 회원 MemberDto 가져오기
             MemberDto currentDto = NormalMemberController.getInstance().getCurrentDto();
-            System.out.println("================== 안녕하세요, " + currentDto.getMemberName() +"님 ==================");
+            System.out.println("================ 안녕하세요, " + currentDto.getMemberName() +"님 ==================");
             // 몸무게 측정 기록 여부에 따라 안내 메시지 출력
-            if (hasWeightRecord()){
+            if (NormalMemberController.getInstance().hasWeightRecord()){
                 double dailyKcal = NormalMemberController.getInstance().calcDailyKcal();
                 System.out.println("오늘의 남은 칼로리 : " + dailyKcal + " Kcal");
             } else {
                 System.out.println("몸무게를 등록해서 오늘의 남은 칼로리를 알아보세요.");
             }
+            System.out.println("    오늘 먹은 음식              오늘 한 운동");
             System.out.println("--------------------------------------------------------");
-            System.out.println("    오늘 먹은 음식                  오늘 한 운동");
             System.out.println(" 번호         이름        번호           이름");
             System.out.println("--------------------------------------------------------");
-
             // 날짜 기준 최근 운동 5개, 먹은 음식 5개
             // 번호 1~5 음식 | 번호 1~5 운동
             ArrayList<AteFoodRecordDto> foodList = NormalMemberController.getInstance().getDailyFoodList(0, 5);
             ArrayList<WorkOutRecordDto> workOutList = NormalMemberController.getInstance().getDailyWorkoutList(0, 5);
-
             // printf 한줄로 양쪽에서 한 객체씩 뽑아서 출력
             for (int i = 0; i < 5; i++) {
                 if (i < foodList.size() && i < workOutList.size()) {
-                    System.out.printf("%2d | %-15s | %2d | %-15s\n", i+1, foodList.get(i).getFoodName(), i+1, workOutList.get(i).getExName());
+                    System.out.printf("%2d | %-16s | %2d | %-16s\n", i+1, foodList.get(i).getFoodName(), i+1, workOutList.get(i).getExName());
                 }
                 else if (i < foodList.size() && i >= workOutList.size()){
-                    System.out.printf("%2d | %-15s |    |\n", i+1, foodList.get(i).getFoodName());
+                    System.out.printf("%2d | %-16s |    |\n", i+1, foodList.get(i).getFoodName());
                 }
                 else if (i >= foodList.size() && i < workOutList.size()){
-                    System.out.printf("   |                    | %2d | %-15s", i+1, workOutList.get(i).getExName());
+                    System.out.printf("   |                    | %2d | %-16s", i+1, workOutList.get(i).getExName());
                 }
                 else {
                     System.out.println("   |                    |    |");
@@ -83,7 +80,7 @@ public class NormalMemberView {
                 System.out.print(">>1.몸무게기록 2.음식기록 3.운동기록 4.쪽지메뉴 5.회원정보수정 6.로그아웃 7.회원탈퇴 : ");
                 int ch = scan.nextInt();
                 if (ch == 1) {
-                    weightRecordMenu();
+                    weightRecord();
                 } else if (ch == 2) {
                     foodMenu();
                 } else if (ch == 3) {
@@ -101,7 +98,7 @@ public class NormalMemberView {
                     throw new RuntimeException();
                 }
             } catch (Exception e) {
-                System.out.println(">>입력이 잘못되었습니다. 다시 시도해 주세요.");
+                System.out.println(e +">>입력이 잘못되었습니다. 다시 시도해 주세요.");
                 scan = new Scanner(System.in);
             }
         }   // while end
@@ -110,16 +107,12 @@ public class NormalMemberView {
 
     // =============================== 몸무게 기록 부분 =============================== //
 
-    // 몸무게 기록이 있는지 확인
-    private boolean hasWeightRecord() {
-        return NormalMemberController.getInstance().hasWeightRecord();
-    }
 
 //    private void weightRecord() { // 몸무게 등록 메뉴
 //        System.out.println(">>몸무게 기록 관리 메뉴입니다.");
 //    }
     // 몸무게 기록 메뉴
-    private void weightRecordMenu() {
+    private void weightRecord() {
         while (true) {
             System.out.println("================== 몸무게 기록 메뉴 "+ NormalMemberController.weightRecordCurrentPage + " 페이지 ==================");
             System.out.println("번호         몸무게                측정시간");
@@ -128,14 +121,11 @@ public class NormalMemberView {
             ArrayList<WeightRecordDto> weightRecordList = NormalMemberController.getInstance().weightRecordPrint(NormalMemberController.weightRecordCurrentPage);
             // 몸무게 기록 출력 for문
             for (int i = 0; i < weightRecordList.size(); i++){
-
-                int weightCode = weightRecordList.get(i).getWeightCode();
                 int weight = weightRecordList.get(i).getWeight();
                 String measureTime = weightRecordList.get(i).getMeasureTime();       //.substring(0,10); // 날짜까지만 dateTime 표시
-
                 System.out.printf(" %-12d %-12d %s \n", i + 1, weight, measureTime);
             }
-            System.out.println("------------------------------------------------------------");
+            System.out.println("-----------------------------------------------------------");
             System.out.println("1 ~ 10 = 해당 몸무게 기록 보기, p = 이전 페이지, n = 다음 페이지");
             System.out.print("r = 몸무게 기록하기, b = 돌아가기 : ");
             int ch;
@@ -192,7 +182,7 @@ public class NormalMemberView {
 
     }   // weightRecord() end
 
-    // 1~10, 몸무게 기록 상세 내용 보기
+    // 1~10, 몸무게 기록 상세 내용 보기 V
     public void weightRecordContent(int screenNum, WeightRecordDto weightRecordDto){ // 화면 몸무게 기록 번호 ch, 해당 DTO객체 msgDTO
         while (true) {
             System.out.println("=================== " + screenNum + "번 몸무게 기록 상세보기 ===================");
@@ -219,7 +209,7 @@ public class NormalMemberView {
         }
     }   // weightRecordContent 함수 end
 
-    // 몸무게 기록하는 함수
+    // 몸무게 기록하는 함수 V
     private void weightRecordAdd() {
         while (true) {
             try {
@@ -242,7 +232,7 @@ public class NormalMemberView {
 
     }   // weightRecordAdd 함수 end
 
-    // 몸무게 기록 수정 함수
+    // 몸무게 기록 수정 함수 V
     private void weightRecordUpdate(int weightCode) {
         while (true) {
             try {
@@ -273,7 +263,7 @@ public class NormalMemberView {
         }
     }   // weightRecordUpdate 함수 end
 
-    // 몸무게 기록 삭제 함수
+    // 몸무게 기록 삭제 함수 V
     private void weightRecordDelete(int weightCode) {
         boolean result = NormalMemberController.getInstance().weightRecordDelete(weightCode);
 
@@ -286,21 +276,73 @@ public class NormalMemberView {
 
     // ============================================================================ //
 
-
+    // 음식 메뉴
     public void foodMenu() {
         while (true) {
             try {
-                System.out.println(">>원하시는 메뉴를 선택해 주세요.");
+                //음식 목록 프린트
+                System.out.println("============= 음식 기록 " + foodRecordPage + " 페이지 ==============");
+                System.out.println("번호    음식                  날짜");
+                ArrayList<AteFoodRecordDto> foodRecordList = NormalMemberController.getInstance().getFoodRecord(foodRecordPage);
+                for (int i = 0; i < foodRecordList.size(); i++) {
+                    String foodName = foodRecordList.get(i).getFoodName();
+                    int count = foodName.length();
+                    foodName = foodName.replace(" ", "ㅤ");      // 출력을 깔끔하게 하기 위해 띄어쓰기 해서 생긴 공백을 한글과 폭이 같은 공백으로 치환
+                    if (foodName.length() < 8) {       // 음식 이름 글자 길이가 13이하이면 총 길이가 13이 되도록 공백 문자를 이어 붙이는 코드
+                        for (int j = 0; j < 8 - count; j++) {
+                            foodName += "ㅤ";
+                        }
+                    }
+                    String ateTime = foodRecordList.get(i).getAteTime();
+                    System.out.printf(" %-5d %-13s %-10s \n", i+1, foodName, ateTime);
+                }
+                System.out.println("============================================");
+                System.out.println(">>원하시는 메뉴를 선택해 주세요 : n.다음 페이지 p.이전 페이지");
                 System.out.print(">>1.먹은음식 등록 2.수정 3.삭제 4.돌아가기 : ");
-                int ch = scan.nextInt();
-                if (ch == 1) {
+                int ch;
+                try { //알파벳 입력과 숫자 1~10 입력을 같이 받기
+                    ch = scan.nextInt();
+                    scan.nextLine();
+                } catch (Exception e) { // 정수 입력이 아닐 때 char 입력으로 전환
+                    ch = scan.next().charAt(0);
+                    scan.nextLine();
+                }
+                if (ch == 'P' || ch == 'p'){ // 음식 내역 이전 10개 출력
+                    if (foodRecordPage == 1) { // 첫번째 페이지일 때
+                        System.out.println(">>이미 첫 번째 페이지입니다!");
+                        System.out.println();
+                    }
+                    else { // 현재 페이지 -1 하고 출력
+                        System.out.println();
+                        foodRecordPage--;
+                    }
+                }
+                else if (ch == 'N' || ch == 'n'){ // 쪽지 내역 다음 10개
+                    // 불러올 음식 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
+                    if (NormalMemberController.getInstance().getFoodRecord(foodRecordPage+1).isEmpty()){
+                        System.out.println(">>마지막 페이지입니다!");
+                        System.out.println();
+                    }
+                    else { // 현재 페이지 +1 및 출력
+                        System.out.println();
+                        foodRecordPage++;
+                    }
+                }
+                else if (ch == 1) {
                     foodCal();
                 } else if (ch == 2) {
-                    ateFoodUpdate();
+                    System.out.print(">>수정할 음식 기록 번호를 입력해주세요 : ");
+                    int sel = scan.nextInt();
+                    if (sel <= foodRecordList.size())
+                        ateFoodUpdate(foodRecordList.get(sel-1).getAteFoodCode());
                 } else if (ch == 3) {
-                    ateFoodDelete();
-                } else if (ch==4){return;}
-                else {
+                    System.out.print(">>삭제할 음식 기록 번호를 입력해주세요 : ");
+                    int sel = scan.nextInt();
+                    if (sel <= foodRecordList.size())
+                        ateFoodDelete(foodRecordList.get(sel-1).getAteFoodCode());
+                } else if (ch == 4) {
+                    return;
+                } else {
                     throw new RuntimeException();
                 }
             } catch (Exception e) {
@@ -311,22 +353,65 @@ public class NormalMemberView {
     }
     // 음식 입력-> 먹은 음식 레코드 저장 ->권장 칼로리에서 로그인한 회원이 먹은 음식들 칼로리합을 차감
     public void foodCal(){
-
-        scan.nextLine();
-        System.out.print("먹은 음식을 입력해주세요: ");
-        String foodName=scan.nextLine();
-        boolean result1= NormalMemberController.getInstance().foodCheck(foodName);
-        boolean result2= NormalMemberController.getInstance().foodRecord(foodName);
-
-        if(result1) {
-            if (result2) {
-                calcDailyKcal();
-                System.out.println("등록 성공");
+        System.out.println("============= 음식 " + foodCurrentPage + " 페이지 ==============");
+        System.out.println("번호    음식                  칼로리");
+        System.out.println("============================================");
+        // DB에서 현재 페이지 번호에 해당되는 음식 목록 가져와 출력
+        ArrayList<FoodDto> foodList = NormalMemberController.getInstance().foodView(foodCurrentPage);
+        for (int i = 0; i < foodList.size(); i++) {
+            int foodCode = foodList.get(i).getFoodCode();
+            String foodName = foodList.get(i).getFoodName();
+            int foodKcal = foodList.get(i).getFoodKcal();
+            int count = foodName.length();
+            foodName = foodName.replace(" ", "ㅤ");      // 출력을 깔끔하게 하기 위해 띄어쓰기 해서 생긴 공백을 한글과 폭이 같은 공백으로 치환
+            if (foodName.length() < 13) {       // 음식 이름 글자 길이가 13이하이면 총 길이가 13이 되도록 공백 문자를 이어 붙이는 코드
+                for (int j = 0; j < 13 - count; j++) {
+                    foodName += "ㅤ";
+                }
+            }
+            System.out.printf(" %-5d %-8s %-5d \n", foodCode, foodName, foodKcal);
+        }
+        System.out.println("============================================");
+        //음식 목록 프린트 끝
+        System.out.println(">>n.다음 페이지 p.이전 페이지");
+        System.out.print(">>먹은 음식의 번호를 선택해주세요: ");
+        int ch;
+        try { //알파벳 입력과 숫자 1~10 입력을 같이 받기
+            ch = scan.nextInt();
+            scan.nextLine();
+        } catch (Exception e) { // 정수 입력이 아닐 때 char 입력으로 전환
+            ch = scan.next().charAt(0);
+            scan.nextLine();
+        }
+        if (ch == 'P' || ch == 'p'){ // 음식 내역 이전 10개 출력
+            if (foodCurrentPage == 1) { // 첫번째 페이지일 때
+                System.out.println(">>이미 첫 번째 페이지입니다!");
+                System.out.println();
+            }
+            else { // 현재 페이지 -1 하고 출력
+                System.out.println();
+                foodCurrentPage--;
             }
         }
-        else{System.out.println("다시 입력해주세요");}
+        else if (ch == 'N' || ch == 'n'){ // 쪽지 내역 다음 10개
+            // 불러올 음식 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
+            if (NormalMemberController.getInstance().foodView(foodCurrentPage+1).isEmpty()){
+                System.out.println(">>마지막 페이지입니다!");
+                System.out.println();
+            }
+            else { // 현재 페이지 +1 및 출력
+                System.out.println();
+                foodCurrentPage++;
+            }
+        } else if (ch > 0 && ch <= foodList.size()) {
+            if (NormalMemberController.getInstance().foodRecord(foodList.get(ch - 1).getFoodName())) {
+                System.out.println(">>음식 기록 완료했습니다.");
+            }
+        } else {
+            System.out.println(">>다시 입력해주세요");
+        }
     }
-
+    // 먹은 음식 기록 출력 메뉴
     public ArrayList<AteFoodRecordDto> ateFoodPrint(){
         ArrayList<AteFoodRecordDto> ateFoodList=NormalMemberController.getInstance().getDailyFoodList(0,0);
         System.out.println("번호     음식     칼로리     시간");
@@ -335,14 +420,8 @@ public class NormalMemberView {
         }
         return ateFoodList;
     }
-
-    public void ateFoodUpdate(){
-        ArrayList<AteFoodRecordDto> ateFoodList=ateFoodPrint();
-        System.out.print("수정할 음식번호를 입력해주세요");
-        int ch = scan.nextInt();
-        int ateFoodCode = ateFoodList.get(ch-1).getAteFoodCode();
-
-
+    // 먹은 음식 기록 수정 메뉴
+    public void ateFoodUpdate(int ateFoodCode){
         System.out.print("수정할 음식명을 입력해주세요");
         scan.nextLine();
         String foodName=scan.nextLine();
@@ -354,36 +433,39 @@ public class NormalMemberView {
             System.out.println("다시 입력해주세요");
         }
     }
-
-    public void ateFoodDelete(){
-        ArrayList<AteFoodRecordDto> ateFoodList=ateFoodPrint();
-        System.out.print("삭제할 음식번호를 입력해주세요");
-        int ch = scan.nextInt();
-        int ateFoodCode = ateFoodList.get(ch-1).getAteFoodCode();
+    // 먹은 음식 기록 삭제 메뉴
+    public void ateFoodDelete(int ateFoodCode){
         boolean result1=NormalMemberController.getInstance().ateFoodDelete(ateFoodCode);
         if (result1){System.out.println("삭제 성공");}
         else {
             System.out.println("다시 입력해주세요");
         }
     }
-
+    // 운동 기록 메뉴
     public void exMenu(){
         while (true) {
-
             try {
+                System.out.println("================ 운동 기록 ==================");
+                ArrayList<WorkOutRecordDto> workOutList=workOutPrint();
+                System.out.println("============================================");
                 System.out.println(">>원하시는 메뉴를 선택해 주세요.");
                 System.out.print(">>1.수행한 운동 등록 2.수정 3.삭제 4.돌아가기 : ");
                 int ch = scan.nextInt();
                 if (ch == 1) {
                     exCal2();
-                    calcDailyKcal();
-                    System.out.println("등록 성공");
                 } else if (ch == 2) {
-                    workOutRecordUpdate();
+                    System.out.print(">>수정할 운동 기록 번호를 입력해주세요 : ");
+                    int sel = scan.nextInt();
+                    if (sel <= workOutList.size())
+                        workOutRecordUpdate(workOutList.get(sel-1).getWorkOutCode());
                 } else if (ch == 3) {
-                    workOutRecordDelete();
-                } else if(ch==4){return;}
-                else {
+                    System.out.print(">>삭제할 운동 기록 번호를 입력해주세요 : ");
+                    int sel = scan.nextInt();
+                    if (sel <= workOutList.size())
+                        workOutRecordDelete(workOutList.get(sel-1).getWorkOutCode());
+                } else if (ch == 4) {
+                    return;
+                } else {
                     throw new RuntimeException();
                 }
             } catch (Exception e) {
@@ -392,67 +474,69 @@ public class NormalMemberView {
             }
         }
     }
-
-    public int exCal2(){
-        System.out.println("========================운동선택메뉴======================");
+    //운동 추가 메뉴
+    public void exCal2(){
+        System.out.println("======================== 운동선택메뉴 ======================");
         System.out.print("1.초급운동(Level)    2.중급운동(Level)    3.고급운동(Level)  :  ");
         int choNum = scan.nextInt();
         if (choNum == 1 ) {
             ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
-            System.out.println("번호=======운동강도========운동내용==========칼로리========");
+            System.out.println("번호 ======= 운동강도 ======== 운동내용 ========== 칼로리 ========");
             for (int i = 0; i < result.size() ; i++) {
                 System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"             "+result.get(i).getExName()+"              "+result.get(i).getExKcal());
             }
             int ch = scan.nextInt();
             int selExCode = result.get(ch-1).getExCode();
-            boolean result1=NormalMemberController.getInstance().exRecord(selExCode);
-            return selExCode;
+            System.out.print(">>운동 시간을 10분 단위로 입력해 주세요. 예시) 30분 운동 = 3 :"); int time = scan.nextInt();
+            if(NormalMemberController.getInstance().exRecord(selExCode, time)){
+                System.out.println(">>운동 추가 성공.");
+            }
             // System.out.println(selExCode); 운동코드 확인용
         }
         else if (choNum == 2){
             ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
-            System.out.println("번호=======운동강도========운동내용==========칼로리========");
+            System.out.println("번호 ======= 운동강도 ======== 운동내용 ========== 칼로리 ========");
             for (int i = 0; i < result.size() ; i++) {
                 System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"             "+result.get(i).getExName()+"              "+result.get(i).getExKcal());
             }
             int ch = scan.nextInt();
             int selExCode = result.get(ch-1).getExCode();
-            boolean result1=NormalMemberController.getInstance().exRecord(selExCode);
-            return selExCode;
+            System.out.print(">>운동 시간을 10분 단위로 입력해 주세요. 예시) 30분 운동 = 3 :"); int time = scan.nextInt();
+            if(NormalMemberController.getInstance().exRecord(selExCode, time)){
+                System.out.println(">>운동 추가 성공.");
+            }
             // System.out.println(selExCode); 운동코드 확인용
         }
         else if (choNum == 3){
             ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
-            System.out.println("번호=======운동강도========운동내용============칼로리======");
+            System.out.println("번호 ======= 운동강도 ======== 운동내용 ========== 칼로리 ========");
             for (int i = 0; i < result.size() ; i++) {
                 System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"         "+result.get(i).getExName()+"         "+result.get(i).getExKcal());
             }
             int ch = scan.nextInt();
             int selExCode = result.get(ch-1).getExCode();
-            boolean result1=NormalMemberController.getInstance().exRecord(selExCode);
-            return selExCode;
+            System.out.print(">>운동 시간을 10분 단위로 입력해 주세요. 예시) 30분 운동 = 3 :"); int time = scan.nextInt();
+            if(NormalMemberController.getInstance().exRecord(selExCode, time)){
+                System.out.println(">>운동 추가 성공.");
+            }
              //System.out.println(selExCode);
         }
-        return 0;
     }// 운동 고르기 함수 종료
 
     public ArrayList<WorkOutRecordDto> workOutPrint(){
         ArrayList<WorkOutRecordDto> workOutList=NormalMemberController.getInstance().getDailyWorkoutList(0,0);
-        System.out.println("번호     운동     칼로리     시간");
+        System.out.println("번호     운동     칼로리     운동량         시간");
         for (int i = 0; i < workOutList.size() ; i++) {
-            System.out.println((i+1)+"       "+workOutList.get(i).getExName()+"             "+workOutList.get(i).getExKcal()+"              "+workOutList.get(i).getWorkOutTime());
+            System.out.println((i+1)+"       "+workOutList.get(i).getExName()+"             "+workOutList.get(i).getExKcal()+"              "+workOutList.get(i).getWorkOutAmount()+"0분              "+workOutList.get(i).getWorkOutTime());
         }
         return workOutList;
     }
 
-    public void workOutRecordUpdate(){
+    public void workOutRecordUpdate(int workOutCode){
         ArrayList<WorkOutRecordDto> workOutList=workOutPrint();
         System.out.print("수정할 운동번호를 입력해주세요");
         int ch = scan.nextInt();
-        int workOutCode = workOutList.get(ch-1).getWorkOutCode();
-        int exCode=exCal2();
-
-
+        int exCode=workOutList.get(ch-1).getExCode();
         boolean result1=NormalMemberController.getInstance().workOutRecordUpdate(workOutCode,exCode);
         if (result1){
             System.out.println("수정 성공");
@@ -462,11 +546,7 @@ public class NormalMemberView {
         }
     }
 
-    public void workOutRecordDelete(){
-        ArrayList<WorkOutRecordDto> workOutList=workOutPrint();
-        System.out.print("삭제할 운동번호를 입력해주세요");
-        int ch = scan.nextInt();
-        int workOutCode = workOutList.get(ch-1).getWorkOutCode();
+    public void workOutRecordDelete(int workOutCode){
         boolean result1=NormalMemberController.getInstance().workOutRecordDelete(workOutCode);
         if (result1){
             System.out.println("삭제 성공");
@@ -488,7 +568,7 @@ public class NormalMemberView {
         memberDto.setExHabit(habit);
         memberDto.setContact(mphone);
         boolean result = MemberController.getInstance().mUpdate(memberDto);
-
+        System.out.println(result);
         if (result){System.out.println(">>수정 완료하였습니다."); }
         else {System.out.println(">>수정 실패. 다시 입력해주세요.");}
     }
@@ -497,7 +577,7 @@ public class NormalMemberView {
     public void logOut(){
         MemberController.getInstance().logOut();
         System.out.println(">>로그아웃 성공, 초기 화면으로 돌아갑니다.");
-        MemberView.getInstance().index();
+
     }
 
     //=====================================================회원 탈퇴 함수===============================================================
@@ -511,10 +591,7 @@ public class NormalMemberView {
         memberDto.setID(removeId);memberDto.setPW(removePw);
         boolean result = MemberController.getInstance().removeMem(memberDto);
         if (result){
-            System.out.println();
-            System.out.println("회원탈퇴 성공입니다.");
-            System.out.println();
-            MemberView.getInstance().index();
+            System.out.println("회원탈퇴 성공입니다."); MemberView.getInstance().index();
         }
         else {
             System.out.println();
@@ -522,29 +599,6 @@ public class NormalMemberView {
             System.out.println();
         }
     }
-
-
-
-
-    // 회원 먹은 음식 기록 메뉴
-    public void recordFoodView(){
-        // 화면 열릴 때 하루 기준으로 10건 표시
-        // 위 -> 아래 : 최신부터 정렬
-        // ==== 2024-07-05 음식 일지 ====
-        // 번호 먹은 음식 칼로리 시간
-
-        // CRUD 메뉴
-        // p.이전 10건 n.다음 10건
-        // 1.기록추가 2.기록수정 3.기록삭제 4.기록 더보기 5.돌아가기
-
-        // 4. 기록 더보기 메뉴
-        // 출력 : 처음은 이전메뉴와 같게
-        // p.이전 n.다음 P.전날 N.다음날 d.날짜 입력 (0000-00-00)
-
-
-    }
-
-
 
 
     // ====================== 쪽지 메뉴 ===================================== //
@@ -555,7 +609,7 @@ public class NormalMemberView {
         System.out.println(">>쪽지 메뉴입니다.");
         while (true) {
             // "디스플레이" 시작
-            System.out.println("=================== 쪽지 메뉴 "+ NormalMemberController.msgCurrentPage + " 페이지 ===================");
+            System.out.println("=================== 쪽지 메뉴 "+ msgCurrentPage + " 페이지 ===================");
             System.out.println("번호         제목          보낸 날짜   답장 날짜");
             System.out.println("--------------------------------------------------------");
             //DB에서 현재 페이지 번호에 해당되는 쪽지 목록 가져와 출력
@@ -563,8 +617,8 @@ public class NormalMemberView {
             //쪽지 출력 for문
             for (int i = 0; i < msgList.size(); i++){
                 String title = msgList.get(i).getMsgTitle();
-                // 제목 : maxTitleLen 글자수 넘어가면 말줄임표
-                int maxTitleLen = 9;
+                // 제목 : 15글자를 넘어가면 말줄임표, 미만이면 빈칸 추가
+                int maxTitleLen = 15;
                 title = title.length() > maxTitleLen ? title.substring(0,maxTitleLen-3) + "..." : title;// 제목 : 10글자 이상이면 말줄임표
                 String sentDate = msgList.get(i).getMsgDate().substring(0,10); // 날짜까지만 dateTime 표시
                 String replyDate;
@@ -595,24 +649,24 @@ public class NormalMemberView {
                 }
             }
             else if (ch == 'P' || ch == 'p'){ // 쪽지 내역 이전 10개 출력
-                if (NormalMemberController.msgCurrentPage == 1) { // 첫번째 페이지일 때
+                if (msgCurrentPage == 1) { // 첫번째 페이지일 때
                     System.out.println(">>이미 첫 번째 페이지입니다!");
                     System.out.println();
                 }
                 else { // 현재 페이지 -1 하고 출력
                     System.out.println();
-                    NormalMemberController.msgCurrentPage--;
+                    msgCurrentPage--;
                 }
             }
             else if (ch == 'N' || ch == 'n'){ // 쪽지 내역 다음 10개
                 // 불러올 쪽지 목록이 없다 : 다음 페이지가 비어있다 > 현재 페이지가 마지막 페이지라고 알린다
-                if (NormalMemberController.getInstance().msgView(NormalMemberController.msgCurrentPage+1).isEmpty()){
+                if (NormalMemberController.getInstance().msgView(msgCurrentPage+1).isEmpty()){
                     System.out.println(">>마지막 페이지입니다!");
                     System.out.println();
                 }
                 else { // 현재 페이지 +1 및 출력
                     System.out.println();
-                    NormalMemberController.msgCurrentPage++;
+                    msgCurrentPage++;
                 }
             }
             else if (ch == 'S' || ch == 's'){ // 쪽지 보내기
@@ -635,7 +689,8 @@ public class NormalMemberView {
         while (true) {
             try {
                 // "디스플레이" 시작
-                System.out.println("===================" + screenNum + "번 쪽지 상세보기 ===================");
+                System.out.println(msgDto);
+                System.out.println("=================== " + screenNum + "번 쪽지 상세보기 ===================");
                 System.out.print("쪽지 제목 : ");
                 System.out.println(msgDto.getMsgTitle());
                 System.out.print("보낸 시간 : ");
@@ -651,6 +706,8 @@ public class NormalMemberView {
                         }
                         System.out.println(mainContent.substring(35 * i, 35 * (i + 1)));
                     }
+                } else {
+                    System.out.println(mainContent);
                 }
                 if (msgDto.getHasReply() == 1) {
                     System.out.println();
@@ -811,22 +868,6 @@ public class NormalMemberView {
         return NormalMemberController.getInstance().msgShowPtMemberList(msgPtMemberListPage);
     }
 
-    // 일반 & 강사) 쪽지 메뉴 3 & 4 - 쪽지 송신 내역 보기
-    public void msgCheckHistory(){
-        // accCode와 memberCode를 받아 쪽지 데이터 가져오기
-    }
-
-    // 강사) 쪽지 메뉴 - 받은 쪽지 답장 보내기
-    public void msgSendReply(){
-
-    }
-
-    // 강사) 쪽지 메뉴 - 쪽지 보낸 회원 정보(키, 몸무게, 음식기록, 운동기록) 확인하기
-    public void msgCheckMemberStat(){
-        // 현재 memberCode를 보내 쪽지 기록이 있는 회원 코드와 이름을 불러오기
-        // 1. 아무개 ... <- 번호를 고르면 키와 몸무게가 뜨고 1.음식기록 2.운동기록 3.뒤로가기
-        // 1/2를 고르면 오늘 날짜 기준으로 기록을 가져온다. 1.전날 2.다음날 3.돌아가기
-    }
 }
 
 

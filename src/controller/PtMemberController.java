@@ -1,7 +1,5 @@
 package controller;
 
-
-import model.dao.AteFoodRecordDao;
 import model.dao.MemberDao;
 import model.dao.MessageDao;
 import model.dao.WeightRecordDao;
@@ -18,23 +16,19 @@ public class PtMemberController {
     public static PtMemberController getInstance(){ return ptMemberController; }
     // /싱글톤 패턴
 
-    // member 관련 static 전역변수들
-    public static int loginNo = 0; //로그인됐을때 회원코드
-
     public static int msgCurrentPage = 1;
 
     public ArrayList<MessageDto> checkPtMsgNoReply(int msgCurrentPage) {
-        return MessageDao.getInstance().msgView(msgCurrentPage, loginMCode);
+        return MessageDao.getInstance().checkPtMsgNoReply(msgCurrentPage, loginMCode);
     }
 
     public boolean mUpdate(MemberDto memberDto){
-        System.out.println(memberDto);
-        memberDto.setMemberCode(loginNo);
+        memberDto.setMemberCode(loginMCode);
         return MemberDao.getInstance().mUpdate(memberDto);
     }
 
     public void logOut( ){
-        loginNo = 0;
+        loginMCode = 0;
     }
 
     public ArrayList<MemberDto> msgShowMemberList(int msgMemberListPage) {
@@ -66,11 +60,11 @@ public class PtMemberController {
     }
 
     public ArrayList<AteFoodRecordDto> getFoodRecord(int memberCode) {
-        return NormalMemberController.getDailyFoodList(memberCode, 0);
+        return NormalMemberController.getInstance().getDailyFoodList(memberCode, 0);
     }
 
 
     public ArrayList<WorkOutRecordDto> getWorkOutRecord(int memberCode) {
-        return NormalMemberController.getDailyWorkoutList(memberCode, 0);
+        return NormalMemberController.getInstance().getDailyWorkoutList(memberCode, 0);
     }
 }

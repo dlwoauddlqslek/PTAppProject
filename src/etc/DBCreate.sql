@@ -59,6 +59,7 @@ drop table if exists workoutrecord;
 create table workoutrecord(				# 운동기록표
 	workOutCode int auto_increment,			# 운동기록코드(pk)
     exCode int,								# 운동코드(fk)
+    workOutAmount int,						# 운동시간[10분단위]
     workOutTime datetime default now(),		# 운동기록시간
     memberCode int,							# 회원코드(fk)
     primary key (workOutCode),
@@ -176,11 +177,11 @@ INSERT INTO atefoodrecord (ateFoodCode, foodCode, ateTime, memberCode) VALUES ('
 INSERT INTO atefoodrecord (ateFoodCode, foodCode, ateTime, memberCode) VALUES ('5', '1', '2024-07-02 08:40:12', '3');
 
 # workoutrecord 테이블 샘플
-INSERT INTO workoutrecord (workOutCode, exCode, workOutTime, memberCode) VALUES ('1', '1', '2024-07-02 08:40:15', '1');
-INSERT INTO workoutrecord (workOutCode, exCode, workOutTime, memberCode) VALUES ('2', '3', '2024-07-02 16:40:50', '1');
-INSERT INTO workoutrecord (workOutCode, exCode, workOutTime, memberCode) VALUES ('3', '2', '2024-07-02 08:45:42', '2');
-INSERT INTO workoutrecord (workOutCode, exCode, workOutTime, memberCode) VALUES ('4', '4', '2024-07-02 17:50:11', '3');
-INSERT INTO workoutrecord (workOutCode, exCode, workOutTime, memberCode) VALUES ('5', '5', '2024-07-02 08:40:12', '3');
+INSERT INTO workoutrecord (workOutCode, exCode, workOutAmount, workOutTime, memberCode) VALUES ('1', '1', 6, '2024-07-02 08:40:15', '1');
+INSERT INTO workoutrecord (workOutCode, exCode, workOutAmount, workOutTime, memberCode) VALUES ('2', '3', 5, '2024-07-02 16:40:50', '1');
+INSERT INTO workoutrecord (workOutCode, exCode, workOutAmount, workOutTime, memberCode) VALUES ('3', '2', 3, '2024-07-02 08:45:42', '2');
+INSERT INTO workoutrecord (workOutCode, exCode, workOutAmount, workOutTime, memberCode) VALUES ('4', '4', 6, '2024-07-02 17:50:11', '3');
+INSERT INTO workoutrecord (workOutCode, exCode, workOutAmount, workOutTime, memberCode) VALUES ('5', '5', 3, '2024-07-02 08:40:12', '3');
 
 # message 테이블 샘플
 INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('1', '2', '3', '안녕하세요', '내용1', '1', '2024-07-02 08:40:15', '답장1', '2024-07-02 16:40:50');
@@ -188,7 +189,3 @@ INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent
 INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('3', '4', '3', '안녕하세요', '내용3', '1', '2024-07-02 08:45:42', '답장3', '2024-07-02 17:20:11');
 INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('4', '4', '5', '안녕하세요', '내용4', '1', '2024-07-02 17:50:11', '답장4', '2024-07-02 17:50:21');
 INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('5', '4', '5', '안녕하세요', '내용5', '0', '2024-07-02 08:40:12', null, null);
-
-select foodCode from member inner join atefoodrecord on member.memberCode = atefoodrecord.memberCode where member.memberCode = '1';
-select * from atefoodrecord where membercode=2;
-select * from workoutrecord where membercode=2;

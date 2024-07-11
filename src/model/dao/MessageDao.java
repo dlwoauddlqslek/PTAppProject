@@ -81,7 +81,7 @@ public class MessageDao {
     // 쪽지 보내기
     public boolean msgSendMessage(MessageDto msgDto){
         try{
-            String sql = "insert into message(sentMCode, receivedMCode, msgTitle, msgContent) values (?,?,?,?)";
+            String sql = "insert into message(sentMCode, receivedMCode, msgTitle, msgContent) values (?,?,?,?);";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, msgDto.getSentMCode()); ps.setInt(2, msgDto.getReceivedMCode());
             ps.setString(3, msgDto.getMsgTitle()); ps.setString(4, msgDto.getMsgContent());
@@ -119,7 +119,7 @@ public class MessageDao {
     // 쪽지 삭제
     public boolean msgDelete(int messageCode) {
         try{
-            String sql = "delete from message where messageCode = ?";
+            String sql = "delete from message where messageCode = ?;";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, messageCode);
             int result = ps.executeUpdate();
@@ -132,7 +132,7 @@ public class MessageDao {
     // 쪽지 수정
     public boolean msgEdit(MessageDto msgDto) {
         try{
-            String sql = "update message set msgTitle = ?, msgContent = ? where messageCode = ?";
+            String sql = "update message set msgTitle = ?, msgContent = ? where messageCode = ?;";
             ps = conn.prepareStatement(sql);
             ps.setString(1, msgDto.getMsgTitle()); ps.setString(2, msgDto.getMsgContent());
             ps.setInt(3, msgDto.getMessageCode());
@@ -146,7 +146,7 @@ public class MessageDao {
     // PT 회원 메뉴 - 쪽지 내역 조회 - 쪽지 답장 수정
     public boolean msgReplyEdit(MessageDto msgDto) {
         try{
-            String sql = "update message set replyContent = ? where messageCode = ?";
+            String sql = "update message set replyContent = ? where messageCode = ?;";
             ps = conn.prepareStatement(sql);
             ps.setString(1, msgDto.getReplyContent());
             ps.setInt(2, msgDto.getMessageCode());
@@ -160,7 +160,7 @@ public class MessageDao {
     // PT 회원 메뉴 - 쪽지 내역 조회 - 쪽지 답장 수정
     public boolean msgReplyDelete(int messageCode) {
         try{
-            String sql = "update message set replyContent = NULL, replyDate = NULL where messageCode = ?";
+            String sql = "update message set replyContent = NULL, replyDate = NULL, hasReply = 0 where messageCode = ?;";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, messageCode);
             int result = ps.executeUpdate();
@@ -176,7 +176,7 @@ public class MessageDao {
         try{
             String sql = "select * from message where receivedMCode = ? and hasReply = 0 order by msgDate desc limit ?, 10;";
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, loginMCode); ps.setInt(2, msgCurrentPage);
+            ps.setInt(1, loginMCode); ps.setInt(2, (msgCurrentPage-1)*10);
             rs = ps.executeQuery();
             while (rs.next()){
                 MessageDto msgDto = new MessageDto();
@@ -185,10 +185,10 @@ public class MessageDao {
                 msgDto.setMsgTitle(rs.getString(4));
                 msgDto.setMsgContent(rs.getString(5));
                 msgDto.setMsgDate(rs.getString(7));
-                sql = "select memberName from member where memberCode = ?";
-                ps = conn.prepareStatement(sql);
-                ps.setInt(1, rs.getInt(2));
-                ResultSet rs1 = ps.executeQuery();
+                String sql1 = "select memberName from member where memberCode = ?;";
+                PreparedStatement ps1 = conn.prepareStatement(sql1);
+                ps1.setInt(1, rs.getInt(2));
+                ResultSet rs1 = ps1.executeQuery();
                 rs1.next();
                 msgDto.setSentMName(rs1.getString(1));
                 msgList.add(msgDto);
@@ -201,20 +201,20 @@ public class MessageDao {
 
     public boolean ptWriteReply(MessageDto messageDto) {
         try{
-            String sql = "insert into message(replyContent) values(?) where messageCode = ?";
+            String sql = "update message set replyContent = ? where messageCode = ?;";
             ps = conn.prepareStatement(sql);
             ps.setString(1, messageDto.getReplyContent()); ps.setInt(2, messageDto.getMessageCode());
             int result = ps.executeUpdate();
             if (result == 1){
                 // 답글여부 O, 답글날짜 now()
-                sql = "update message set hasReply = 1, replyDate = now() where messageCode = ?";
+                sql = "update message set hasReply = 1, replyDate = now() where messageCode = ?;";
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, messageDto.getMessageCode());
                 int updateResult = ps.executeUpdate();
                 return updateResult==1;
             }
         }catch (Exception e) {
-            System.out.println(">>답장 삭제 실패 : " + e);
+            System.out.println(">>답장 보내기 실패 : " + e);
         }
         return false;
     }
