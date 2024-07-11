@@ -612,9 +612,9 @@ public class NormalMemberView {
             for (int i = 0; i < msgList.size(); i++){
                 String title = msgList.get(i).getMsgTitle();
                 // 제목 : 15글자를 넘어가면 말줄임표, 미만이면 빈칸 추가
-                int maxTitleLen = 15;
-                title = title.length() > maxTitleLen ? title.substring(0,maxTitleLen-3) + "..." : title;// 제목 : 10글자 이상이면 말줄임표
-                String sentDate = msgList.get(i).getMsgDate().substring(0,10); // 날짜까지만 dateTime 표시
+                //int maxTitleLen = 15;
+                //title = title.length() > maxTitleLen ? title.substring(0,maxTitleLen-3) + "..." : title;// 제목 : 10글자 이상이면 말줄임표
+                String sentDate = msgList.get(i).getMsgDate();//substring(0,10); // 날짜까지만 dateTime 표시
                 String replyDate;
                 if (msgList.get(i).getReplyDate() == null){
                     replyDate = "";
