@@ -320,8 +320,10 @@ public class NormalMemberView {
 
         if(result1) {
             if (result2) {
-                calcDailyKcal();
                 System.out.println("등록 성공");
+                ateFoodPrint();
+                calcDailyKcal();
+
             }
         }
         else{System.out.println("다시 입력해주세요");}
@@ -329,7 +331,7 @@ public class NormalMemberView {
 
     public ArrayList<AteFoodRecordDto> ateFoodPrint(){
         ArrayList<AteFoodRecordDto> ateFoodList=NormalMemberController.getInstance().getDailyFoodList(0,0);
-        System.out.println("번호     음식     칼로리     시간");
+        System.out.println("번호     음식             칼로리                 시간");
         for (int i = 0; i < ateFoodList.size() ; i++) {
             System.out.println((i+1)+"       "+ateFoodList.get(i).getFoodName()+"             "+ateFoodList.get(i).getFoodkcal()+"              "+ateFoodList.get(i).getAteTime());
         }
@@ -349,6 +351,8 @@ public class NormalMemberView {
         boolean result1=NormalMemberController.getInstance().ateFoodUpdate(ateFoodCode,foodName);
         if (result1){
             System.out.println("수정 성공");
+            ateFoodPrint();
+            calcDailyKcal();
         }
         else {
             System.out.println("다시 입력해주세요");
@@ -361,7 +365,10 @@ public class NormalMemberView {
         int ch = scan.nextInt();
         int ateFoodCode = ateFoodList.get(ch-1).getAteFoodCode();
         boolean result1=NormalMemberController.getInstance().ateFoodDelete(ateFoodCode);
-        if (result1){System.out.println("삭제 성공");}
+        if (result1){
+            System.out.println("삭제 성공");
+            ateFoodPrint();
+            calcDailyKcal();}
         else {
             System.out.println("다시 입력해주세요");
         }
@@ -376,12 +383,13 @@ public class NormalMemberView {
                 int ch = scan.nextInt();
                 if (ch == 1) {
                     exCal2();
-                    calcDailyKcal();
-                    System.out.println("등록 성공");
+                    workOutPrint();
                 } else if (ch == 2) {
                     workOutRecordUpdate();
+                    workOutPrint();
                 } else if (ch == 3) {
                     workOutRecordDelete();
+                    workOutPrint();
                 } else if(ch==4){return;}
                 else {
                     throw new RuntimeException();
@@ -393,7 +401,7 @@ public class NormalMemberView {
         }
     }
 
-    public int exCal2(){
+    public void exCal2(){
         System.out.println("========================운동선택메뉴======================");
         System.out.print("1.초급운동(Level)    2.중급운동(Level)    3.고급운동(Level)  :  ");
         int choNum = scan.nextInt();
@@ -406,7 +414,14 @@ public class NormalMemberView {
             int ch = scan.nextInt();
             int selExCode = result.get(ch-1).getExCode();
             boolean result1=NormalMemberController.getInstance().exRecord(selExCode);
-            return selExCode;
+            if (result1){
+                System.out.println("등록 성공");
+                workOutPrint();
+                calcDailyKcal();
+            }else{
+                System.out.println("다시 선택해 주세요");
+            }
+
             // System.out.println(selExCode); 운동코드 확인용
         }
         else if (choNum == 2){
@@ -418,7 +433,13 @@ public class NormalMemberView {
             int ch = scan.nextInt();
             int selExCode = result.get(ch-1).getExCode();
             boolean result1=NormalMemberController.getInstance().exRecord(selExCode);
-            return selExCode;
+            if (result1){
+                System.out.println("등록 성공");
+                workOutPrint();
+                calcDailyKcal();
+            }else{
+                System.out.println("다시 선택해 주세요");
+            }
             // System.out.println(selExCode); 운동코드 확인용
         }
         else if (choNum == 3){
@@ -430,15 +451,63 @@ public class NormalMemberView {
             int ch = scan.nextInt();
             int selExCode = result.get(ch-1).getExCode();
             boolean result1=NormalMemberController.getInstance().exRecord(selExCode);
-            return selExCode;
+            if (result1){
+                System.out.println("등록 성공");
+                workOutPrint();
+                calcDailyKcal();
+            }else{
+                System.out.println("다시 선택해 주세요");
+            }
              //System.out.println(selExCode);
         }
-        return 0;
+
     }// 운동 고르기 함수 종료
+
+    public int exCal(){
+        System.out.println("========================운동선택메뉴======================");
+        System.out.print("1.초급운동(Level)    2.중급운동(Level)    3.고급운동(Level)  :  ");
+        int choNum = scan.nextInt();
+        if (choNum == 1 ) {
+            ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
+            System.out.println("번호=======운동강도========운동내용==========칼로리========");
+            for (int i = 0; i < result.size() ; i++) {
+                System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"             "+result.get(i).getExName()+"              "+result.get(i).getExKcal());
+            }
+            int ch = scan.nextInt();
+            int selExCode = result.get(ch-1).getExCode();
+
+            return selExCode;
+            // System.out.println(selExCode); 운동코드 확인용
+        }
+        else if (choNum == 2){
+            ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
+            System.out.println("번호=======운동강도========운동내용==========칼로리========");
+            for (int i = 0; i < result.size() ; i++) {
+                System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"             "+result.get(i).getExName()+"              "+result.get(i).getExKcal());
+            }
+            int ch = scan.nextInt();
+            int selExCode = result.get(ch-1).getExCode();
+
+            return selExCode;
+            // System.out.println(selExCode); 운동코드 확인용
+        }
+        else if (choNum == 3){
+            ArrayList<ExerciseDto> result = NormalMemberController.getInstance().exView(choNum);
+            System.out.println("번호=======운동강도========운동내용============칼로리======");
+            for (int i = 0; i < result.size() ; i++) {
+                System.out.println("번호 "+(i+1)+"       "+result.get(i).getExIntensity()+"         "+result.get(i).getExName()+"         "+result.get(i).getExKcal());
+            }
+            int ch = scan.nextInt();
+            int selExCode = result.get(ch-1).getExCode();
+            return selExCode;
+            //System.out.println(selExCode);
+        }
+        return 0;
+    }
 
     public ArrayList<WorkOutRecordDto> workOutPrint(){
         ArrayList<WorkOutRecordDto> workOutList=NormalMemberController.getInstance().getDailyWorkoutList(0,0);
-        System.out.println("번호     운동     칼로리     시간");
+        System.out.println("번호     운동              칼로리                시간");
         for (int i = 0; i < workOutList.size() ; i++) {
             System.out.println((i+1)+"       "+workOutList.get(i).getExName()+"             "+workOutList.get(i).getExKcal()+"              "+workOutList.get(i).getWorkOutTime());
         }
@@ -450,12 +519,14 @@ public class NormalMemberView {
         System.out.print("수정할 운동번호를 입력해주세요");
         int ch = scan.nextInt();
         int workOutCode = workOutList.get(ch-1).getWorkOutCode();
-        int exCode=exCal2();
+        int exCode=exCal();
 
 
         boolean result1=NormalMemberController.getInstance().workOutRecordUpdate(workOutCode,exCode);
         if (result1){
             System.out.println("수정 성공");
+            workOutPrint();
+            calcDailyKcal();
         }
         else {
             System.out.println("다시 입력해주세요");
@@ -470,6 +541,8 @@ public class NormalMemberView {
         boolean result1=NormalMemberController.getInstance().workOutRecordDelete(workOutCode);
         if (result1){
             System.out.println("삭제 성공");
+            workOutPrint();
+            calcDailyKcal();
         }
         else {
             System.out.println("다시 입력해주세요");
