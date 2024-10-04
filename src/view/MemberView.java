@@ -8,6 +8,7 @@ import java.util.Scanner;
 import static controller.MemberController.loginAccCode;
 
 public class MemberView {
+
     // 싱글톤
     private static MemberView mView = new MemberView();
     private MemberView() {}
@@ -19,94 +20,111 @@ public class MemberView {
 
     // 프로그램 시작시 메뉴
     public void index(){
-        // 아스키아트
         while (true) {
+            // 아스키아트
             indexAsciiArt();
 
-            System.out.println(">>환영합니다. 퍼스널 트레이너 어플리케이션입니다. 메뉴를 선택해 주세요.");
-
+            // 메뉴
+            System.out.println(">> 환영합니다. 퍼스널 트레이너 어플리케이션입니다. 메뉴를 선택해 주세요.");
             try {
-                System.out.print(">>1.회원가입 2.로그인 3.아이디찾기 4.비밀번호찾기 5.프로그램종료 : ");
+                System.out.println(">> 다음 중 하나를 선택하세요:");
+                System.out.println(">> 1. 회원가입");
+                System.out.println(">> 2. 로그인");
+                System.out.println(">> 3. 아이디 찾기");
+                System.out.println(">> 4. 비밀번호 찾기");
+                System.out.println(">> 5. 프로그램 종료");
                 int ch = scan.nextInt();
-                if (ch == 1) { //실행 확인됨
+                if (ch == 1) {
                     signUp();
-                } else if (ch == 2) { //실행 확인됨
+                } else if (ch == 2) {
                     login();
-                } else if (ch == 3) { //실행 확인됨
+                } else if (ch == 3) {
                     findId();
-                } else if (ch == 4) { //실행 확인됨
+                } else if (ch == 4) {
                     findPw();
-                } else if (ch == 5) { //실행 확인됨
-                    System.out.println(">>프로그램을 종료합니다.");
+                } else if (ch == 5) {
+                    System.out.println(">> 프로그램을 종료합니다.");
                     break;
                 } else {
-                    System.out.println(">>입력이 잘못되었습니다. 다시 시도해 주세요.");
+                    System.out.println(">> 입력이 잘못되었습니다. 다시 시도해 주세요.");
                 }
             } catch (Exception e) { // 문자열 입력시 오류
-                System.out.println(">>입력이 잘못되었습니다. 다시 시도해 주세요.");
-                scan = new Scanner(System.in);
+                System.out.println(">> 입력이 잘못되었습니다. 다시 시도해 주세요.");
+                // Scanner 객체에 남은 줄바꿈 문자나 공백 제거 = 비어있는 Scanner 객체
+                scan.nextLine();
             }
         }
     }
 
     public void signUp(){ // 회원가입 메뉴
         try {
-            System.out.println(">>회원가입 메뉴입니다.");
-            System.out.print(">>아이디를 입력해주세요 : ");
+            System.out.println(">> 회원가입 메뉴입니다.");
+            // 1. 아이디
+            System.out.print(">> 아이디를 입력해주세요: ");
             String id = scan.next();
-
-            System.out.print(">>비밀번호를 입력해주세요 : ");
+            scan.nextLine();
+            // 2. 비밀번호
+            System.out.print(">> 비밀번호를 입력해주세요: ");
             String pw = scan.next();
-
-            System.out.print(">>이름을 입력해주세요 : ");
+            scan.nextLine();
+            // 3. 이름
+            System.out.print(">> 이름을 입력해주세요: ");
             String name = scan.next();
-
-            // 키 입력 + 유효성 검사 try/catch
+            scan.nextLine();
+            // 4. 키 입력 + 유효성 검사 try/catch
             int height;
             while (true) {
-                try {
-                    System.out.print(">>키를 1cm 단위까지 입력해주세요. 예) 175.1cm -> 175 : ");
+                System.out.println(">> 키를 1cm 단위까지 반올림하여 입력해주세요.");
+                System.out.println(">> 예시) 175.1cm -> 175");
+                System.out.print(">> 키: ");
+                // .hasNextInt(): 입력된 값이 Int인지 확인한 후 true/false, 입력값 처리는 하지 않는다.
+                if (scan.hasNextInt()) {
                     height = scan.nextInt();
-                    if (height > 0) {break;}
-                    else {throw new RuntimeException();}
-                } catch (Exception e) {
-                    System.out.println(">>입력이 잘못되었습니다. 다시 입력해 주세요.");
+                    if (height > 0) break;
+                } else {
+                    System.out.println(">> 입력이 잘못되었습니다. 다시 입력해 주세요.");
+                    // scanner 입력 초기화
                     scan.nextLine();
                 }
             }
-            // 운동 습관 입력 + 유효성 검사
+            // 5. 운동 습관 입력 + 유효성 검사
             int exHabit;
             while (true) {
                 try {
-                    System.out.println(">>평소 운동 습관을 입력해주세요.");
-                    System.out.println(">>운동을 거의 하지 않는다 : 1, 일주일에 3~4번 정도 : 2, 매일 운동 또는 격한 운동 3~4일 : 3");
-                    System.out.print(">>운동 습관 : ");
+                    System.out.println(">> 평소 운동 습관을 입력해주세요.");
+                    System.out.println(">> 1.운동을 거의 하지 않는다.");
+                    System.out.println(">> 2.일주일에 3~4번 정도 운동한다.");
+                    System.out.println(">> 3.매일 운동 또는 격한 운동을 3~4일 한다.");
+                    System.out.print(">> 운동 습관: ");
                     exHabit = scan.nextInt();
-                    if (exHabit >=1 && exHabit <= 3) {break;}
+                    if (1 <= exHabit && exHabit <= 3) {break;}
                     else {throw new RuntimeException();}
                 } catch (Exception e) {
-                    System.out.println(">>입력이 잘못되었습니다. 다시 입력해 주세요.");
+                    System.out.println(">> 입력이 잘못되었습니다. 다시 입력해 주세요.");
+                    // scanner 입력 초기화
                     scan.nextLine();
                 }
             }
-
-            // 성별 입력 + 유효성 검사 try/catch
+            // 6. 성별 입력 + 유효성 검사 try/catch
             String gender;
             while (true) {
                 try {
-                    System.out.print(">>성별을 영문 대문자로 입력해주세요. 남 M / 여 F : ");
+                    System.out.println(">> 성별을 영문 대문자로 입력해주세요.");
+                    System.out.print(">> 남: M / 여: F");
                     gender = String.valueOf(scan.next().charAt(0));
                     if (gender.equals("F") || gender.equals("M")) {break;}
                     else {throw new RuntimeException();}
                 } catch (Exception e) {
-                    System.out.println(">>입력이 잘못되었습니다. 다시 입력해 주세요.");
+                    System.out.println(">> 입력이 잘못되었습니다. 다시 입력해 주세요.");
+                    // scanner 입력 초기화
+                    scan.nextLine();
                 }
             }
-
-            //생년월일 입력 + 유효성 체크 try/catch
+            // 7. 생년월일 입력 + 유효성 검사 try/catch
             String birthDate;
             while (true) {
-                System.out.print(">>생년월일을 년-월-일 형식으로 입력해주세요. 예시) 2001-01-01 : ");
+                System.out.println(">> 생년월일을 연-월-일 형식으로 입력해주세요.");
+                System.out.print(">> 예시)'2001-01-01': ");
                 birthDate = scan.next();
                 try{
                     String[] splitDate = birthDate.split("-");
@@ -114,14 +132,16 @@ public class MemberView {
                         break;
                     } else {throw new RuntimeException();}
                 }catch (Exception e){
-                    System.out.println(">>입력이 잘못되었습니다. 다시 입력해 주세요.");
-                    scan.nextLine(); // scanner 입력 초기화
+                    System.out.println(">> 입력이 잘못되었습니다. 다시 입력해 주세요.");
+                    // scanner 입력 초기화
+                    scan.nextLine();
                 }
             }
-            // 연락처 입력 + 유효성 체크 try/catch
+            // 8. 연락처 입력 + 유효성 검사 try/catch
             String phone;
             while (true) {
-                System.out.print(">>연락처를 입력해주세요. 예시) 010-1234-1234 또는 010-123-1234 : ");
+                System.out.println(">> 연락처를 입력해주세요. ");
+                System.out.print(">> 예시) 010-1234-1234 또는 010-123-1234: ");
                 phone = scan.next();
                 try{
                     String[] splitPhone = phone.split("-");
@@ -129,42 +149,56 @@ public class MemberView {
                         break;
                     } else {throw new RuntimeException();}
                 }catch (Exception e){
-                    System.out.println(">>입력이 잘못되었습니다. 다시 입력해 주세요.");
-                    scan.nextLine(); // scanner 입력 초기화
+                    System.out.println(">> 입력이 잘못되었습니다. 다시 입력해 주세요.");
+                    // scanner 입력 초기화
+                    scan.nextLine();
                 }
             }
-            // 회원 분류 코드 입력 + 유효성 체크
+            // 9. 회원 분류 코드 입력 + 유효성 검사
             int accCategory;
             while (true) {
                 try {
-                    System.out.print(">>일반 회원으로 등록하시려면 1, PT 강사 회원으로 등록하시려면 2를 입력해주세요 : ");
+                    System.out.println(">> 회원 분류를 선택해 주세요.");
+                    System.out.println(">> 일반 회원으로 등록하시려면 1을,");
+                    System.out.println(">> PT 강사 회원으로 등록하시려면 2를 입력해주세요.");
+                    System.out.print(">> 회원 분류: ");
                     int ch = scan.nextInt();
                     if (ch == 1) {
+                        // 일반 회원 accCode = 2
                         accCategory = 2;
                         break;
-                    } // 일반 회원 accCode = 2
+                    }
                     else if (ch == 2) {
+                        // PT 강사 회원 accCode = 3
                         accCategory = 3;
                         break;
-                    } // PT 강사 회원 accCode = 3
+                    }
                     else {throw new RuntimeException();}
                 } catch (Exception e) {
                     System.out.println(">>입력이 잘못되었습니다. 다시 입력해 주세요.");
-                    scan.nextLine(); // scanner 입력 초기화
+                    // scanner 입력 초기화
+                    scan.nextLine();
                 }
             }
-            // 모든 입력 성공시 MemberDto 객체 생성 및 DAO로 전달
+            // 10. 모든 입력 성공시 MemberDto 객체 생성 및 DAO로 전달
             MemberDto memberDto = new MemberDto();
-            memberDto.setID(id); memberDto.setPW(pw); memberDto.setMemberName(name); memberDto.setHeight(height);
-            memberDto.setExHabit(exHabit); memberDto.setGender(gender); memberDto.setBirthDate(birthDate);
-            memberDto.setContact(phone); memberDto.setAccCategory(accCategory);
-
+            memberDto.setID(id); // 아이디
+            memberDto.setPW(pw); // 비밀번호
+            memberDto.setMemberName(name); // 이름
+            memberDto.setHeight(height); // 키
+            memberDto.setExHabit(exHabit); // 운동습관
+            memberDto.setGender(gender); // 성별
+            memberDto.setBirthDate(birthDate); // 생년월일
+            memberDto.setContact(phone); // 연락처
+            memberDto.setAccCategory(accCategory); // 회원분류
+            // DAO 저장 여부 불린값
             boolean result = MemberController.getInstance().signUp(memberDto);
             if (result){System.out.println(">>회원가입에 성공하였습니다. 회원이 되신 것을 축하드립니다!");}
             else {System.out.println(">>회원가입에 실패하였습니다. 다시 시도해 주세요.");}
         } catch (Exception e) { // 회원가입 전체 과정 try/catch
             System.out.println(">>입력이 잘못되었습니다. 다시 시도해 주세요.");
-            scan = new Scanner(System.in);
+            // scanner 입력 초기화
+            scan.nextLine();
         }
     }
 
