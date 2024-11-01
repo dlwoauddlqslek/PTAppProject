@@ -72,14 +72,14 @@ public class NormalMemberController {
         for (AteFoodRecordDto dto : dailyAteFoodList){
             foodKcal += dto.getFoodkcal();
         }
-        System.out.println("foodKcal(-) : " + foodKcal);
+        System.out.println("먹은 음식의 칼로리 : " + foodKcal);
         // 오늘 기준 운동량 (-)
         int workOutKcal = 0;
         ArrayList<WorkOutRecordDto> dailyWorkOutList = getDailyWorkoutList(0, 0);
         for (WorkOutRecordDto dto : dailyWorkOutList){
             workOutKcal += dto.getExKcal();
         }
-        System.out.println("workOUtKcal(+) : " + workOutKcal);
+        System.out.println("운동으로 소모한 칼로리 : " + workOutKcal);
         return (baseKcal + foodKcal - workOutKcal);
     }
     // 몸무게 기록 내역이 있는지 체크

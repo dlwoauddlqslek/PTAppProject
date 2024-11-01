@@ -84,10 +84,10 @@ create table message (					# 쪽지
 
 # member 테이블 샘플
 INSERT INTO member (memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) VALUES ('1', 'admin', 'admin', 'admin', 0, 0, 0, '', '', '1');
-INSERT INTO member (memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) VALUES ('2', 'member1', '1234', '아무개', '170', '1', 'M', '2000-01-01', '010-111-2222', '2');
-INSERT INTO member (memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) VALUES ('3', 'pt1', '4321', '김아무개', '173', '2', 'M', '2000-01-01', '010-111-2222', '3');
-INSERT INTO member (memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) VALUES ('4', 'member2', '1q1q', '이아무개', '167', '3', 'F', '2000-01-01', '010-111-2223', '2');
-INSERT INTO member (memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) VALUES ('5', 'pt2', '1111', '윤아무개', '170', '2', 'F', '2000-03-02', '010-111-2224', '3');
+INSERT INTO member (memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) VALUES ('2', 'member1', '1234', '유재석', '170', '1', 'M', '2000-01-01', '010-111-2222', '2');
+INSERT INTO member (memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) VALUES ('3', 'pt1', '4321', '강호동', '173', '2', 'M', '2000-01-01', '010-111-2222', '3');
+INSERT INTO member (memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) VALUES ('4', 'member2', '1q1q', '하하', '167', '3', 'F', '2000-01-01', '010-111-2223', '2');
+INSERT INTO member (memberCode, ID, PW, memberName, height, exHabit, gender, birthDate, contact, accCategory) VALUES ('5', 'pt2', '1111', '홍길동', '170', '2', 'F', '2000-03-02', '010-111-2224', '3');
 
 # food 테이블 샘플
 INSERT INTO food (foodCode, foodName, foodKcal) VALUES ('1', '밥', '100');
@@ -183,10 +183,10 @@ INSERT INTO workoutrecord (workOutCode, exCode, workOutTime, memberCode) VALUES 
 INSERT INTO workoutrecord (workOutCode, exCode, workOutTime, memberCode) VALUES ('5', '5', '2024-07-02 08:40:12', '3');
 
 # message 테이블 샘플
-INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('1', '2', '3', '안녕하세요', '내용1', '1', '2024-07-02 08:40:15', '답장1', '2024-07-02 16:40:50');
-INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('2', '2', '3', '안녕하세요', '내용2', '0', '2024-07-02 16:40:50', null, null);
-INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('3', '4', '3', '안녕하세요', '내용3', '1', '2024-07-02 08:45:42', '답장3', '2024-07-02 17:20:11');
-INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('4', '4', '5', '안녕하세요', '내용4', '1', '2024-07-02 17:50:11', '답장4', '2024-07-02 17:50:21');
+INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('1', '2', '3', '안녕하세요', '오늘 날씨가 좋네요', '1', '2024-07-02 08:40:15', '네, 간만에 화창하네요.', '2024-07-02 16:40:50');
+INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('2', '2', '3', '질문이 있습니다', '답장 부탁드려요', '0', '2024-07-02 16:40:50', null, null);
+INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('3', '4', '3', '이런 운동은 어떤가요?', '내용3', '1', '2024-07-02 08:45:42', '답장3', '2024-07-02 17:20:11');
+INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('4', '4', '5', '이거 먹어도 되나요?', '내용4', '1', '2024-07-02 17:50:11', '답장4', '2024-07-02 17:50:21');
 INSERT INTO message (messageCode, sentMCode, receivedMCode, msgTitle, msgContent, msgView, msgDate, replyContent, replyDate) VALUES ('5', '4', '5', '안녕하세요', '내용5', '0', '2024-07-02 08:40:12', null, null);
 
 select foodCode from member inner join atefoodrecord on member.memberCode = atefoodrecord.memberCode where member.memberCode = '1';
